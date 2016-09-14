@@ -1,0 +1,1835 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>justjavac(迷渡)</title>
+ <link href="http://justjavac.com" rel="self"/>
+ <link href="http://justjavac.com"/>
+ <updated>2016-09-14T16:09:17+08:00</updated>
+ <id>http://justjavac.com</id>
+ <author>
+   <name>justjavac</name>
+   <email>justjavac@gmail.com</email>
+ </author>
+
+ 
+ <entry>
+   <title>Javamybatis</title>
+   <link href="http://justjavac.com/java/2016/08/15/mybatis.html"/>
+   <updated>2016-08-15T00:00:00+08:00</updated>
+   <id>http://justjavac.com/java/2016/08/15/mybatis</id>
+   <content type="html">
+   	&lt;h4 id=&quot;section&quot;&gt;目录&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#dynamicSql&quot;&gt;动态sql&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;dynamicSql&quot;&gt;动态sql&lt;/h5&gt;
+
+&lt;h4 id=&quot;selectkey&quot;&gt;1.selectKey标签&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;作用：插入一条记录，并返回这条记录的主键&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;n&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectKey&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;long&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keyProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;id&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;AFTER&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;  
+      &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LAST_INSERT_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt;  
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;注意:要将selectKey放到insert之后，通过LAST_INSERT_ID()函数获取.
+order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择after.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;if&quot;&gt;2.if标签&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;作用：做一些条件的过滤.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;findActiveBlogWithTitleLike&amp;quot;&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;Blog&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BLOG&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ACTIVE&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt; 
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;title != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;if--where&quot;&gt;3. if + where标签&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;作用：如果是where的if子句很多时，可能会造成where后面直接跟and或者or,此时可以使用where标签
+在第一个if判断中，第一个子句前不加and或者or&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;state != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;title != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;author != null and author.name != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;author_name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;if--set-&quot;&gt;4. if + set标签 的更新语句&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;作用：当在update语句中使用if标签时，如果前面的if没有执行，则或导致逗号多余错误。使用set标签可以
+将动态的配置SET 关键字，和剔除追加到条件末尾的任何不相关的逗号。
+使用if+set标签修改后，如果某项为null则不进行更新，而是保持数据库原值。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;trim&quot;&gt;5. trim标签&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;作用：if + trim代替where/set标签&lt;/strong&gt;&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;代替where&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt; 
+
+ &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;prefix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;WHERE&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prefixOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;AND |OR &amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;和&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;一样&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;代替set&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;prefix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;SET&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;suffixOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;和&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;一样&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;choose&quot;&gt;6.choose&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;相当于java的switch。 choose标签是按顺序判断其内部when标签中的test条件出否成立，如果有一个成立，则choose结束。
+当choose中所有when的条件都不满则时，则执行otherwise中的sql。类似于Java 的switch 
+语句，choose为switch，when为case，otherwise则为default。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt; &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BLOG&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ACTIVE&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;choose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;title != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;author != null and author.name != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;author_name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;featured&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;choose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;strong&gt;otherwise可以为空。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;foreach&quot;&gt;7. foreach&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;作用：动态 SQL 的另外一个常用的必要操作是需要对一个集合进行遍历，通常是在构建 IN 条件语句的时候。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;selectPostIn&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;domain.blog.Post&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;item&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;index&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;list&amp;quot;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;(&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;separator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;,&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;bind&quot;&gt;8.bind&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;作用bind 元素可以从 OGNL 表达式中创建一个变量并将其绑定到上下文&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;selectBlogsLike&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;Blog&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;pattern&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;&amp;#39;%&amp;#39; + _parameter.getTitle() + &amp;#39;%&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BLOG&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;LIKE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>为 jekyll 博客添加 category 分类</title>
+   <link href="http://justjavac.com/jekyll/2012/05/22/use-category-plugin-for-jekyll-blog.html"/>
+   <updated>2012-05-22T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2012/05/22/use-category-plugin-for-jekyll-blog</id>
+   <content type="html">
+   	&lt;p&gt;为了深化 &lt;strong&gt;jekyll&lt;/strong&gt; 博客里面的内联关系，我们通常会对一篇文章进行分类，贴标签等，这样能做到文章的更好的区分和快速查找到相关文章。&lt;/p&gt;
+
+&lt;p&gt;假如您也想在你的博客上实现这样的效果（如右图）, 请看下文。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/category-list.jpg&quot; alt=&quot;categroy list&quot; class=&quot;img-right&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在某些地方，例如文章页面，你可能希望在侧边栏添加这样的功能。有一个分类目录，还能显示出分类文章的篇数。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;一、为文章添加分类&lt;/h2&gt;
+
+&lt;p&gt;在编辑一篇文章的时候，我们会在文章的头部写上一些 key 值, 同样的道理，我们可以为
+这篇文章添加上 category 来分类。&lt;/p&gt;
+&lt;pre class=&quot;html&quot; name=&quot;colorcode&quot;&gt;
+---
+layout: post
+title: 为 jekyll 博客添加 category 分类
+category: jekyll
+---
+&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;二、添加分类功能到你希望它出现的地方&lt;/h2&gt;
+
+&lt;p&gt;在这里，你只需要把下面的代码拷贝到你的博客中，就能看到你添加的文章出现的分类了。&lt;/p&gt;
+&lt;pre class=&quot;html&quot; name=&quot;colorcode&quot;&gt;
+&amp;lt;h4&amp;gt;Category&amp;lt;/h4&amp;gt;
+&amp;lt;ul&amp;gt;
+    //这里使用了 jekyll 语法，会被编译，所以加多个&quot;\&quot;
+    {\% for category in site.categories %\}
+    &amp;lt;li&amp;gt;&amp;lt;a href=&quot;/categories/{\{ category | first }\}/&quot; title=&quot;view all
+posts&quot;&amp;gt;{\{ category | first }\} {\{ category | last | size }\}&amp;lt;/a&amp;gt;
+    &amp;lt;/li&amp;gt;
+    {\% endfor %\}
+&amp;lt;/ul&amp;gt;
+&lt;/pre&gt;
+
+&lt;h2 id=&quot;category-&quot;&gt;三、为博客添加 category 插件&lt;/h2&gt;
+
+&lt;p&gt;添加 category 插件很简单，只要在根目录下建立一个 “plugins” 文件夹，然后拷贝category_plugin.rb 文件到里面就好了。category_plugin 文件的源代码可以在&lt;a href=&quot;https://gist.github.com/1899497&quot; title=&quot;The gist for category plugin&quot; target=&quot;_blank&quot;&gt;这里&lt;/a&gt;查看到。&lt;/p&gt;
+
+&lt;p&gt;这个插件的作用有两点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;建立 categories 文件夹, 遍历所有文章的分类，再根据分类建立分类的文件夹。&lt;/li&gt;
+  &lt;li&gt;为每个分类建立一个 index.html 文件, 该文件的模板来自 layouts 里面的 category_index.html，因此您需要在 layouts 里面添加符合自己博客主题的文件。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;categoryindexhtml-&quot;&gt;四、添加 category_index.html 模板&lt;/h2&gt;
+
+&lt;p&gt;这个模板是为了将我们的分类主页显示出来，显示的内容是一个分类的所有文章。也就是分
+类列表的链接地址。具体使用到的代码如下：&lt;/p&gt;
+&lt;pre class=&quot;html&quot; name=&quot;colorcode&quot;&gt;
+{\% for post in site.categories.[page.category] %\}
+    {\{ post.date }\} {\{ post.title }\}
+{\% endfor %\}
+&lt;/pre&gt;
+
+&lt;p&gt;你也可以参考我的分类主页来设计自己的分类主页，具体的效果，我截个图看看。我的分类主页的源代码在&lt;a href=&quot;https://gist.github.com/1899544&quot; target=&quot;_blank&quot; title=&quot;The gist for category index page&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/category-index.jpg&quot; alt=&quot;category index&quot; class=&quot;img-center&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;五、我们写的代码最终是如何完成工作的？&lt;/h2&gt;
+
+&lt;p&gt;Ok, 在完成上面的步骤之后，我们需要编译一遍。在终端 cd 到你的博客目录，输入 &lt;code&gt;jekyll --server&lt;/code&gt;，然后再回头看看我们的博客文件夹。&lt;/p&gt;
+
+&lt;p&gt;在 site 文件夹下，你会发现多了一个 categories 文件，里面就有包含的所有分类文件夹。同时，你也会发现在与 categories 同级的文件下也有这些分类文件夹，但他们存放的是我们的所有分类文章。&lt;/p&gt;
+
+&lt;p&gt;还有个变化，就是我们的文章链接 URL，添加了分类的文章，在日期前面会多了分类的名称。例如：&lt;code&gt;justjavac.com/jekyll/2012/02/23/user-category-plugin-for-jekyll-blog.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;六、需要注意的，还有我疑惑的（需要大家帮忙看看的）&lt;/h2&gt;
+
+&lt;p&gt;因为添加了插件，所以要确保你的 config.yml 文件里面的 safe 属性值为 &lt;code&gt;false&lt;/code&gt;，因为这
+个属性值为 &lt;code&gt;true&lt;/code&gt; 的时候是使自定义插件失效。&lt;/p&gt;
+
+&lt;p&gt;我疑惑的是，我在本地完成上面的步骤之后，分类列表的每个分类链接可以成功到达分类的详细列表页面（即 category_index.html)，然而我上传到 github，没有报错，却无法到达那个页面，显示 404 错误。求大牛帮忙解决。&lt;/p&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>使用jekyll在Github上搭建博客</title>
+   <link href="http://justjavac.com/jekyll/2012/04/05/use-jekyll-build-blog-on-github.html"/>
+   <updated>2012-04-05T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2012/04/05/use-jekyll-build-blog-on-github</id>
+   <content type="html">
+   	&lt;p&gt;jekyll是一个使用Ruby编写的静态站点生成工具，使用Liquid模板渲染引擎，支持Markdown和Textile标记语言，并且可以为所有以 .html、.markdown、.textile扩展名结尾的文件使用YAML配置，内置语法高亮功能。&lt;/p&gt;
+
+&lt;p&gt;而Github的Pages服务可以为每个Github主机上的仓库提供静态页面服务，并且Pages服务支持jekyll。因为Github Pages有两种Pages，分别是用户页面和项目页面，所以我们可以使用用户页面来创建自己的Blog。&lt;/p&gt;
+
+&lt;p&gt;在开始前，请确保你已经有了Github账号一枚和Git的正确配置。没有的朋友可以先移步Github注册并安装配置Git。&lt;/p&gt;
+
+&lt;p&gt;首先，创建你的 Blog 仓库 &lt;code&gt;username.github.com&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mkdir username.github.com
+$ cd username.github.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;新建一个 &lt;code&gt;index.html&lt;/code&gt; 文件，像下面这样:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!doctype html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt;Hello&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+
+  &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;Hello!&amp;lt;/h1&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;初始化仓库、提交并push到Github:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git init
+$ git add .
+$ git commit -a -m 'init commit.'
+$ git remote add origin
+$ git push origin master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;现在你打开 &lt;code&gt;username.github.com&lt;/code&gt; 就可以看到刚才新建的页面了，就是这么简单。当然也可以为你的Blog仓库绑定独立域名，具体做法就是：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在你的仓库中新建内容为 www.youdomain.com 的 CNAME 文件；&lt;/li&gt;
+  &lt;li&gt;在你的域名管理页或者是DNS解析的地方，增加一个记录，记录类别为CNAME(Alias)类型.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Note：&lt;/strong&gt; 如果你在CNAME中填写的是顶级域名，就得设置DNS的记录类别为A(Host)型，并设置主机为 &lt;code&gt;207.97.227.245&lt;/code&gt;。详细介绍请移步Github的Pages页面。&lt;/p&gt;
+
+&lt;p&gt;接下来我们只需要按照自己的喜好设计页面。首先认识下jekyll的文件及目录配置:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  .
+  |-- _includes
+  |-- _plugins 
+  |-- _layout 
+  |   |-- default.html
+  |   `-- post.html
+  |-- _post
+  |   |-- yyyy-mm-dd-title.markdown
+  |   `-- yyyy-mm-dd-title.markdown
+  |-- _site
+  |-- _config.yml
+  `-- index.html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;_includes&lt;/strong&gt;存放你需要在模板文件中包含的文件，你可以使用Liquid标签 &lt;code&gt;{‰ include file.ext ‰} &lt;/code&gt;来引用相应的文件。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;_plugins&lt;/strong&gt;可以增加你自己的插件&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;_layout&lt;/strong&gt;存放布局模板，请参考&lt;a href=&quot;https://github.com/taberhuang/taberhuang.github.com/tree/master/_layouts&quot;&gt;https://github.com/taberhuang/taberhuang.github.com/tree/master/_layouts&lt;/a&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;_post&lt;/strong&gt;存放文章列表，文件命名一定要遵循 yyyy-mm-dd-title.html&lt;/td&gt;
+      &lt;td&gt;markdown&lt;/td&gt;
+      &lt;td&gt;textile 规则，请参考&lt;a href=&quot;https://github.com/taberhuang/taberhuang.github.com/tree/master/_posts&quot;&gt;https://github.com/taberhuang/taberhuang.github.com/tree/master/_posts&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;_sitejekyll&lt;/strong&gt;自动生成的，所以可以忽略，如果你有在本地安装jekyll并预览了的话，可以使用.gitignore设置Git停止对本目录的跟踪。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;_config.yml&lt;/strong&gt;设置经常使用的配置选项，这样在本地启动预览时就不用每次都手动输入了。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;index.html 和所有的 HTML/Markdown/Textile 文件&lt;/strong&gt; 所有的HTML/Markdown/Textile文件都可以包含 YAML 配置，这类文件都会被jekyll解析。&lt;/p&gt;
+
+&lt;p&gt;现在你可以在自己的仓库中配置好你自己的目录及文件，也可以&lt;code&gt;clone&lt;/code&gt;我的仓库，然后修改。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/taberhuang/taberhuang.github.com.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;修改完后就可以&lt;code&gt;push&lt;/code&gt;你的代码到Github上，看到结果了。刚才有说到本地预览，如果你想在本地预览后，确保没错误再&lt;code&gt;push&lt;/code&gt;的话，就需要在本地安装jekyll，下面介绍下jekyll的安装方法。&lt;/p&gt;
+
+&lt;p&gt;一、安装Ruby运行环境和RubyGem:Windows用户只要下载 RubyInstaller。下载安装后请手动升级gem.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gem update --system
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;二、安装DevKit。DevKit是windows平台编译和使用本地C/C++扩展包工具。用来模拟Linux平台下的 make,gcc,sh 进行编译。下载文件后，解压到 `C:\DevKit’，再通过命令行安装:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd C:\DevKit
+$ ruby dk.rb init
+$ ruby dk.rb install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;三、安装并检查刚才的DevKit安装是否成功。如果成功安装，则DevKit也就安装成功，如果不成功，请重新安装DevKit。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gem install jekyll
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;四、安装Rdiscount，这个是用来解析Markdown标记的解析包。如果你使用Textile的话，就是安装Kramdown。&lt;/p&gt;
+
+&lt;p&gt;$ gem install rdiscount&lt;/p&gt;
+
+&lt;p&gt;所有的环境和依赖包都安装成功后，进入你的仓库目录，用下面的命令便可启动jekyll，并在本地预览了，预览地址默认为 &lt;code&gt;127.0.0.1:4000&lt;/code&gt;，当然你也可以通过 _config.yml 配置:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;jekyll --server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;是不是很爽?&lt;/p&gt;
+
+&lt;p&gt;参考及相关资料：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://pages.github.com/&quot;&gt;http://pages.github.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mojombo/jekyll/wiki&quot;&gt;https://github.com/mojombo/jekyll/wiki&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://blog.envylabs.com/2009/08/publishing-a-blog-with-github-pages-and-jekyll/&quot;&gt;http://blog.envylabs.com/2009/08/publishing-a-blog-with-github-pages-and-jekyll/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://daringfireball.net/projects/markdown/syntax&quot;&gt;http://daringfireball.net/projects/markdown/syntax&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>Markdown 语法 (简体中文版)</title>
+   <link href="http://justjavac.com/jekyll/2012/03/31/markdown-syntax.html"/>
+   <updated>2012-03-31T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2012/03/31/markdown-syntax</id>
+   <content type="html">
+   	&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; This is Simplelified  Chinese Edition Document of Markdown Syntax. If you are seeking for English Edition Document. Please refer to &lt;a href=&quot;http://daringfireball.net/projects/markdown/syntax&quot;&gt;Markdown: Syntax&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;声明：&lt;/strong&gt; 这份文档派生(fork)于&lt;a href=&quot;http://markdown.tw/&quot;&gt;繁体中文版&lt;/a&gt;，在此基础上进行了繁体转简体工作，并进行了适当的润色。此文档用 Markdown 语法编写，你可以到这里&lt;a href=&quot;http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/syntax.md&quot;&gt;查看它的源文件&lt;/a&gt;。「繁体中文版的原始文件可以&lt;a href=&quot;https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md&quot;&gt;查看这里&lt;/a&gt; 。」–By @&lt;a href=&quot;http://twitter.com/riku&quot;&gt;riku&lt;/a&gt; / 本项目托管于 &lt;a href=&quot;http://gitcafe.com/riku/Markdown-Syntax-CN&quot;&gt;GitCafe&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注：&lt;/strong&gt; 本项目同时也托管于 &lt;a href=&quot;https://github.com/riku/Markdown-Syntax-CN&quot;&gt;Github&lt;/a&gt; 上，请通过 fork＋pull request 方式来帮忙改进本项目。&lt;/p&gt;
+
+&lt;h1 id=&quot;markdown----markdown-basicshtml&quot;&gt;Markdown 语法说明 (简体中文版) / (&lt;a href=&quot;./markdown-basics.html&quot;&gt;点击查看快速入门&lt;/a&gt;)&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#overview&quot;&gt;概述&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#philosophy&quot;&gt;宗旨&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#html&quot;&gt;兼容 HTML&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#autoescape&quot;&gt;特殊字符自动转换&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#block&quot;&gt;区块元素&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#p&quot;&gt;段落和换行&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#header&quot;&gt;标题&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#blockquote&quot;&gt;区块引用&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#list&quot;&gt;列表&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#precode&quot;&gt;代码区块&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#hr&quot;&gt;分隔线&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#span&quot;&gt;区段元素&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#link&quot;&gt;链接&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#em&quot;&gt;强调&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#code&quot;&gt;代码&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#img&quot;&gt;图片&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#misc&quot;&gt;其它&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#backslash&quot;&gt;反斜杠&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#autolink&quot;&gt;自动链接&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#acknowledgement&quot;&gt;感谢&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;overview&quot;&gt;概述&lt;/h2&gt;
+
+&lt;h3 id=&quot;philosophy&quot;&gt;宗旨&lt;/h3&gt;
+
+&lt;p&gt;Markdown 的目标是实现「易读易写」。&lt;/p&gt;
+
+&lt;p&gt;可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 &lt;a href=&quot;http://docutils.sourceforge.net/mirror/setext.html&quot;&gt;Setext&lt;/a&gt;、&lt;a href=&quot;http://www.aaronsw.com/2002/atx/&quot;&gt;atx&lt;/a&gt;、&lt;a href=&quot;http://textism.com/tools/textile/&quot;&gt;Textile&lt;/a&gt;、&lt;a href=&quot;http://docutils.sourceforge.net/rst.html&quot;&gt;reStructuredText&lt;/a&gt;、&lt;a href=&quot;http://www.triptico.com/software/grutatxt.html&quot;&gt;Grutatext&lt;/a&gt; 和 &lt;a href=&quot;http://ettext.taint.org/doc/&quot;&gt;EtText&lt;/a&gt;，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
+
+&lt;p&gt;总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像*强调*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
+
+&lt;h3 id=&quot;html&quot;&gt;兼容 HTML&lt;/h3&gt;
+
+&lt;p&gt;Markdown 语法的目标是：成为一种适用于网络的&lt;em&gt;书写&lt;/em&gt;语言。&lt;/p&gt;
+
+&lt;p&gt;Markdown 不是想要取代 HTML，甚至也没有要和它相近，它的语法种类很少，只对应 HTML 标记的一小部分。Markdown 的构想&lt;em&gt;不是&lt;/em&gt;要使得 HTML 文档更容易书写。在我看来， HTML 已经很容易写了。Markdown 的理念是，能让文档更容易读、写和随意改。HTML 是一种&lt;em&gt;发布&lt;/em&gt;的格式，Markdown 是一种&lt;em&gt;书写&lt;/em&gt;的格式。就这样，Markdown 的格式语法只涵盖纯文本可以涵盖的范围。&lt;/p&gt;
+
+&lt;p&gt;不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。不需要额外标注这是 HTML 或是 Markdown；只要直接加标签就可以了。&lt;/p&gt;
+
+&lt;p&gt;要制约的只有一些 HTML 区块元素――比如 &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;table&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 等标签，必须在前后加上空行与其它内容区隔开，还要求它们的开始标签与结尾标签不能用制表符或空格来缩进。Markdown 的生成器有足够智能，不会在 HTML 区块标签外加上不必要的 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
+
+&lt;p&gt;例子如下，在 Markdown 文件里加上一段 HTML 表格：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;这是一个普通段落。
+
+&amp;lt;table&amp;gt;
+    &amp;lt;tr&amp;gt;
+        &amp;lt;td&amp;gt;Foo&amp;lt;/td&amp;gt;
+    &amp;lt;/tr&amp;gt;
+&amp;lt;/table&amp;gt;
+
+这是另一个普通段落。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;请注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的&lt;code&gt;*强调*&lt;/code&gt;会没有效果。&lt;/p&gt;
+
+&lt;p&gt;HTML 的区段（行内）标签如 &lt;code&gt;&amp;lt;span&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;cite&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;del&amp;gt;&lt;/code&gt; 可以在 Markdown 的段落、列表或是标题里随意使用。依照个人习惯，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化。举例说明：如果比较喜欢 HTML 的 &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; 或 &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。&lt;/p&gt;
+
+&lt;p&gt;和处在 HTML 区块标签间不同，Markdown 语法在 HTML 区段标签间是有效的。&lt;/p&gt;
+
+&lt;h3 id=&quot;autoescape&quot;&gt;特殊字符自动转换&lt;/h3&gt;
+
+&lt;p&gt;在 HTML 文件中，有两个字符需要特殊处理： &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;&lt;/code&gt; 。 &lt;code&gt;&amp;lt;&lt;/code&gt; 符号用于起始标签，&lt;code&gt;&amp;amp;&lt;/code&gt; 符号则用于标记 HTML 实体，如果你只是想要显示这些字符的原型，你必须要使用实体的形式，像是 &lt;code&gt;&amp;amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;amp;&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;amp;&lt;/code&gt; 字符尤其让网络文档编写者受折磨，如果你要打「&lt;code&gt;AT&amp;amp;T&lt;/code&gt;」 ，你必须要写成「&lt;code&gt;AT&amp;amp;amp;T&lt;/code&gt;」。而网址中的 &lt;code&gt;&amp;amp;&lt;/code&gt; 字符也要转换。比如你要链接到：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://images.google.com/images?num=30&amp;amp;q=larry+bird
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你必须要把网址转换写为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://images.google.com/images?num=30&amp;amp;amp;q=larry+bird
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;才能放到链接标签的 &lt;code&gt;href&lt;/code&gt; 属性里。不用说也知道这很容易忽略，这也可能是 HTML 标准检验所检查到的错误中，数量最多的。&lt;/p&gt;
+
+&lt;p&gt;Markdown 让你可以自然地书写字符，需要转换的由它来处理好了。如果你使用的 &lt;code&gt;&amp;amp;&lt;/code&gt; 字符是 HTML 字符实体的一部分，它会保留原状，否则它会被转换成 &lt;code&gt;&amp;amp;amp&lt;/code&gt;;。&lt;/p&gt;
+
+&lt;p&gt;所以你如果要在文档中插入一个版权符号 &lt;code&gt;©&lt;/code&gt;，你可以这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;amp;copy;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 会保留它不动。而若你写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;AT&amp;amp;T
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 就会将它转为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;AT&amp;amp;amp;T
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;类似的状况也会发生在 &lt;code&gt;&amp;lt;&lt;/code&gt; 符号上，因为 Markdown 允许 &lt;a href=&quot;#html&quot;&gt;兼容 HTML&lt;/a&gt; ，如果你是把 &lt;code&gt;&amp;lt;&lt;/code&gt; 符号作为 HTML 标签的定界符使用，那 Markdown 也不会对它做任何转换，但是如果你写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;4 &amp;lt; 5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 将会把它转换为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;4 &amp;amp;lt; 5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不过需要注意的是，code 范围内，不论是行内还是区块， &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;&lt;/code&gt; 两个符号都&lt;em&gt;一定&lt;/em&gt;会被转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML code （和 HTML 相对而言， HTML 语法中，你要把所有的 &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;&lt;/code&gt; 都转换为 HTML 实体，才能在 HTML 文件里面写出 HTML code。）&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;block&quot;&gt;区块元素&lt;/h2&gt;
+
+&lt;h3 id=&quot;p&quot;&gt;段落和换行&lt;/h3&gt;
+
+&lt;p&gt;一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。&lt;/p&gt;
+
+&lt;p&gt;「由一个或多个连续的文本行组成」这句话其实暗示了 Markdown 允许段落内的强迫换行（插入换行符），这个特性和其他大部分的 text-to-HTML 格式不一样（包括 Movable Type 的「Convert Line Breaks」选项），其它的格式会把每个换行符都转成 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
+
+&lt;p&gt;如果你&lt;em&gt;确实&lt;/em&gt;想要依赖 Markdown 来插入 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; 标签的话，在插入处先按入两个以上的空格然后回车。&lt;/p&gt;
+
+&lt;p&gt;的确，需要多费点事（多加空格）来产生 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; ，但是简单地「每个换行都转换为 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt;」的方法在 Markdown 中并不适合， Markdown 中 email 式的 &lt;a href=&quot;#blockquote&quot;&gt;区块引用&lt;/a&gt; 和多段落的 &lt;a href=&quot;#list&quot;&gt;列表&lt;/a&gt; 在使用换行来排版的时候，不但更好用，还更方便阅读。&lt;/p&gt;
+
+&lt;h3 id=&quot;header&quot;&gt;标题&lt;/h3&gt;
+
+&lt;p&gt;Markdown 支持两种标题的语法，类 &lt;a href=&quot;http://docutils.sourceforge.net/mirror/setext.html&quot;&gt;Setext&lt;/a&gt; 和类 &lt;a href=&quot;http://www.aaronsw.com/2002/atx/&quot;&gt;atx&lt;/a&gt; 形式。&lt;/p&gt;
+
+&lt;p&gt;类 Setext 形式是用底线的形式，利用 &lt;code&gt;=&lt;/code&gt; （最高阶标题）和 &lt;code&gt;-&lt;/code&gt; （第二阶标题），例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is an H1
+=============
+
+This is an H2
+-------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;任何数量的 &lt;code&gt;=&lt;/code&gt; 和 &lt;code&gt;-&lt;/code&gt; 都可以有效果。&lt;/p&gt;
+
+&lt;p&gt;类 Atx 形式则是在行首插入 1 到 6 个 &lt;code&gt;#&lt;/code&gt; ，对应到标题 1 到 6 阶，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# 这是 H1
+
+## 这是 H2
+
+###### 这是 H6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 &lt;code&gt;#&lt;/code&gt;，而行尾的 &lt;code&gt;#&lt;/code&gt; 数量也不用和开头一样（行首的井字符数量决定标题的阶数）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# 这是 H1 #
+
+## 这是 H2 ##
+
+### 这是 H3 ######
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;blockquote&quot;&gt;区块引用 Blockquotes&lt;/h3&gt;
+
+&lt;p&gt;Markdown 标记区块引用是使用类似 email 中用 &lt;code&gt;&amp;gt;&lt;/code&gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &lt;code&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+&amp;gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+&amp;gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+&amp;gt; 
+&amp;gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
+&amp;gt; id sem consectetuer libero luctus adipiscing.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 也允许你偷懒只在整个段落的第一行最前面加上 &lt;code&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
+
+&amp;gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
+id sem consectetuer libero luctus adipiscing.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;区块引用可以嵌套（例如：引用内的引用），只要根据层次加上不同数量的 &lt;code&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is the first level of quoting.
+&amp;gt;
+&amp;gt; &amp;gt; This is nested blockquote.
+&amp;gt;
+&amp;gt; Back to the first level.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;gt; ## 这是一个标题。
+&amp;gt; 
+&amp;gt; 1.   这是第一行列表项。
+&amp;gt; 2.   这是第二行列表项。
+&amp;gt; 
+&amp;gt; 给出一些例子代码：
+&amp;gt; 
+&amp;gt;     return shell_exec(&quot;echo $input | $markdown_script&quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;任何像样的文本编辑器都能轻松地建立 email 型的引用。例如在 BBEdit 中，你可以选取文字后然后从选单中选择&lt;em&gt;增加引用阶层&lt;/em&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;list&quot;&gt;列表&lt;/h3&gt;
+
+&lt;p&gt;Markdown 支持有序列表和无序列表。&lt;/p&gt;
+
+&lt;p&gt;无序列表使用星号、加号或是减号作为列表标记：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   Red
+*   Green
+*   Blue
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;等同于：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+   Red
++   Green
++   Blue
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;也等同于：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-   Red
+-   Green
+-   Blue
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;有序列表则使用数字接着一个英文句点：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.  Bird
+2.  McHale
+3.  Parish
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果，上面的列表所产生的 HTML 标记为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;Bird&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;McHale&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Parish&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果你的列表标记写成：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.  Bird
+1.  McHale
+1.  Parish
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或甚至是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;3. Bird
+1. McHale
+8. Parish
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你都会得到完全相同的 HTML 输出。重点在于，你可以让 Markdown 文件的列表数字和输出的结果相同，或是你懒一点，你可以完全不用在意数字的正确性。&lt;/p&gt;
+
+&lt;p&gt;如果你使用懒惰的写法，建议第一个项目最好还是从 1. 开始，因为 Markdown 未来可能会支持有序列表的 start 属性。&lt;/p&gt;
+
+&lt;p&gt;列表项目标记通常是放在最左边，但是其实也可以缩进，最多 3 个空格，项目标记后面则一定要接着至少一个空格或制表符。&lt;/p&gt;
+
+&lt;p&gt;要让列表看起来更漂亮，你可以把内容用固定的缩进整理好：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+    Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
+    viverra nec, fringilla in, laoreet vitae, risus.
+*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
+    Suspendisse id sem consectetuer libero luctus adipiscing.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是如果你懒，那也行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
+viverra nec, fringilla in, laoreet vitae, risus.
+*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
+Suspendisse id sem consectetuer libero luctus adipiscing.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 
+标签包起来，举例来说：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   Bird
+*   Magic
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会被转换为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;Bird&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Magic&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是这个：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   Bird
+
+*   Magic
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会被转换为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Bird&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Magic&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;列表项目可以包含多个段落，每个项目下的段落都必须缩进 4 个空格或是 1 个制表符：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.  This is a list item with two paragraphs. Lorem ipsum dolor
+    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
+    mi posuere lectus.
+
+    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
+    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
+    sit amet velit.
+
+2.  Suspendisse id sem consectetuer libero luctus adipiscing.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果你每行都有缩进，看起来会看好很多，当然，再次地，如果你很懒惰，Markdown 也允许：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   This is a list item with two paragraphs.
+
+    This is the second paragraph in the list item. You're
+only required to indent the first line. Lorem ipsum dolor
+sit amet, consectetuer adipiscing elit.
+
+*   Another item in the same list.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果要在列表项目内放进引用，那 &lt;code&gt;&amp;gt;&lt;/code&gt; 就需要缩进：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   A list item with a blockquote:
+
+    &amp;gt; This is a blockquote
+    &amp;gt; inside a list item.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果要放代码区块的话，该区块就需要缩进&lt;em&gt;两次&lt;/em&gt;，也就是 8 个空格或是 2 个制表符：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*   一列表项包含一个列表区块：
+
+        &amp;lt;代码写在这&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当然，项目列表很可能会不小心产生，像是下面这样的写法：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1986. What a great season.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;换句话说，也就是在行首出现&lt;em&gt;数字-句点-空白&lt;/em&gt;，要避免这样的状况，你可以在句点前面加上反斜杠。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1986\. What a great season.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;precode&quot;&gt;代码区块&lt;/h3&gt;
+
+&lt;p&gt;和程序相关的写作或是标签语言原始码通常会有已经排版好的代码区块，通常这些区块我们并不希望它以一般段落文件的方式去排版，而是照原来的样子显示，Markdown 会用 &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; 和 &lt;code&gt;&amp;lt;code&amp;gt;&lt;/code&gt; 标签来把代码区块包起来。&lt;/p&gt;
+
+&lt;p&gt;要在 Markdown 中建立代码区块很简单，只要简单地缩进 4 个空格或是 1 个制表符就可以，例如，下面的输入：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;这是一个普通段落：
+
+    这是一个代码区块。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 会转换成：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;这是一个普通段落：&amp;lt;/p&amp;gt;
+
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;这是一个代码区块。
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个每行一阶的缩进（4 个空格或是 1 个制表符），都会被移除，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Here is an example of AppleScript:
+
+    tell application &quot;Foo&quot;
+        beep
+    end tell
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会被转换为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Here is an example of AppleScript:&amp;lt;/p&amp;gt;
+
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;tell application &quot;Foo&quot;
+    beep
+end tell
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一个代码区块会一直持续到没有缩进的那一行（或是文件结尾）。&lt;/p&gt;
+
+&lt;p&gt;在代码区块里面， &lt;code&gt;&amp;amp;&lt;/code&gt; 、 &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;gt;&lt;/code&gt; 会自动转成 HTML 实体，这样的方式让你非常容易使用 Markdown 插入范例用的 HTML 原始码，只需要复制贴上，再加上缩进就可以了，剩下的 Markdown 都会帮你处理，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    &amp;lt;div class=&quot;footer&quot;&amp;gt;
+        &amp;amp;copy; 2004 Foo Corporation
+    &amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会被转换为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;amp;lt;div class=&quot;footer&quot;&amp;amp;gt;
+    &amp;amp;amp;copy; 2004 Foo Corporation
+&amp;amp;lt;/div&amp;amp;gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;代码区块中，一般的 Markdown 语法不会被转换，像是星号便只是星号，这表示你可以很容易地以 Markdown 语法撰写 Markdown 语法相关的文件。&lt;/p&gt;
+
+&lt;h3 id=&quot;hr&quot;&gt;分隔线&lt;/h3&gt;
+
+&lt;p&gt;你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* * *
+
+***
+
+*****
+
+- - -
+
+---------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;span&quot;&gt;区段元素&lt;/h2&gt;
+
+&lt;h3 id=&quot;link&quot;&gt;链接&lt;/h3&gt;
+
+&lt;p&gt;Markdown 支持两种形式的链接语法： &lt;em&gt;行内式&lt;/em&gt;和&lt;em&gt;参考式&lt;/em&gt;两种形式。&lt;/p&gt;
+
+&lt;p&gt;不管是哪一种，链接文字都是用 [方括号] 来标记。&lt;/p&gt;
+
+&lt;p&gt;要建立一个&lt;em&gt;行内式&lt;/em&gt;的链接，只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is [an example](http://example.com/ &quot;Title&quot;) inline link.
+
+[This link](http://example.net/) has no title attribute.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会产生：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is &amp;lt;a href=&quot;http://example.com/&quot; title=&quot;Title&quot;&amp;gt;
+an example&amp;lt;/a&amp;gt; inline link.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;a href=&quot;http://example.net/&quot;&amp;gt;This link&amp;lt;/a&amp;gt; has no
+title attribute.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果你是要链接到同样主机的资源，你可以使用相对路径：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;See my [About](/about/) page for details.   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;参考式&lt;/em&gt;的链接是在链接文字的括号后面再接上另一个方括号，而在第二个方括号里面要填入用以辨识链接的标记：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is [an example][id] reference-style link.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你也可以选择性地在两个方括号中间加上一个空格：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is [an example] [id] reference-style link.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接着，在文件的任意处，你可以把这个标记的链接内容定义出来：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[id]: http://example.com/  &quot;Optional Title Here&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;链接内容定义的形式为：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;方括号（前面可以选择性地加上至多三个空格来缩进），里面输入链接文字&lt;/li&gt;
+  &lt;li&gt;接着一个冒号&lt;/li&gt;
+  &lt;li&gt;接着一个以上的空格或制表符&lt;/li&gt;
+  &lt;li&gt;接着链接的网址&lt;/li&gt;
+  &lt;li&gt;选择性地接着 title 内容，可以用单引号、双引号或是括弧包着&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;下面这三种链接的定义都是相同：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[foo]: http://example.com/  &quot;Optional Title Here&quot;
+[foo]: http://example.com/  'Optional Title Here'
+[foo]: http://example.com/  (Optional Title Here)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;请注意：&lt;/strong&gt;有一个已知的问题是 Markdown.pl 1.0.1 会忽略单引号包起来的链接 title。&lt;/p&gt;
+
+&lt;p&gt;链接网址也可以用方括号包起来：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[id]: &amp;lt;http://example.com/&amp;gt;  &quot;Optional Title Here&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你也可以把 title 属性放到下一行，也可以加一些缩进，若网址太长的话，这样会比较好看：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[id]: http://example.com/longish/path/to/resource/here
+    &quot;Optional Title Here&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;网址定义只有在产生链接的时候用到，并不会直接出现在文件之中。&lt;/p&gt;
+
+&lt;p&gt;链接辨别标签可以有字母、数字、空白和标点符号，但是并&lt;em&gt;不&lt;/em&gt;区分大小写，因此下面两个链接是一样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[link text][a]
+[link text][A]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;隐式链接标记&lt;/em&gt;功能让你可以省略指定链接标记，这种情形下，链接标记会视为等同于链接文字，要用隐式链接标记只要在链接文字后面加上一个空的方括号，如果你要让 “Google” 链接到 google.com，你可以简化成：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Google][]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后定义链接内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Google]: http://google.com/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由于链接文字可能包含空白，所以这种简化型的标记内也许包含多个单词：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Visit [Daring Fireball][] for more information.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后接着定义链接：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[Daring Fireball]: http://daringfireball.net/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;链接的定义可以放在文件中的任何一个地方，我比较偏好直接放在链接出现段落的后面，你也可以把它放在文件最后面，就像是注解一样。&lt;/p&gt;
+
+&lt;p&gt;下面是一个参考式链接的范例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google] [1] than from
+[Yahoo] [2] or [MSN] [3].
+
+  [1]: http://google.com/        &quot;Google&quot;
+  [2]: http://search.yahoo.com/  &quot;Yahoo Search&quot;
+  [3]: http://search.msn.com/    &quot;MSN Search&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果改成用链接名称的方式写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google][] than from
+[Yahoo][] or [MSN][].
+
+  [google]: http://google.com/        &quot;Google&quot;
+  [yahoo]:  http://search.yahoo.com/  &quot;Yahoo Search&quot;
+  [msn]:    http://search.msn.com/    &quot;MSN Search&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面两种写法都会产生下面的 HTML。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I get 10 times more traffic from &amp;lt;a href=&quot;http://google.com/&quot;
+title=&quot;Google&quot;&amp;gt;Google&amp;lt;/a&amp;gt; than from
+&amp;lt;a href=&quot;http://search.yahoo.com/&quot; title=&quot;Yahoo Search&quot;&amp;gt;Yahoo&amp;lt;/a&amp;gt;
+or &amp;lt;a href=&quot;http://search.msn.com/&quot; title=&quot;MSN Search&quot;&amp;gt;MSN&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是用行内式写的同样一段内容的 Markdown 文件，提供作为比较之用：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google](http://google.com/ &quot;Google&quot;)
+than from [Yahoo](http://search.yahoo.com/ &quot;Yahoo Search&quot;) or
+[MSN](http://search.msn.com/ &quot;MSN Search&quot;).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考式的链接其实重点不在于它比较好写，而是它比较好读，比较一下上面的范例，使用参考式的文章本身只有 81 个字符，但是用行内形式的却会增加到 176 个字元，如果是用纯 HTML 格式来写，会有 234 个字元，在 HTML 格式中，标签比文本还要多。&lt;/p&gt;
+
+&lt;p&gt;使用 Markdown 的参考式链接，可以让文件更像是浏览器最后产生的结果，让你可以把一些标记相关的元数据移到段落文字之外，你就可以增加链接而不让文章的阅读感觉被打断。&lt;/p&gt;
+
+&lt;h3 id=&quot;em&quot;&gt;强调&lt;/h3&gt;
+
+&lt;p&gt;Markdown 使用星号（&lt;code&gt;*&lt;/code&gt;）和底线（&lt;code&gt;_&lt;/code&gt;）作为标记强调字词的符号，被 &lt;code&gt;*&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 包围的字词会被转成用 &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt; 标签包围，用两个 &lt;code&gt;*&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 包起来的话，则会被转成 &lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt;，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*single asterisks*
+
+_single underscores_
+
+**double asterisks**
+
+__double underscores__
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会转成：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;em&amp;gt;single asterisks&amp;lt;/em&amp;gt;
+
+&amp;lt;em&amp;gt;single underscores&amp;lt;/em&amp;gt;
+
+&amp;lt;strong&amp;gt;double asterisks&amp;lt;/strong&amp;gt;
+
+&amp;lt;strong&amp;gt;double underscores&amp;lt;/strong&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可以随便用你喜欢的样式，唯一的限制是，你用什么符号开启标签，就要用什么符号结束。&lt;/p&gt;
+
+&lt;p&gt;强调也可以直接插在文字中间：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;un*frigging*believable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是&lt;strong&gt;如果你的 &lt;code&gt;*&lt;/code&gt; 和 &lt;code&gt;_&lt;/code&gt; 两边都有空白的话，它们就只会被当成普通的符号&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果要在文字前后直接插入普通的星号或底线，你可以用反斜线：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;\*this text is surrounded by literal asterisks\*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;code&quot;&gt;代码&lt;/h3&gt;
+
+&lt;p&gt;如果要标记一小段行内代码，你可以用反引号把它包起来（&lt;code&gt;`&lt;/code&gt;），例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Use the `printf()` function.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会产生：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Use the &amp;lt;code&amp;gt;printf()&amp;lt;/code&amp;gt; function.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果要在代码区段内插入反引号，你可以用多个反引号来开启和结束代码区段：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;``There is a literal backtick (`) here.``
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这段语法会产生：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;&amp;lt;code&amp;gt;There is a literal backtick (`) here.&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;代码区段的起始和结束端都可以放入一个空白，起始端后面一个，结束端前面一个，这样你就可以在区段的一开始就插入反引号：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A single backtick in a code span: `` ` ``
+
+A backtick-delimited string in a code span: `` `foo` ``
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会产生：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;A single backtick in a code span: &amp;lt;code&amp;gt;`&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;A backtick-delimited string in a code span: &amp;lt;code&amp;gt;`foo`&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在代码区段内，&lt;code&gt;&amp;amp;&lt;/code&gt; 和方括号&lt;strong&gt;都&lt;/strong&gt;会被自动地转成 HTML 实体，这使得插入 HTML 原始码变得很容易，Markdown 会把下面这段：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Please don't use any `&amp;lt;blink&amp;gt;` tags.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;转为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Please don't use any &amp;lt;code&amp;gt;&amp;amp;lt;blink&amp;amp;gt;&amp;lt;/code&amp;gt; tags.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你也可以这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;`&amp;amp;#8212;` is the decimal-encoded equivalent of `&amp;amp;mdash;`.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以产生：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;&amp;lt;code&amp;gt;&amp;amp;amp;#8212;&amp;lt;/code&amp;gt; is the decimal-encoded
+equivalent of &amp;lt;code&amp;gt;&amp;amp;amp;mdash;&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;img&quot;&gt;图片&lt;/h3&gt;
+
+&lt;p&gt;很明显地，要在纯文字应用中设计一个「自然」的语法来插入图片是有一定难度的。&lt;/p&gt;
+
+&lt;p&gt;Markdown 使用一种和链接很相似的语法来标记图片，同样也允许两种样式： &lt;em&gt;行内式&lt;/em&gt;和&lt;em&gt;参考式&lt;/em&gt;。&lt;/p&gt;
+
+&lt;p&gt;行内式的图片语法看起来像是：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;![Alt text](/path/to/img.jpg)
+
+![Alt text](/path/to/img.jpg &quot;Optional title&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;详细叙述如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;一个惊叹号 &lt;code&gt;!&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;接着一个方括号，里面放上图片的替代文字&lt;/li&gt;
+  &lt;li&gt;接着一个普通括号，里面放上图片的网址，最后还可以用引号包住并加上
+选择性的 ‘title’ 文字。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;参考式的图片语法则长得像这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;![Alt text][id]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;「id」是图片参考的名称，图片参考的定义方式则和连结参考一样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[id]: url/to/image  &quot;Optional title attribute&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;到目前为止， Markdown 还没有办法指定图片的宽高，如果你需要的话，你可以使用普通的 &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;misc&quot;&gt;其它&lt;/h2&gt;
+
+&lt;h3 id=&quot;autolink&quot;&gt;自动链接&lt;/h3&gt;
+
+&lt;p&gt;Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用方括号包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;http://example.com/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 会转为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;a href=&quot;http://example.com/&quot;&amp;gt;http://example.com/&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;邮址的自动链接也很类似，只是 Markdown 会先做一个编码转换的过程，把文字字符转成 16 进位码的 HTML 实体，这样的格式可以糊弄一些不好的邮址收集机器人，例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;address@example.com&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 会转成：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;a href=&quot;&amp;amp;#x6D;&amp;amp;#x61;i&amp;amp;#x6C;&amp;amp;#x74;&amp;amp;#x6F;:&amp;amp;#x61;&amp;amp;#x64;&amp;amp;#x64;&amp;amp;#x72;&amp;amp;#x65;
+&amp;amp;#115;&amp;amp;#115;&amp;amp;#64;&amp;amp;#101;&amp;amp;#120;&amp;amp;#x61;&amp;amp;#109;&amp;amp;#x70;&amp;amp;#x6C;e&amp;amp;#x2E;&amp;amp;#99;&amp;amp;#111;
+&amp;amp;#109;&quot;&amp;gt;&amp;amp;#x61;&amp;amp;#x64;&amp;amp;#x64;&amp;amp;#x72;&amp;amp;#x65;&amp;amp;#115;&amp;amp;#115;&amp;amp;#64;&amp;amp;#101;&amp;amp;#120;&amp;amp;#x61;
+&amp;amp;#109;&amp;amp;#x70;&amp;amp;#x6C;e&amp;amp;#x2E;&amp;amp;#99;&amp;amp;#111;&amp;amp;#109;&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在浏览器里面，这段字串（其实是 &lt;code&gt;&amp;lt;a href=&quot;mailto:address@example.com&quot;&amp;gt;address@example.com&amp;lt;/a&amp;gt;&lt;/code&gt;）会变成一个可以点击的「address@example.com」链接。&lt;/p&gt;
+
+&lt;p&gt;（这种作法虽然可以糊弄不少的机器人，但并不能全部挡下来，不过总比什么都不做好些。不管怎样，公开你的信箱终究会引来广告信件的。）&lt;/p&gt;
+
+&lt;h3 id=&quot;backslash&quot;&gt;反斜杠&lt;/h3&gt;
+
+&lt;p&gt;Markdown 可以利用反斜杠来插入一些在语法中有其它意义的符号，例如：如果你想要用星号加在文字旁边的方式来做出强调效果（但不用 &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt; 标签），你可以在星号的前面加上反斜杠：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;\*literal asterisks\*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;\   反斜线
+`   反引号
+*   星号
+_   底线
+{}  花括号
+[]  方括号
+()  括弧
+#   井字号
++   加号
+-   减号
+.   英文句点
+!   惊叹号
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;acknowledgement&quot;&gt;感谢&lt;/h2&gt;
+
+&lt;p&gt;感谢 &lt;a href=&quot;https://twitter.com/#!/leafy7382&quot;&gt;leafy7382&lt;/a&gt; 协助翻译，&lt;a href=&quot;http://iamhlb.com/&quot;&gt;hlb&lt;/a&gt;、&lt;a href=&quot;http://twitter.com/randylien&quot;&gt;Randylien&lt;/a&gt; 帮忙润稿，&lt;a href=&quot;https://twitter.com/#!/ethantw&quot;&gt;ethantw&lt;/a&gt; 的&lt;a href=&quot;http://ethantw.net/projects/han/&quot;&gt;汉字标准格式・CSS Reset&lt;/a&gt;， &lt;a href=&quot;http://kidwm.net/&quot;&gt;WM&lt;/a&gt; 回报文字错误。&lt;/p&gt;
+
+&lt;p&gt;感谢 &lt;a href=&quot;https://github.com/fenprace&quot;&gt;fenprace&lt;/a&gt;，&lt;a href=&quot;https://github.com/addv&quot;&gt;addv&lt;/a&gt;。&lt;/p&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>markdown 快速入门</title>
+   <link href="http://justjavac.com/jekyll/2012/03/31/markdown-basics.html"/>
+   <updated>2012-03-31T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2012/03/31/markdown-basics</id>
+   <content type="html">
+   	&lt;p&gt;&lt;strong&gt;声明：&lt;/strong&gt; 这份文档派生(fork)于&lt;a href=&quot;http://markdown.tw/&quot;&gt;繁体中文版&lt;/a&gt;，在此基础上进行了繁体转简体工作，并进行了适当的润色。此文档用 Markdown 语法编写，你可以到这里&lt;a href=&quot;http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/basics.md&quot;&gt;查看它的源文件&lt;/a&gt;。「繁体中文版的原始文件可以&lt;a href=&quot;https://github.com/othree/markdown-syntax-zhtw/blob/master/basics.md&quot;&gt;查看这里&lt;/a&gt;」–By @&lt;a href=&quot;http://twitter.com/riku&quot;&gt;riku&lt;/a&gt; / 本项目托管于 &lt;a href=&quot;http://gitcafe.com/riku/Markdown-Syntax-CN&quot;&gt;GitCafe&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注：&lt;/strong&gt; 本项目同时也托管于 &lt;a href=&quot;https://github.com/riku/Markdown-Syntax-CN&quot;&gt;Github&lt;/a&gt;上，请通过 fork＋pull request 方式来帮忙改进本项目。&lt;/p&gt;
+
+&lt;h1 id=&quot;markdown-basics---markdown-syntaxhtml&quot;&gt;Markdown: Basics （快速入门） / (&lt;a href=&quot;./markdown-syntax.html&quot;&gt;点击查看完整语法说明&lt;/a&gt;)&lt;/h1&gt;
+
+&lt;h2 id=&quot;getting-the-gist-of-markdowns-formatting-syntax&quot;&gt;Getting the Gist of Markdown’s Formatting Syntax&lt;/h2&gt;
+
+&lt;p&gt;此页提供了 Markdown 的简单概念， &lt;a href=&quot;http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/syntax.md&quot; title=&quot;Markdown Syntax&quot;&gt;语法说明&lt;/a&gt; 页提供了完整详细的文档，说明了每项功能。但是 Markdown 其实很简单就可以上手，此页文档提供了一些范例，并且每个范例都会提供输出的 HTML 结果。&lt;/p&gt;
+
+&lt;p&gt;其实直接试试看也是一个很不错的方法， &lt;a href=&quot;http://daringfireball.net/projects/markdown/dingus&quot; title=&quot;Markdown Dingus&quot;&gt;Dingus&lt;/a&gt; 是一个网页应用程序，你可以把自已编写的 Markdown 文档转成 XHTML。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;段落、标题、区块代码&lt;/h2&gt;
+
+&lt;p&gt;一个段落是由一个以上的连接的行句组成，而一个以上的空行则会划分出不同的段落（空行的定义是显示上看起来像是空行，就被视为空行，例如有一行只有空白和 tab，那该行也会被视为空行），一般的段落不需要用空白或换行缩进。&lt;/p&gt;
+
+&lt;p&gt;Markdown 支持两种标题的语法，&lt;a href=&quot;http://docutils.sourceforge.net/mirror/setext.html&quot;&gt;Setext&lt;/a&gt; 和 &lt;a href=&quot;http://www.aaronsw.com/2002/atx/&quot;&gt;atx&lt;/a&gt; 形式。Setext 形式是用底线的形式，利用 &lt;code&gt;=&lt;/code&gt; （最高阶标题）和 &lt;code&gt;-&lt;/code&gt; （第二阶标题），Atx 形式在行首插入 1 到 6 个 &lt;code&gt;#&lt;/code&gt; ，对应到标题 1 到 6 阶。&lt;/p&gt;
+
+&lt;p&gt;区块引用则使用 email 形式的 ‘&lt;code&gt;&amp;gt;&lt;/code&gt;’ 角括号。&lt;/p&gt;
+
+&lt;p&gt;Markdown 语法:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A First Level Header
+====================
+A Second Level Header
+---------------------
+
+Now is the time for all good men to come to
+the aid of their country. This is just a
+regular paragraph.
+
+The quick brown fox jumped over the lazy
+dog's back.
+### Header 3
+
+&amp;gt; This is a blockquote.
+&amp;gt; 
+&amp;gt; This is the second paragraph in the blockquote.
+&amp;gt;
+&amp;gt; ## This is an H2 in a blockquote
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;h1&amp;gt;A First Level Header&amp;lt;/h1&amp;gt;
+&amp;lt;h2&amp;gt;A Second Level Header&amp;lt;/h2&amp;gt;
+&amp;lt;p&amp;gt;Now is the time for all good men to come to
+the aid of their country. This is just a
+regular paragraph.&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;The quick brown fox jumped over the lazy
+dog's back.&amp;lt;/p&amp;gt;
+&amp;lt;h3&amp;gt;Header 3&amp;lt;/h3&amp;gt;
+&amp;lt;blockquote&amp;gt;
+&amp;lt;p&amp;gt;This is a blockquote.&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;This is the second paragraph in the blockquote.&amp;lt;/p&amp;gt;
+&amp;lt;h2&amp;gt;This is an H2 in a blockquote&amp;lt;/h2&amp;gt;
+&amp;lt;/blockquote&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;修辞和强调&lt;/h3&gt;
+
+&lt;p&gt;Markdown 使用星号和底线来标记需要强调的区段。&lt;/p&gt;
+
+&lt;p&gt;Markdown 语法:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Some of these words *are emphasized*.
+Some of these words _are emphasized also_.
+Use two asterisks for **strong emphasis**.
+Or, if you prefer, __use two underscores instead__.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Some of these words &amp;lt;em&amp;gt;are emphasized&amp;lt;/em&amp;gt;.
+Some of these words &amp;lt;em&amp;gt;are emphasized also&amp;lt;/em&amp;gt;.&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Use two asterisks for &amp;lt;strong&amp;gt;strong emphasis&amp;lt;/strong&amp;gt;.
+Or, if you prefer, &amp;lt;strong&amp;gt;use two underscores instead&amp;lt;/strong&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;列表&lt;/h2&gt;
+
+&lt;p&gt;无序列表使用星号、加号和减号来做为列表的项目标记，这些符号是都可以使用的，使用星号：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* Candy.
+* Gum.
+* Booze.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;加号：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+ Candy.
++ Gum.
++ Booze.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;和减号&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- Candy.
+- Gum.
+- Booze.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;都会输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;Candy.&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Gum.&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Booze.&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;有序的列表则是使用一般的数字接着一个英文句点作为项目标记：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. Red
+2. Green
+3. Blue
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;Red&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Green&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Blue&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果你在项目之间插入空行，那项目的内容会用 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 包起来，你也可以在一个项目内放上多个段落，只要在它前面缩排 4 个空白或 1 个 tab 。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* A list item.
+With multiple paragraphs.
+
+* Another item in the list.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;A list item.&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;With multiple paragraphs.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Another item in the list.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt; ### 链接 ###
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Markdown 支援两种形式的链接语法： &lt;em&gt;行内&lt;/em&gt; 和 &lt;em&gt;参考&lt;/em&gt; 两种形式，两种都是使用角括号来把文字转成连结。&lt;/p&gt;
+
+&lt;p&gt;行内形式是直接在后面用括号直接接上链接：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is an [example link](http://example.com/).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is an &amp;lt;a href=&quot;http://example.com/&quot;&amp;gt;
+example link&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你也可以选择性的加上 title 属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This is an [example link](http://example.com/ &quot;With a Title&quot;).
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is an &amp;lt;a href=&quot;http://example.com/&quot; title=&quot;With a Title&quot;&amp;gt;
+example link&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考形式的链接让你可以为链接定一个名称，之后你可以在文件的其他地方定义该链接的内容：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google][1] than from
+[Yahoo][2] or [MSN][3].
+
+[1]: http://google.com/ &quot;Google&quot;
+[2]: http://search.yahoo.com/ &quot;Yahoo Search&quot;
+[3]: http://search.msn.com/ &quot;MSN Search&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I get 10 times more traffic from &amp;lt;a href=&quot;http://google.com/&quot;
+title=&quot;Google&quot;&amp;gt;Google&amp;lt;/a&amp;gt; than from &amp;lt;a href=&quot;http://search.yahoo.com/&quot;
+title=&quot;Yahoo Search&quot;&amp;gt;Yahoo&amp;lt;/a&amp;gt; or &amp;lt;a href=&quot;http://search.msn.com/&quot;
+title=&quot;MSN Search&quot;&amp;gt;MSN&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;title 属性是选择性的，链接名称可以用字母、数字和空格，但是不分大小写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I start my morning with a cup of coffee and
+[The New York Times][NY Times].
+
+[ny times]: http://www.nytimes.com/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I start my morning with a cup of coffee and
+&amp;lt;a href=&quot;http://www.nytimes.com/&quot;&amp;gt;The New York Times&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;图片&lt;/h3&gt;
+
+&lt;p&gt;图片的语法和链接很像。&lt;/p&gt;
+
+&lt;p&gt;行内形式（title 是选择性的）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;![alt text](/path/to/img.jpg &quot;Title&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考形式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;![alt text][id]
+
+[id]: /path/to/img.jpg &quot;Title&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面两种方法都会输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;img src=&quot;/path/to/img.jpg&quot; alt=&quot;alt text&quot; title=&quot;Title&quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;代码&lt;/h3&gt;
+&lt;p&gt;在一般的段落文字中，你可以使用反引号 &lt;code&gt;`&lt;/code&gt; 来标记代码区段，区段内的 &lt;code&gt;&amp;amp;&lt;/code&gt;、&lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;gt;&lt;/code&gt; 都会被自动的转换成 HTML 实体，这项特性让你可以很容易的在代码区段内插入 HTML 码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I strongly recommend against using any `&amp;lt;blink&amp;gt;` tags.
+
+I wish SmartyPants used named entities like `&amp;amp;mdash;`
+instead of decimal-encoded entites like `&amp;amp;#8212;`.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I strongly recommend against using any
+&amp;lt;code&amp;gt;&amp;amp;lt;blink&amp;amp;gt;&amp;lt;/code&amp;gt; tags.&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;I wish SmartyPants used named entities like
+&amp;lt;code&amp;gt;&amp;amp;amp;mdash;&amp;lt;/code&amp;gt; instead of decimal-encoded
+entites like &amp;lt;code&amp;gt;&amp;amp;amp;#8212;&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果要建立一个已经格式化好的代码区块，只要每行都缩进 4 个空格或是一个 tab 就可以了，而 &lt;code&gt;&amp;amp;&lt;/code&gt;、&lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;gt;&lt;/code&gt; 也一样会自动转成 HTML 实体。&lt;/p&gt;
+
+&lt;p&gt;Markdown 语法:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;If you want your page to validate under XHTML 1.0 Strict,
+you've got to put paragraph tags in your blockquotes:
+
+&amp;lt;blockquote&amp;gt;
+&amp;lt;p&amp;gt;For example.&amp;lt;/p&amp;gt;
+&amp;lt;/blockquote&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;输出 HTML 为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;If you want your page to validate under XHTML 1.0 Strict,
+you've got to put paragraph tags in your blockquotes:&amp;lt;/p&amp;gt;
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;amp;lt;blockquote&amp;amp;gt;
+&amp;amp;lt;p&amp;amp;gt;For example.&amp;amp;lt;/p&amp;amp;gt;
+&amp;amp;lt;/blockquote&amp;amp;gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>使用 jekyll 提高 Demo 开发效率</title>
+   <link href="http://justjavac.com/jekyll/2012/03/11/use-jekyll-for-web-develop.html"/>
+   <updated>2012-03-11T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2012/03/11/use-jekyll-for-web-develop</id>
+   <content type="html">
+   	&lt;h2 id=&quot;jekyll--demo-&quot;&gt;使用 jekyll 提高 Demo 开发效率&lt;/h2&gt;
+
+&lt;p&gt;使用 jekyll 来提高 Demo 的开发效率？也许真有点儿可能喔。经过一个星期的实践，我感
+觉还是挺方便的。今天分享下。&lt;/p&gt;
+
+&lt;p&gt;###Demo 开发遇到的问题&lt;/p&gt;
+
+&lt;p&gt;在前端开发的过程中，前期的 Demo 制作，需要依据 PRD 和视觉稿产出相应的 HTML 页面
+。很多时候，由于环境的问题，使用单纯的 HTML 来编写页面，效率比较慢。或者适当地使
+用 Copy And Write 的方式，也不是很灵活。&lt;/p&gt;
+
+&lt;p&gt;总结我个人遇到的一些妨碍效率的问题，有下面几点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;头部底部只能通过 Copy &amp;amp; write 的方式应用到各个页面，页面多的话，需要修改很多次。不灵活。&lt;/li&gt;
+  &lt;li&gt;编写模板的时候，需要再从 Demo 筛选出对应的模块，重复性成本高。&lt;/li&gt;
+  &lt;li&gt;使用 PHP 或者其他语言进行编写 Demo，似乎小题大作了。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###如何使用 jekyll 开发 Demo ？&lt;/p&gt;
+
+&lt;p&gt;恩，也许你还不知道啥是 &lt;a href=&quot;http://www.jekyllrb.com&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot; title=&quot;jekyll&quot;&gt;&lt;strong&gt;jekyll&lt;/strong&gt;&lt;/a&gt;，没关系，
+&lt;strong&gt;justjavac.com&lt;/strong&gt; 就是使用 &lt;strong&gt;jekyll&lt;/strong&gt; 搭建起来的。你可以在这里找到 &lt;strong&gt;jekyll&lt;/strong&gt; 的很多相关文章。&lt;/p&gt;
+
+&lt;p&gt;Ok，基于平时自己遇到的一些问题，还有 jekyll 的方便性，我尝试着这样去做页面的开发，舒服多了，效率也提上来了。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;本地安装 jekyll 。&lt;/li&gt;
+  &lt;li&gt;新建项目文件夹，至少需要下面几个文件：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&quot;html&quot; name=&quot;colorcode&quot;&gt;
+xxx项目
+    |--_layouts(布局)
+        |--default.html
+    |--_includes(模块化)
+        |--head.html
+        |--foot.html
+    |--css
+    |--js
+    |--html
+    |--images
+    |--_config.yml(配置文件)
+&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;通过布局来配置我们的公用模块，简化每个 Demo 的工作量。&lt;/li&gt;
+  &lt;li&gt;通过 include 来规划组件化模块，一个页面可以看成是很多组件构建起来的。&lt;/li&gt;
+  &lt;li&gt;在项目文件夹运行&lt;code class=&quot;v-code&quot;&gt;jekyll --server&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;待服务启动成功到浏览器访问&lt;code class=&quot;v-code&quot;&gt;localhost:4000/你的页面&lt;/code&gt;，进行测试和其他工作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###人无完人，适合才是好的&lt;/p&gt;
+
+&lt;p&gt;每个人的工作方式都不一样。我个人觉得这样挺好的，必要的适合再建个项目发出来。但也有个不足，就是每次测试需要输入&lt;code class=&quot;v-code&quot;&gt;jekyll --server&lt;/code&gt;，其他的还好。&lt;/p&gt;
+
+&lt;p&gt;使用 jekyll 来提高前端开发 Demo 效率，如果你觉得还不错，或者不懂，或者有新的想法，欢迎交流。&lt;/p&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>为 jekyll 博客添加静态搜索</title>
+   <link href="http://justjavac.com/jekyll/2012/03/04/static-search-article-on-jekyll.html"/>
+   <updated>2012-03-04T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2012/03/04/static-search-article-on-jekyll</id>
+   <content type="html">
+   	&lt;p&gt;今晚吃完饭后，为博客做了简单的搜索功能，因为做的大多是前台方面的工作，所以我个人
+将其称之为静态搜索。简单介绍下。&lt;/p&gt;
+
+&lt;h3 id=&quot;searchxml&quot;&gt;一、生成 search.xml&lt;/h3&gt;
+
+&lt;p&gt;遍历 &lt;strong&gt;jekyll&lt;/strong&gt; 博客中的所有文章，获取其标题、日期和文章链接，整合
+到一个 &lt;strong&gt;xml&lt;/strong&gt; 文件中。这个 &lt;strong&gt;xml&lt;/strong&gt; 文件我们可将其命名为 &lt;code&gt;search.xml&lt;/code&gt;，以便我们后续的工作。&lt;/p&gt;
+
+&lt;p&gt;具体的写法如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//jekyll 语法前反斜杆是为了转义输出，请去掉
+&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&amp;gt;
+&amp;lt;articles&amp;gt;
+{\% for post in site.posts %\}
+&amp;lt;article&amp;gt;
+    &amp;lt;title&amp;gt;{\{ post.title }\}&amp;lt;/title&amp;gt;
+    &amp;lt;url&amp;gt;{\{ site.url }\}{\{ post.url }\}&amp;lt;/url&amp;gt;
+    &amp;lt;date&amp;gt;{\{ post.date | date_to_utc | date: '%Y-%m-%d'}\}&amp;lt;/date&amp;gt;
+&amp;lt;/article&amp;gt;
+{\% endfor %\}
+&amp;lt;/articles&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;dom-&quot;&gt;二、添加 DOM 结构&lt;/h3&gt;
+
+&lt;p&gt;DOM 结构就是 HTML 代码啦。
+你可以添加到你希望的地方，但要注意一点，就是你添加 DOM结构的地方要有相应的 CSS 链接和 JS 链接。
+我把这个简单的搜索功能放在 Archive.html 里面，不清楚的同学可以去看源代码哈。&lt;/p&gt;
+
+&lt;p&gt;添加 &lt;strong&gt;Jquery UI&lt;/strong&gt; 样式和 &lt;strong&gt;JS&lt;/strong&gt; 链接。
+我在这里采用的是 jquery-ui-1.8.18.custom 版本。
+DOM 结构保存在同一个页面。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//样式表
+&amp;lt;link rel=&quot;stylesheet&quot; href=&quot;/css/jquery-ui-1.8.18.custom.css&quot; type=&quot;text/css&quot;&amp;gt;
+
+//js
+&amp;lt;script src=&quot;/js/jquery-ui-1.8.18.custom.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+
+//添加 DOM
+&amp;lt;input id=&quot;J_search&quot; placeholder=&quot;Simple Search&quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;三、设置全局地址&lt;/h3&gt;
+
+&lt;p&gt;在 &lt;strong&gt;jekyll&lt;/strong&gt; 博客的根目录下的 &lt;code&gt;config.yml&lt;/code&gt; 添加你的博客的全局基本地址。就一句话就 Ok 哈！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;url: http://justjavac.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;javascript-&quot;&gt;四、通过 Javascript 实现搜索功能&lt;/h3&gt;
+
+&lt;p&gt;简单说明下原理：通过在输入框输入关键词，&lt;strong&gt;Ajax&lt;/strong&gt; 匹配 search.xml 中的文章标题里面的词语，
+若是，在输入框下方显示出标题。通过选择标题，跳转到搜索到的文章页面。&lt;/p&gt;
+
+&lt;p&gt;我的实现方式是这样的，你也可以通过修改 &lt;code&gt;autocomplete&lt;/code&gt;
+的实例来实现不同的展现效果。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$(function() {
+        $.ajax({
+            url: &quot;search.xml&quot;,
+            dataType: &quot;xml&quot;,
+            success: function( xmlResponse ) {
+                var data = $( &quot;article&quot;, xmlResponse ).map(function() {
+                    return {
+                        value: $( &quot;title&quot;, this ).text() + &quot;, &quot; +
+                            ( $.trim( $( &quot;date&quot;, this ).text() ) ),
+                        desc: $(&quot;description&quot;, this).text(),
+                        url: $(&quot;url&quot;, this).text()
+                    };
+                }).get();
+
+                $( &quot;#J_search&quot; ).autocomplete({
+                    source: data,
+                    minLength: 0,
+                    select: function( event, ui ) {
+                        window.location.href = ui.item.url;
+                    }
+                });
+            }
+        });
+    });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;五、测试&lt;/h3&gt;
+
+&lt;p&gt;在输入框中输入你所知道的一些关键词，如果输入框下拉菜单有内容，选中它，成功跳转到对应的文章页面。那么，你成功了。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;六、总结&lt;/h3&gt;
+
+&lt;p&gt;这是一个很简单的实现方法，因为就今晚几个小时做出来的，所以可能还有很多不适用性。兼容性方面还没做好测试，只兼容 Firefox 和 Chrome ，还没完善的一个方面是出错处理，有空再补上。&lt;/p&gt;
+
+&lt;p&gt;遗憾的是暂时只支持英文关键词搜索，后续，恩，中英文。&lt;/p&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>优化 jekyll 站点的 SEO 技巧</title>
+   <link href="http://justjavac.com/jekyll/2012/01/16/the-seo-for-jekyll-blog.html"/>
+   <updated>2012-01-16T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2012/01/16/the-seo-for-jekyll-blog</id>
+   <content type="html">
+   	&lt;p&gt;很多时候，我们搭建了一个博客，但很少有人来访问。一方面可能是因为我们没有做好推广，另外一方面可能是我们没做好 &lt;strong&gt;SEO&lt;/strong&gt; 。在使用 &lt;strong&gt;jekyll&lt;/strong&gt; 搭建这个博客的时候，我将 &lt;strong&gt;SEO&lt;/strong&gt; 的一些优化点融入到 &lt;strong&gt;Violet&lt;/strong&gt; 主题中来。经过一段时间的测试和观察，期望的效果已经达到。&lt;/p&gt;
+
+&lt;p&gt;虽然我不是 SEO 高手，但喜欢折腾。通过对 SEO 的学习和实践，我希望能将好的文章让更多人知道，并通过 jekyll 实现。本文将为你分享一些 &lt;strong&gt;jekyll SEO&lt;/strong&gt; 技巧。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;优化博客标题及副标题&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;博客标题&lt;/strong&gt;，即站点的名称。它能够使访问者在第一时间知道所在的是什么网站，是站点的重要标识。副标题，它与博客主题并不一样，它能为博客标题做一些描述，一些优化性。通常，我都会为站点的主标题设置 &lt;code&gt;h1&lt;/code&gt; 标签，为副主题设置 &lt;code&gt;h2&lt;/code&gt; 标签。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;优化页面标题&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;在之前一直使用这样的标题方式 “xxx&lt;/td&gt;
+      &lt;td&gt;justjavac.com”, 本来还觉得挺好的，既有博客名称，又有页面标题。但后来查看搜索引擎的显示结果，基本上每个链接的标题里面，也就有了多余的 “&lt;/td&gt;
+      &lt;td&gt;justjavac.com” 了。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;有人说这样好，也有人说这样不好。这次我决定砍掉后面的博客名称，让标题来的简洁些，让标题与内容的权重比更高一些。&lt;/p&gt;
+
+&lt;p&gt;具体的实现方法如下：&lt;/p&gt;
+
+&lt;pre class=&quot;html&quot; name=&quot;colorcode&quot;&gt;
+&amp;lt;title&amp;gt;
+    if page.title
+         page.title  //显示页面标题
+    else
+         site.title  //显示博客标题
+    endif
+&amp;lt;/title&amp;gt;
+&lt;/pre&gt;
+
+&lt;h2 id=&quot;description--keywords&quot;&gt;Description 和 Keywords&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt; 是为搜索引擎提供网页的描述信息，&lt;strong&gt;Keywords&lt;/strong&gt; 为搜索引擎提供网页包含的核心内容。&lt;/p&gt;
+
+&lt;p&gt;为 jekyll 站点创建这Description 和 Keywords 有很多种方法。一种可以通过全局定义，
+把预定好的内容写在配置文件 &lt;code&gt;_config.yml&lt;/code&gt; 中，一种是在
+每个页面添加 &lt;code&gt;YAML&lt;/code&gt; ， 还有一种是写个插件，自动配置。写在配置文件中的比较统一，可以作为全局使用。写在页面的比较灵活，但是每次编写文章的时候都要自己手动加上去。写个插件，难度较大。&lt;/p&gt;
+
+&lt;p&gt;经过对 &lt;strong&gt;Wordpress&lt;/strong&gt; 的 SEO 的一些借鉴方法，在这次改版过程中，我采用了手动配置的方法。基本为所有页面都添加了 Description 和 Keywords 。&lt;/p&gt;
+
+&lt;p&gt;如果你查看我的页面源码，你就可以发现，在所有文档的头部都会多了 2 个标识。而在文章页面，我会在文章输出 Description , 同时将其作为文章的摘要在首页输出。&lt;/p&gt;
+
+&lt;h2 id=&quot;hground-strong-&quot;&gt;使用 hground, strong 标签&lt;/h2&gt;
+
+&lt;p&gt;一篇好的文章，条例同顺，层次分明。同时，为文章加上语义化的标签，更有利于搜索引擎抓取。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;hground&lt;/strong&gt; 标签指的是 &lt;code class=&quot;v-code&quot;&gt;h1&lt;/code&gt;, &lt;code class=&quot;v-code&quot;&gt;h2&lt;/code&gt;, &lt;code class=&quot;v-code&quot;&gt;h3&lt;/code&gt;, &lt;code class=&quot;v-code&quot;&gt;h4&lt;/code&gt;, &lt;code class=&quot;v-code&quot;&gt;h5&lt;/code&gt;, &lt;code class=&quot;v-code&quot;&gt;h6&lt;/code&gt; 等标签, &lt;code class=&quot;v-code&quot;&gt;strong&lt;/code&gt; 标签则是标识该文章的关键字。&lt;/p&gt;
+
+&lt;h2 id=&quot;rel-&quot;&gt;处理链接的 rel 标签&lt;/h2&gt;
+
+&lt;p&gt;页面的菜单，为 Home 设置 &lt;code class=&quot;v-code&quot;&gt;nofollow&lt;/code&gt; ，为 Archives ，Plugins ，Works，Contact 页面添加 &lt;code class=&quot;v-code&quot;&gt;bookmark&lt;/code&gt; 。在首页的文章 Read More 中，为其添加的也是 nofollow ，这样写的好处是同个链接在搜索爬虫抓取的时候，不会抓取两次，避免权重下降。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;文章列表页显示文章摘要&lt;/h2&gt;
+
+&lt;p&gt;在 Archives 页面，我将 &lt;strong&gt;Description&lt;/strong&gt; 输出到摘要信息里面。这里有个好处，就是在查看这个页面的时候，很方便地看到页面的基本内容，搜索爬虫也能抓取到页面的摘要。坏处就是所有的文章在这里都输出，表示页面会很长！&lt;/p&gt;
+
+&lt;h2 id=&quot;atomxml--sitemapxml&quot;&gt;添加 Atom.xml 和 Sitemap.xml&lt;/h2&gt;
+
+&lt;p&gt;为网站添加订阅功能，主要将最新的 10 篇文章输出到 &lt;strong&gt;Atom.xml&lt;/strong&gt; 中。网站地图 &lt;strong&gt;Sitemap.xml&lt;/strong&gt; 则是将全站的文章，页面都输出。最后将其提交到 &lt;strong&gt;Google&lt;/strong&gt; 。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;简单总结&lt;/h2&gt;
+
+&lt;p&gt;以上内容是我在使用 &lt;strong&gt;jekyll&lt;/strong&gt; 搭建自己的博客的过程中实践和总结过来的，如有不对，请尽快联系我。我们互相学习，共同交流。&lt;/p&gt;
+
+&lt;p&gt;在使用 &lt;strong&gt;Wordpress&lt;/strong&gt; 的时候，就注意到 &lt;strong&gt;SEO&lt;/strong&gt; 的重要性了。此次&lt;strong&gt;Violet&lt;/strong&gt; 的实践，应该算是一种学习和尝试，在使用 &lt;strong&gt;jekyll&lt;/strong&gt; 搭建站点的过程中，具体应该注意的一些细节，下面列个表格作最后总结。&lt;/p&gt;
+
+&lt;table&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th style=&quot;width:15%&quot;&gt;页面类型&lt;/th&gt;
+            &lt;th&gt;标题&lt;/th&gt;
+            &lt;th&gt;描述&lt;/th&gt;
+            &lt;th style=&quot;width:18%&quot;&gt;关键词&lt;/th&gt;
+            &lt;th&gt;其他&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;首页&lt;/td&gt;
+            &lt;td&gt;默认显示博客标题&lt;/td&gt;
+            &lt;td&gt;全局描述&lt;/td&gt;
+            &lt;td&gt;全局关键词&lt;/td&gt;
+            &lt;td&gt;为 &lt;code class=&quot;v-code&quot;&gt;Read More&lt;/code&gt; 添加 &lt;code class=&quot;v-code&quot;&gt;nofollow&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;普通页面&lt;/td&gt;
+            &lt;td&gt;页面标题&lt;/td&gt;
+            &lt;td&gt;页面描述&lt;/td&gt;
+            &lt;td&gt;页面关键字&lt;/td&gt;
+            &lt;td&gt;为 &lt;code class=&quot;v-code&quot;&gt;Read More&lt;/code&gt; 添加 &lt;code class=&quot;v-code&quot;&gt;nofollow&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;文章页面&lt;/td&gt;
+            &lt;td&gt;文章标题&lt;/td&gt;
+            &lt;td&gt;文章摘要&lt;/td&gt;
+            &lt;td&gt;文章关键字&lt;/td&gt;
+            &lt;td&gt;为文章格式化，hground, strong 等标签的使用&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;一个半月之后的成果&lt;/h2&gt;
+
+&lt;p&gt;这篇文章是在 2012年1月16日 发布的，那个时候我查了一下，google 的 PR 值为 0 。现在是 2012月2月24日，我再查一下，如今的 PR 值为 3 。小小欣慰一下，但仍然还有很多问题。&lt;/p&gt;
+
+&lt;p&gt;经过为博客添加 category之后的一些总结，一个网站的文章路径是非常关键了，于是固定链接成为重中之中，坚固固定链接，保证从搜索引擎过来的链接不会出现 404 结果，是提升 seo 的保障。&lt;/p&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>mac 本地按安装 jekyll</title>
+   <link href="http://justjavac.com/jekyll/2011/11/30/install-jekyll.html"/>
+   <updated>2011-11-30T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2011/11/30/install-jekyll</id>
+   <content type="html">
+   	&lt;p&gt;本地安装 jekyll 其实很简单的，继续做笔记。&lt;/p&gt;
+
+&lt;p&gt;如果你的本地已经安装了 gem ，那么你可以通过下面的方法来安装 jekyll , 在终端输入
+：&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+gem install jekyll
+&lt;/pre&gt;
+&lt;p&gt;如果你安装遇到问题，可能是本地 ruby 版本的原因，或者是 gem 没有升级。
+安装 ruby 有很多方法：&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+//apt-get
+sudo apt-get install ruby1.8-dev
+//brew
+brew install ruby
+//macport
+port install ruby
+&lt;/pre&gt;
+&lt;p&gt;升级 gem :&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+sudo gem update --system
+&lt;/pre&gt;
+
+&lt;p&gt;Ok, 安装完 jekyll 之后，你还需要安装 RDiscount，为什么需要呢？因为在 RDiscount
+里面包含有 markdown 语法的包。
+安装如下：&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+sudo gem install rdiscount
+&lt;/pre&gt;
+
+&lt;p&gt;– 完 –&lt;/p&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>jekyll 的一些函数和技巧</title>
+   <link href="http://justjavac.com/jekyll/2011/09/24/jekyll-more.html"/>
+   <updated>2011-09-24T00:00:00+08:00</updated>
+   <id>http://justjavac.com/jekyll/2011/09/24/jekyll-more</id>
+   <content type="html">
+   	&lt;p&gt;##一些函数
+循环输出 3 篇文章&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+for post in site.posts limit:3
+endfor
+&lt;/pre&gt;
+&lt;p&gt;循环输出最近 3 篇&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+for post in site.posts offset:3 limit:3
+endfor
+&lt;/pre&gt;
+&lt;p&gt;日期&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+page.date | date:&quot;%B %b, %Y&quot;
+&lt;/pre&gt;
+&lt;p&gt;分页输出&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+for post in paginator.posts
+  content
+endfor
+&lt;/pre&gt;
+&lt;p&gt;分页&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+if paginator.previous_page
+  //判断输出前一个分页
+  //&quot;page&quot; + paginator.previous_page
+endif
+if paginator.next_page
+  //判断输出后一个分页
+  //&quot;page&quot; + paginator.next_page
+endif
+for page in (1..paginator.total_pages)
+  if page == paginator.page
+     //如果是当前分页
+     //page
+  else
+     //不是的话输出其他分页链接号码
+     //&quot;page&quot; + page
+  endif
+endfor
+&lt;/pre&gt;
+&lt;p&gt;文章页面显示前一篇文章和后一篇文章&lt;/p&gt;
+&lt;pre class=&quot;js&quot; name=&quot;colorcode&quot;&gt;
+if page.previous
+  //url:    page.previous.url
+  //title:  page.previous.title | truncatewords:5
+endif
+if page.next
+  //url:    page.next.url
+  //title:  page.next.url | truncatewords:5
+&lt;/pre&gt;
+
+   </content>
+ </entry>
+ 
+ 
+</feed>
