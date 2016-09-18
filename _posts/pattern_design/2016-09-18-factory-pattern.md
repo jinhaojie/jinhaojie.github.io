@@ -6,7 +6,10 @@ keywords: pattern design
 category : 设计模式
 tags : [pattern design , 设计模式]
 ---
+### 先来一张图
 
+
+![factory](/assets/images/factory_design_pattern.png.jpg)
 
 
 {%highlight sql%}
