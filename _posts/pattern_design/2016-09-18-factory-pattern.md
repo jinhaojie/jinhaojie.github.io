@@ -7,11 +7,10 @@ category : 设计模式
 tags : [pattern design , 设计模式]
 ---
 
-sdfsafd
-### 先来一张图
+#### 先来一张图
 
-
-![factory](/assets/images/factory_design_pattern.png.jpg)
+<img src="/assets/images/factory_design_pattern.png" >
+![factory](/assets/images/factory_design_pattern.png)
 
 
 {%highlight sql%}
