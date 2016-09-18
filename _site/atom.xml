@@ -4,7 +4,7 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-09-18T14:07:55+08:00</updated>
+ <updated>2016-09-18T14:15:04+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
@@ -165,13 +165,26 @@
 &lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;luxury&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
 &lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@e9bfee2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;下面总结一下工厂模式的优点&lt;/h4&gt;
+&lt;h4 id=&quot;section-2&quot;&gt;下面总结一下工厂模式的优点和缺点&lt;/h4&gt;
 &lt;ol&gt;
   &lt;li&gt;对象的创建避免了代码的重复&lt;/li&gt;
   &lt;li&gt;对象的创建所需要的权限资源不在暴露的类中&lt;/li&gt;
   &lt;li&gt;中心化对象创建的声明周期管理，确保在平台中对象能够有一致的表现&lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;blockquote&gt;
+  &lt;p&gt;优点&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;1、  在工厂方法中，用户只需要知道所要产品的具体工厂，无须关系具体的创建过程，甚至不需要具体产品类的类名。
+
+2、  在系统增加新的产品时，我们只需要添加一个具体产品类和对应的实现工厂，无需对原工厂进行任何修改，很好地符合了“开闭原则”。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;缺点
+    1、  每次增加一个产品时，都需要增加一个具体类和对象实现工厂，是的系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。这并不是什么好事。&lt;/p&gt;
+&lt;/blockquote&gt;
 
    </content>
  </entry>
