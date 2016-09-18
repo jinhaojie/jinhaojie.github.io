@@ -80,6 +80,13 @@
 	</url>
 
 	<url>
+		<loc>http://justjavac.com/english%20word/2016/09/18/english-word.html</loc>
+		<lastmod>2016-09-18</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
 		<loc>http://justjavac.com/orm/2016/08/15/mybatis.html</loc>
 		<lastmod>2016-08-15</lastmod>
 		<changefreq>weekly</changefreq>

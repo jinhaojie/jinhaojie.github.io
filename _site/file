@@ -1,0 +1,6 @@
+                           		    <span class="phonetic">[ɪŋɡlɪʃ]</span>
+            <span class= "phonetic">[ 'iŋɡliʃ ]</span>
+                                            <span class="phonetic wordGroup">['iŋɡliʃ]</span>
+                                                                    <em class="additional spell phonetic">/ˈɪŋɡlɪʃ/</em>
+        <label for="wordbook-phonetic">音标</label>
+        <input id="wordbook-phonetic" type="text" value="" name="phonetic" />

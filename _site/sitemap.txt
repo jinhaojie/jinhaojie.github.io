@@ -11,6 +11,7 @@ http://justjavac.com/sitemap.xml
 http://justjavac.com/tags
 
 http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/factory-pattern.html
+http://justjavac.com/english%20word/2016/09/18/english-word.html
 http://justjavac.com/orm/2016/08/15/mybatis.html
 http://justjavac.com/jekyll/2012/05/22/use-category-plugin-for-jekyll-blog.html
 http://justjavac.com/jekyll/2012/04/05/use-jekyll-build-blog-on-github.html
