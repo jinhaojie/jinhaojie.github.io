@@ -6,6 +6,8 @@ keywords: pattern design
 category : 设计模式
 tags : [pattern design , 设计模式]
 ---
+
+sdfsafd
 ### 先来一张图
 
 
