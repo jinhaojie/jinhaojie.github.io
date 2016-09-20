@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 	<url>
-		<loc>http://justjavac.com/about</loc>
-		<lastmod></lastmod>
-		<changefreq>weekly</changefreq>
-		<priority>0.6</priority>
-	</url>
-
-	<url>
 		<loc>http://justjavac.com/archive</loc>
 		<lastmod></lastmod>
 		<changefreq>weekly</changefreq>
@@ -71,6 +64,13 @@
 		<priority>0.6</priority>
 	</url>
 
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/09/19/english-word.html</loc>
+		<lastmod>2016-09-19</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
 
 	<url>
 		<loc>http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/factory-pattern.html</loc>
