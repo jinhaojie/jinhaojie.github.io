@@ -9,6 +9,8 @@ http://justjavac.com/sitemap.txt
 http://justjavac.com/sitemap.xml
 http://justjavac.com/tags
 
+http://justjavac.com/linux/2016/09/20/linux-command.html
+http://justjavac.com/english%20word/2016/09/20/english-word.html
 http://justjavac.com/english%20word/2016/09/19/english-word.html
 http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/factory-pattern.html
 http://justjavac.com/english%20word/2016/09/18/english-word.html

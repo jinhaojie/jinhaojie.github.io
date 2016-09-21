@@ -1,0 +1,66 @@
+---
+layout: post
+title: linux & shell command(持续更新)
+description: linux & shell
+keywords: linux
+category : linux
+tags : [linux , linux命令]
+---
+* [ls](#ls)    **查看文件**
+* [cat](#cat)  **连接和显示文件内容**
+* [ps](#ps)    **查看进程**
+* [top](#top)  **查看cpu,memory等系统信息** 
+* [lsof](http://www.baidu.com) **查看某个端口号的进程**
+* [netstat](http://www.baidu.com)  **进程**   
+* [lsof](http://www.baidu.com) **查看某个端口号的进程**
+
+<h5 id="ls"> ls 命令 </h5>
+```
+  ls 显示目录和文件
+  参数：
+    -l 显示长列表
+    -h 显示常用单位
+    -a 显示影藏文件
+    -i 显示文件inode number
+    -t 按修改时间排序
+    -S 按文件大小排序
+    -r 取反（大小，时间排序）
+```
+
+<h5 id="cat"> cat 连接和显示文件内容 </h5>
+```
+  cat 连接和显示文件内容
+  参数：
+    -n 输出行号
+  例子： 
+  cat file1 fil2  #将file2,接到file1后面显示
+  echo "hello " | cat - file1  #将标准输入hello连接到file的前面输出
+```
+
+
+
+<h5 id="ps"> ps 命令 </h5>
+```
+  ps 查看进程信息
+  参数：
+    -A 显示所有进程
+    -a 显示当前终端的进程
+    -u 显示进程所属的用户
+    -x 
+    -o pid,command   指定输出的格式
+```
+
+<h5 id="top"> top 命令 </h5>
+```
+  top 查看系统信息
+  
+  1. top -u username :查看某个用户的进程信息
+  2. top -n num      :top在刷新num次后退出
+
+  命令参数：
+  按'c' : 显示进程的可执行程序的存放路径
+  按'd' : 输入数字，改变top刷新的时间，默认是3秒
+  按'shift + p ': 以cpu使用率排序
+
+```
+
