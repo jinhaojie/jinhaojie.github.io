@@ -77,7 +77,7 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-09-21T10:19:36+08:00</updated>
+ <updated>2016-09-21T16:55:01+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
@@ -160,6 +160,50 @@ sudo vi /etc/rsyslog.d/50-default.conf
   &lt;/li&gt;
   &lt;li&gt;&lt;/li&gt;
 &lt;/ol&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-09-21</title>
+   <link href="http://justjavac.com/english%20word/2016/09/21/english-word.html"/>
+   <updated>2016-09-21T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/09/21/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;toggle--tgl&quot;&gt;toggle : [‘tɒg(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 拴牢，系紧
+n. 开关，触发器；拴扣；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;whether--we&quot;&gt;whether : [‘weðə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+conj. 是否；不论
+pron. 两个中的哪一个
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;feedback--fidbk&quot;&gt;feedback : [‘fiːdbæk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 反馈；成果，资料；回复
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;discard--dskd&quot;&gt;discard : [dɪ’skɑːd]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 抛弃；放弃；丢弃
+vi. 放弃
+n. 抛弃；被丢弃的东西或人
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;markdown--mkdn&quot;&gt;markdown : [‘mɑːkdəʊn]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 标低价，
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
 
 
    </content>

@@ -10,6 +10,7 @@ http://justjavac.com/sitemap.xml
 http://justjavac.com/tags
 
 http://justjavac.com/os/2016/09/21/linux-ubuntu.html
+http://justjavac.com/english%20word/2016/09/21/english-word.html
 http://justjavac.com/linux/2016/09/20/linux-command.html
 http://justjavac.com/english%20word/2016/09/20/english-word.html
 http://justjavac.com/english%20word/2016/09/19/english-word.html

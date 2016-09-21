@@ -73,6 +73,13 @@
 	</url>
 
 	<url>
+		<loc>http://justjavac.com/english%20word/2016/09/21/english-word.html</loc>
+		<lastmod>2016-09-21</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
 		<loc>http://justjavac.com/linux/2016/09/20/linux-command.html</loc>
 		<lastmod>2016-09-20</lastmod>
 		<changefreq>weekly</changefreq>
