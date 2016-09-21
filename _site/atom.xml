@@ -77,13 +77,93 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-09-21T08:22:47+08:00</updated>
+ <updated>2016-09-21T10:19:36+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
    <email>justjavac@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>ubuntu(持续更新)</title>
+   <link href="http://justjavac.com/os/2016/09/21/linux-ubuntu.html"/>
+   <updated>2016-09-21T00:00:00+08:00</updated>
+   <id>http://justjavac.com/os/2016/09/21/linux-ubuntu</id>
+   <content type="html">
+   	&lt;h4 id=&quot;sysv-rc-conf-redhatchkconfig&quot;&gt;用sysv-rc-conf 代替redhat的chkconfig&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;安装：&lt;code&gt;sudo apt-get isntall sysv-rc-confchank&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;查看默认启动级别&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;通过&lt;code&gt;runlevel&lt;/code&gt;命令查看启动级别&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;linuxman-runlevel&quot;&gt;linux启动级别,可以通过man runlevel来查看&lt;/h4&gt;
+&lt;blockquote&gt;
+
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Runlevel&lt;/th&gt;
+        &lt;th&gt;Target&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;0&lt;/td&gt;
+        &lt;td&gt;poweroff.target&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;1&lt;/td&gt;
+        &lt;td&gt;rescue.target&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;2, 3, 4&lt;/td&gt;
+        &lt;td&gt;multi-user.target&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;5&lt;/td&gt;
+        &lt;td&gt;graphical.target&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;6&lt;/td&gt;
+        &lt;td&gt;reboot.target&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;cron&quot;&gt;定时任务（cron服务)&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;服务的开启与停止
+    &lt;pre&gt;&lt;code&gt;service cron start
+service cron stop
+service cron restart
+service cron status
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;打开cron的日志记录
+sudo vi /etc/rsyslog.d/50-default.conf
+去掉下面行的注释
+    &lt;pre&gt;&lt;code&gt;cron.*              /var/log/cron.log
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;编辑crontab&lt;/p&gt;
+
+    &lt;p&gt;crontab -e&lt;/p&gt;
+
+    &lt;p&gt;分 时 天 月 星期 command&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+   </content>
+ </entry>
  
  <entry>
    <title>linux & shell command(持续更新)</title>
