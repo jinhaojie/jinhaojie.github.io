@@ -32,17 +32,24 @@ service cron stop
 service cron restart
 service cron status
 ```
-2. 打开cron的日志记录
-sudo vi /etc/rsyslog.d/50-default.conf
+2. 打开cron的日志记录和邮件通知
+日志： sudo vi /etc/rsyslog.d/50-default.conf
 去掉下面行的注释
 ```
 cron.*              /var/log/cron.log
 ```
+
+邮件通知： sudo apt-get install postfix
+
+cat  /var/main/jin
+
 3. 编辑crontab
 
    crontab -e 
    
    分 时 天 月 星期 command
-4. 
+4. 例子
+
+> 30 16 * * * command    在每天的16:30分执行command命令 
 
 

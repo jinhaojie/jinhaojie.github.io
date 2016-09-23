@@ -30,6 +30,8 @@
     <link rel="prev prerender" href="/english%20word/2016/09/21/english-word.html" title="english word 2016-09-21" />
     
     
+    <link rel="next prerender" href="/english%20word/2016/09/22/english-word.html" title="english word 2016-09-22" />
+    
     
     <link rel="apple-touch-icon" href="/assets/themes/twitter/images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/assets/themes/twitter/images/apple-touch-icon-72x72.png">
@@ -75,12 +77,12 @@
     <div id="article">
     <h4 id="sysv-rc-conf-redhatchkconfig">用sysv-rc-conf 代替redhat的chkconfig</h4>
 <blockquote>
-  <p>安装：<code>sudo apt-get isntall sysv-rc-confchank</code></p>
+  <p>安装：<code class="highlighter-rouge">sudo apt-get isntall sysv-rc-confchank</code></p>
 </blockquote>
 
 <h4 id="section">查看默认启动级别</h4>
 <blockquote>
-  <p>通过<code>runlevel</code>命令查看启动级别</p>
+  <p>通过<code class="highlighter-rouge">runlevel</code>命令查看启动级别</p>
 </blockquote>
 
 <h4 id="linuxman-runlevel">linux启动级别,可以通过man runlevel来查看</h4>
@@ -121,18 +123,27 @@
 <h4 id="cron">定时任务（cron服务)</h4>
 <ol>
   <li>服务的开启与停止
-    <pre><code>service cron start
+    <div class="highlighter-rouge"><pre class="highlight"><code>service cron start
 service cron stop
 service cron restart
 service cron status
 </code></pre>
+    </div>
   </li>
-  <li>打开cron的日志记录
-sudo vi /etc/rsyslog.d/50-default.conf
+  <li>打开cron的日志记录和邮件通知
+日志： sudo vi /etc/rsyslog.d/50-default.conf
 去掉下面行的注释
-    <pre><code>cron.*              /var/log/cron.log
+    <div class="highlighter-rouge"><pre class="highlight"><code>cron.*              /var/log/cron.log
 </code></pre>
+    </div>
   </li>
+</ol>
+
+<p>邮件通知： sudo apt-get install postfix</p>
+
+<p>cat  /var/main/jin</p>
+
+<ol>
   <li>
     <p>编辑crontab</p>
 
@@ -140,8 +151,14 @@ sudo vi /etc/rsyslog.d/50-default.conf
 
     <p>分 时 天 月 星期 command</p>
   </li>
-  <li></li>
+  <li>
+    <p>例子</p>
+  </li>
 </ol>
+
+<blockquote>
+  <p>30 16 * * * command    在每天的16:30分执行command命令</p>
+</blockquote>
 
 
     <p>继续阅读关于
@@ -168,7 +185,7 @@ sudo vi /etc/rsyslog.d/50-default.conf
       
         <li><a href="/archive.html">归档</a></li>
       
-        <li class="next disabled"><a>下一篇 &rarr;</a>
+        <li class="next"><a href="/english%20word/2016/09/22/english-word.html" title="english word 2016-09-22">下一篇 &rarr;</a></li>
       
       </ul>
     </div>
