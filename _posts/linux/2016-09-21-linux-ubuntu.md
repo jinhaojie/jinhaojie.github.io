@@ -39,10 +39,12 @@ service cron status
 cron.*              /var/log/cron.log
 ```
 
-邮件通知： sudo apt-get install postfix
+邮件通知
+```
+sudo apt-get install postfix
 
 cat  /var/main/jin
-
+```
 3. 编辑crontab
 
    crontab -e 
