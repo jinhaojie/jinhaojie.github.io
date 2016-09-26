@@ -81,11 +81,11 @@
 <h3 id="searchxml">一、生成 search.xml</h3>
 
 <p>遍历 <strong>jekyll</strong> 博客中的所有文章，获取其标题、日期和文章链接，整合
-到一个 <strong>xml</strong> 文件中。这个 <strong>xml</strong> 文件我们可将其命名为 <code class="highlighter-rouge">search.xml</code>，以便我们后续的工作。</p>
+到一个 <strong>xml</strong> 文件中。这个 <strong>xml</strong> 文件我们可将其命名为 <code>search.xml</code>，以便我们后续的工作。</p>
 
 <p>具体的写法如下：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//jekyll 语法前反斜杆是为了转义输出，请去掉
+<pre><code>//jekyll 语法前反斜杆是为了转义输出，请去掉
 &lt;?xml version="1.0" encoding="UTF-8" ?&gt;
 &lt;articles&gt;
 {\% for post in site.posts %\}
@@ -97,7 +97,6 @@
 {\% endfor %\}
 &lt;/articles&gt;
 </code></pre>
-</div>
 
 <h3 id="dom-">二、添加 DOM 结构</h3>
 
@@ -109,7 +108,7 @@
 我在这里采用的是 jquery-ui-1.8.18.custom 版本。
 DOM 结构保存在同一个页面。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//样式表
+<pre><code>//样式表
 &lt;link rel="stylesheet" href="/css/jquery-ui-1.8.18.custom.css" type="text/css"&gt;
 
 //js
@@ -118,25 +117,23 @@ DOM 结构保存在同一个页面。</p>
 //添加 DOM
 &lt;input id="J_search" placeholder="Simple Search"/&gt;
 </code></pre>
-</div>
 
 <h3 id="section">三、设置全局地址</h3>
 
-<p>在 <strong>jekyll</strong> 博客的根目录下的 <code class="highlighter-rouge">config.yml</code> 添加你的博客的全局基本地址。就一句话就 Ok 哈！</p>
+<p>在 <strong>jekyll</strong> 博客的根目录下的 <code>config.yml</code> 添加你的博客的全局基本地址。就一句话就 Ok 哈！</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>url: http://justjavac.com
+<pre><code>url: http://justjavac.com
 </code></pre>
-</div>
 
 <h3 id="javascript-">四、通过 Javascript 实现搜索功能</h3>
 
 <p>简单说明下原理：通过在输入框输入关键词，<strong>Ajax</strong> 匹配 search.xml 中的文章标题里面的词语，
 若是，在输入框下方显示出标题。通过选择标题，跳转到搜索到的文章页面。</p>
 
-<p>我的实现方式是这样的，你也可以通过修改 <code class="highlighter-rouge">autocomplete</code>
+<p>我的实现方式是这样的，你也可以通过修改 <code>autocomplete</code>
 的实例来实现不同的展现效果。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$(function() {
+<pre><code>$(function() {
         $.ajax({
             url: "search.xml",
             dataType: "xml",
@@ -161,7 +158,6 @@ DOM 结构保存在同一个页面。</p>
         });
     });
 </code></pre>
-</div>
 
 <h3 id="section-1">五、测试</h3>
 

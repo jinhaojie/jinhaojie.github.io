@@ -9,6 +9,7 @@ http://justjavac.com/sitemap.txt
 http://justjavac.com/sitemap.xml
 http://justjavac.com/tags
 
+http://justjavac.com/spring%20framework/2016/09/23/spirng-aop.html
 http://justjavac.com/english%20word/2016/09/22/english-word.html
 http://justjavac.com/os/2016/09/21/linux-ubuntu.html
 http://justjavac.com/english%20word/2016/09/21/english-word.html

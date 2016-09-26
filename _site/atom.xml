@@ -77,7 +77,7 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-09-23T08:11:55+08:00</updated>
+ <updated>2016-09-23T13:56:11+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
@@ -86,55 +86,140 @@
 
  
  <entry>
+   <title>spring之aop</title>
+   <link href="http://justjavac.com/spring%20framework/2016/09/23/spirng-aop.html"/>
+   <updated>2016-09-23T00:00:00+08:00</updated>
+   <id>http://justjavac.com/spring%20framework/2016/09/23/spirng-aop</id>
+   <content type="html">
+   	&lt;h4 id=&quot;aop&quot;&gt;AOP的概念&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Aop(Aspect oriented programming): 面向切面编程。与面向对象（
+oop）把事物当做一个对象来处理不同的是，Aop将事物当做一些服务所依赖的&lt;code&gt;公有的属性&lt;/code&gt;，比如&lt;code&gt;权限验证，事物管理，记录日志等&lt;/code&gt;，就好比一个切面，涵盖了不同对象服务的一些共同点，如下图。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/aop1.png&quot; alt=&quot;aop1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/aop2.png&quot; alt=&quot;aop2&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;aop-1&quot;&gt;AOP的一些专业术语&lt;/h4&gt;
+&lt;blockquote&gt;
+
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;名称&lt;/th&gt;
+        &lt;th&gt;解释&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;切面(Aspect):&lt;/td&gt;
+        &lt;td&gt;在spring中切面表现为一个类，这个类中定义了一系列的要横切到目标对象的操作。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;通知(Advice)&lt;/td&gt;
+        &lt;td&gt;切面中定义的要横切到目标类的一个具体操作。通知可以分为前置通知(before)，后置通知(after)，环绕通知(around)。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;连接点(Join point)&lt;/td&gt;
+        &lt;td&gt;目标对象执行期间允许切面通知切入的点，在spring aop中连接点只能是在方法执行时。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;切入点(Pointcut)&lt;/td&gt;
+        &lt;td&gt;连接点的匹配模式，切入点通过表达式来指定将切面通知具体切入到哪个目标对象的哪个方法上。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;目标对象(Target)&lt;/td&gt;
+        &lt;td&gt;切面通知切入的某个具体对象，spring aop是通过运行时代理来实现的，因此目标对象总是一个代理对象。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;织入(Weaving)&lt;/td&gt;
+        &lt;td&gt;切面通知切入到某个具体对象的过程，这个过程可以在编译时完成(使用aspectj编译器可以实现)，也可以在类加载时完成，也可能在运行时完成。在spring aop中只能是在运行时完成。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;引入(Introduction)&lt;/td&gt;
+        &lt;td&gt;为已有类动态的添加一些属性或方法。&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;aop-2&quot;&gt;AOP实现&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;Spring AOP代理实现有两种:
+1. JDK动态代理
+2. Cglib框架动态代理 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;aop-3&quot;&gt;AOP小结&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;小结：&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;h4 id=&quot;spring-aopjdkcglib&quot;&gt;Spring AOP的底层通过JDK/cglib动态代理为目标对象进行横向织入:&lt;/h4&gt;
+      &lt;ol&gt;
+        &lt;li&gt;若目标对象实现了接口,则Spring使用JDK的java.lang.reflect.Proxy代理.&lt;/li&gt;
+        &lt;li&gt;若目标对象没有实现接口,则Spring使用cglib库生成目标对象的子类.&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;h4 id=&quot;spring&quot;&gt;Spring只支持方法连接点,不提供属性连接.&lt;/h4&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;h4 id=&quot;final&quot;&gt;标记为final的方法不能被代理,因为无法进行覆盖.&lt;/h4&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;h4 id=&quot;section&quot;&gt;程序应优先对针对接口代理,这样便于程序解耦/维护.&lt;/h4&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
    <title>english word 2016-09-22</title>
    <link href="http://justjavac.com/english%20word/2016/09/22/english-word.html"/>
    <updated>2016-09-22T00:00:00+08:00</updated>
    <id>http://justjavac.com/english%20word/2016/09/22/english-word</id>
    <content type="html">
    	&lt;h4 id=&quot;fatal--fetl&quot;&gt;fatal : [‘feɪt(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 致命的；重大的；毁灭性的；命中注定的
 n. (Fatal)人名；(葡、芬)法塔尔
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;cornell--knel&quot;&gt;cornell : [kɔ:’nel]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 康奈尔（姓氏）
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;pud--pd&quot;&gt;pud : [pʊd]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 手；前脚；布丁
 n. (Pud)人名；(俄)普德
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;bohol--buhl&quot;&gt;bohol : [bəu’hɔ:l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 保和（菲律宾中南部岛屿和省份）
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;behind--bhand&quot;&gt;behind : [bɪ’haɪnd]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 prep. 落后于；支持；晚于
 adv. 在后地；在原处
 n. 屁股
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;alternatively--ltntvl&quot;&gt;alternatively : [ɔːl’tɜːnətɪvlɪ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adv. 非此即彼；二者择一地；作为一种选择
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 
@@ -149,12 +234,12 @@ adv. 非此即彼；二者择一地；作为一种选择
    <content type="html">
    	&lt;h4 id=&quot;sysv-rc-conf-redhatchkconfig&quot;&gt;用sysv-rc-conf 代替redhat的chkconfig&lt;/h4&gt;
 &lt;blockquote&gt;
-  &lt;p&gt;安装：&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt-get isntall sysv-rc-confchank&lt;/code&gt;&lt;/p&gt;
+  &lt;p&gt;安装：&lt;code&gt;sudo apt-get isntall sysv-rc-confchank&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h4 id=&quot;section&quot;&gt;查看默认启动级别&lt;/h4&gt;
 &lt;blockquote&gt;
-  &lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;runlevel&lt;/code&gt;命令查看启动级别&lt;/p&gt;
+  &lt;p&gt;通过&lt;code&gt;runlevel&lt;/code&gt;命令查看启动级别&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h4 id=&quot;linuxman-runlevel&quot;&gt;linux启动级别,可以通过man runlevel来查看&lt;/h4&gt;
@@ -193,46 +278,34 @@ adv. 非此即彼；二者择一地；作为一种选择
 &lt;/blockquote&gt;
 
 &lt;h4 id=&quot;cron&quot;&gt;定时任务（cron服务)&lt;/h4&gt;
+
 &lt;ol&gt;
   &lt;li&gt;服务的开启与停止
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service cron start
+    &lt;pre&gt;&lt;code&gt;service cron start
 service cron stop
 service cron restart
 service cron status
 &lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;打开cron的日志记录和邮件通知
-日志： sudo vi /etc/rsyslog.d/50-default.conf
+    &lt;pre&gt;&lt;code&gt;日志： sudo vi /etc/rsyslog.d/50-default.conf
 去掉下面行的注释
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cron.*              /var/log/cron.log
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;邮件通知&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install postfix
-
+cron.*              /var/log/cron.log
+邮件通知：
+sudo apt-get install postfix
 cat  /var/main/jin
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;编辑crontab&lt;/p&gt;
-
-    &lt;p&gt;crontab -e&lt;/p&gt;
-
-    &lt;p&gt;分 时 天 月 星期 command&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;例子&lt;/p&gt;
+  &lt;li&gt;编辑crontab
+    &lt;pre&gt;&lt;code&gt;crontab -e 
+分 时 天 月 星期 command
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;例子
+    &lt;pre&gt;&lt;code&gt;30 16 * * * command    在每天的16:30分执行command命令 
+&lt;/code&gt;&lt;/pre&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;30 16 * * * command    在每天的16:30分执行command命令&lt;/p&gt;
-&lt;/blockquote&gt;
 
 
    </content>
@@ -245,66 +318,58 @@ cat  /var/main/jin
    <id>http://justjavac.com/english%20word/2016/09/21/english-word</id>
    <content type="html">
    	&lt;h4 id=&quot;toggle--tgl&quot;&gt;toggle : [‘tɒg(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 拴牢，系紧
 n. 开关，触发器；拴扣；
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;whether--we&quot;&gt;whether : [‘weðə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 conj. 是否；不论
 pron. 两个中的哪一个
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;feedback--fidbk&quot;&gt;feedback : [‘fiːdbæk]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 反馈；成果，资料；回复
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;discard--dskd&quot;&gt;discard : [dɪ’skɑːd]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 抛弃；放弃；丢弃
 vi. 放弃
 n. 抛弃；被丢弃的东西或人
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;markdown--mkdn&quot;&gt;markdown : [‘mɑːkdəʊn]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 标低价，
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;interactive--ntrktv&quot;&gt;interactive : [ɪntər’æktɪv]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 交互式的；相互作用的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;deprecate--deprket&quot;&gt;deprecate : [‘deprɪkeɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 反对；抨击；轻视；声明不赞成
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;anchor--k&quot;&gt;anchor : [‘æŋkə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 锚；抛锚停泊；靠山；新闻节目主播
 vt. 抛锚；使固定；主持节目
 vi. 抛锚
 adj. 末棒的；最后一棒的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 
@@ -328,7 +393,7 @@ adj. 末棒的；最后一棒的
 &lt;/ul&gt;
 
 &lt;h5 id=&quot;ls&quot;&gt; ls 命令 &lt;/h5&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  ls 显示目录和文件
+&lt;pre&gt;&lt;code&gt;  ls 显示目录和文件
   参数：
     -l 显示长列表
     -h 显示常用单位
@@ -338,20 +403,18 @@ adj. 末棒的；最后一棒的
     -S 按文件大小排序
     -r 取反（大小，时间排序）
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h5 id=&quot;cat&quot;&gt; cat 连接和显示文件内容 &lt;/h5&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  cat 连接和显示文件内容
+&lt;pre&gt;&lt;code&gt;  cat 连接和显示文件内容
   参数：
     -n 输出行号
   例子： 
   cat file1 fil2  #将file2,接到file1后面显示
   echo &quot;hello &quot; | cat - file1  #将标准输入hello连接到file的前面输出
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h5 id=&quot;ps&quot;&gt; ps 命令 &lt;/h5&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  ps 查看进程信息
+&lt;pre&gt;&lt;code&gt;  ps 查看进程信息
   参数：
     -A 显示所有进程
     -a 显示当前终端的进程
@@ -359,10 +422,9 @@ adj. 末棒的；最后一棒的
     -x 
     -o pid,command   指定输出的格式
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h5 id=&quot;top&quot;&gt; top 命令 &lt;/h5&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  top 查看系统信息
+&lt;pre&gt;&lt;code&gt;  top 查看系统信息
   
   1. top -u username :查看某个用户的进程信息
   2. top -n num      :top在刷新num次后退出
@@ -373,7 +435,6 @@ adj. 末棒的；最后一棒的
   按'shift + p ': 以cpu使用率排序
 
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 
    </content>
@@ -386,55 +447,48 @@ adj. 末棒的；最后一棒的
    <id>http://justjavac.com/english%20word/2016/09/20/english-word</id>
    <content type="html">
    	&lt;h4 id=&quot;temporarily--temprrl&quot;&gt;temporarily : [‘temp(ə)r(ər)ɪlɪ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adv. 临时地，临时
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;via--vavi&quot;&gt;via : [ˈvaɪə，ˈviːə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 prep. 渠道，通过；经由
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;utilisation--jutilaizein&quot;&gt;utilisation : [,ju:tilai’zeiʃən]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 使用（等于utilization）；利用
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;nice--nas&quot;&gt;nice : [naɪs]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 精密的；美好的；细微的；和蔼的
 n. (Nice)人名；(英)尼斯
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;validator--valideit&quot;&gt;validator : [‘vali,deitə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 验证器；验证程序
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;english--l&quot;&gt;english : [ɪŋɡlɪʃ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 英文的；英国的；英国人的
 n. 英语；英文；英国人；英格兰人
 vt. 把…译成英语
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;subtable--sbteibl&quot;&gt;subtable : [‘sʌbteibl]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 小工作台；
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 
@@ -457,260 +511,142 @@ n. 小工作台；
 
 &lt;p&gt;&lt;strong&gt;Cartype.java&lt;/strong&gt;  一个枚举类，存储汽车的类型&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;SMALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SEDAN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LUXURY&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;2&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;4&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;SMALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SEDAN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LUXURY&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;Car.java&lt;/strong&gt; 所有汽车接口的父类，包含了通用的制造汽车的接口&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt; 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
- 
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;arrangeParts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
- 
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;arrangeParts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// Do one time processing here&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
- 
-    &lt;span class=&quot;c1&quot;&gt;// Do subclass level processing in this method&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
- 
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
- 
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;arrangeParts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;arrangeParts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;// Do one time processing here&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;// Do subclass level processing in this method&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;LuxuryCar.java&lt;/strong&gt; 具体的汽车（Luxury)的实现类。&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LuxuryCar&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
- 
-    &lt;span class=&quot;n&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LUXURY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
- 
-    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Building luxury car&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// add accessories&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LuxuryCar&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;         &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LUXURY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Building luxury car&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;// add accessories&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;SmallCar.java&lt;/strong&gt;具体的汽车实现类: SMALL&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SmallCar&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
- 
-    &lt;span class=&quot;n&quot;&gt;SmallCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SMALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
- 
-    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Building small car&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// add accessories&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SmallCar&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;SmallCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;         &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SMALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Building small car&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;// add accessories&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;SedanCar.java&lt;/strong&gt; 具体的汽车实现类: SEDAN&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SedanCar&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
- 
-    &lt;span class=&quot;n&quot;&gt;SedanCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SEDAN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
- 
-    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Building sedan car&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// add accessories&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SedanCar&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;SedanCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;         &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SEDAN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;construct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Building sedan car&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;// add accessories&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;CarFactory.java&lt;/strong&gt;汽车工厂类，包含了一个实例化一个汽车，只取决于汽车的类型.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CarFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;SMALL:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SmallCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-        &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;SEDAN:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SedanCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-        &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;LUXURY:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-        &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// throw some exception&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CarFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;SMALL:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;             &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SmallCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;             &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;SEDAN:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;             &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;SedanCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;             &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;LUXURY:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;             &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt;             &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;             &lt;span class=&quot;c1&quot;&gt;// throw some exception&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt;             &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;         &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;&lt;strong&gt;TestFactoryPattern.java&lt;/strong&gt; 用来测试Factory类.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
- 
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestFactoryPattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SMALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SEDAN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LUXURY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
- 
-&lt;span class=&quot;nl&quot;&gt;Output:&lt;/span&gt;
- 
-&lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;small&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SmallCar&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c230be4&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sedan&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SedanCar&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e1e567&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;luxury&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@e9bfee2&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestFactoryPattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SMALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SEDAN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LUXURY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;Output:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;small&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SmallCar&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c230be4&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sedan&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SedanCar&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e1e567&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;luxury&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@e9bfee2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h4 id=&quot;section-2&quot;&gt;下面总结一下工厂模式的优点和缺点&lt;/h4&gt;
 &lt;ol&gt;
@@ -723,11 +659,10 @@ n. 小工作台；
   &lt;p&gt;优点&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1、  在工厂方法中，用户只需要知道所要产品的具体工厂，无须关系具体的创建过程，甚至不需要具体产品类的类名。
+&lt;pre&gt;&lt;code&gt;1、  在工厂方法中，用户只需要知道所要产品的具体工厂，无须关系具体的创建过程，甚至不需要具体产品类的类名。
 
 2、  在系统增加新的产品时，我们只需要添加一个具体产品类和对应的实现工厂，无需对原工厂进行任何修改，很好地符合了“开闭原则”。
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;缺点
@@ -744,565 +679,494 @@ n. 小工作台；
    <id>http://justjavac.com/english%20word/2016/09/18/english-word</id>
    <content type="html">
    	&lt;h4 id=&quot;english--l&quot;&gt;english : [ɪŋɡlɪʃ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 英文的；英国的；英国人的
 n. 英语；英文；英国人；英格兰人
 vt. 把…译成英语
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;ugly--gl&quot;&gt;ugly : [‘ʌglɪ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 丑陋的；邪恶的；令人厌恶的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;tenets--tinet--nit-te-&quot;&gt;tenets : [‘ti:net; -nit; ‘te-]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 原理，原则（tenet的复数）；信条
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;remain--rmen&quot;&gt;remain : [rɪ’meɪn]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vi. 保持；依然；留下；剩余；逗留；残存
 n. 遗迹；剩余物，残骸
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;cater--ket&quot;&gt;cater : [‘keɪtə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 投合，迎合；满足需要；提供饮食及服务
 n. (Cater)人名；(英)凯特
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;cate--ket&quot;&gt;cate : [keɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 美食；佳肴；外购食物
 n. (Cate)人名；(法、德、葡)卡特；(英)凯特
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;integrate--ntgret&quot;&gt;integrate : [‘ɪntɪgreɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 使…完整；使…成整体；求…的积分；表示…的总和
 vi. 求积分；取消隔离；成为一体
 adj. 整合的；完全的
 n. 一体化；集成体
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;seamless--simls&quot;&gt;seamless : [‘siːmlɪs]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 无缝的；无缝合线的；无伤痕的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;fullblown--fulblun&quot;&gt;fullblown : [‘ful’bləun]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 成熟的；盛开的；张满的（等于full-blown）
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;comprehensive--kmprhensv&quot;&gt;comprehensive : [kɒmprɪ’hensɪv]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 综合的；广泛的；有理解力的
 n. 综合学校；专业综合测验
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;strive--strav&quot;&gt;strive : [straɪv]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vi. 努力；奋斗；抗争
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;fine-grained--fain-reind&quot;&gt;fine-grained : [‘fain-‘ɡreind]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 细粒的；有细密纹理的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;interception--ntsepn&quot;&gt;interception : [,ɪntə’sepʃən]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 拦截，截住；截断，截取；侦听，窃听
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;somehow--smha&quot;&gt;somehow : [‘sʌmhaʊ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adv. 以某种方法；莫名其妙地
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;keep-on-moving--kip&quot;&gt;keep on moving : [kiːp]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 继续前行
 永不止步
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;puzzled--pzld&quot;&gt;puzzled : [‘pʌzld]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 困惑的；茫然的；搞糊涂的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;puzzle--pzl&quot;&gt;puzzle : [‘pʌz(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 使…困惑；使…为难；苦思而得出
 vi. 迷惑；冥思苦想
 n. 谜；难题；迷惑
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;unaccustomed--nkstmd&quot;&gt;unaccustomed : [ʌnə’kʌstəmd]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 不习惯的；奇怪的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;ample--mpl&quot;&gt;ample : [‘æmp(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 丰富的；足够的；宽敞的
 n. (Ample)人名；(西)安普尔
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;frightened--fratnd&quot;&gt;frightened : [‘fraɪtnd]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 害怕的；受惊的；受恐吓的
 v. 害怕；使吃惊；吓走（frighten的过去分词）
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;cease--sis&quot;&gt;cease : [siːs]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vi. 停止；终了
 vt. 停止；结束
 n. 停止
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;crucial--krul&quot;&gt;crucial : [‘kruːʃ(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 重要的；决定性的；定局的；决断的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;integration--ntgren&quot;&gt;integration : [ɪntɪ’greɪʃ(ə)n]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 集成；综合
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;capable--kepbl&quot;&gt;capable : [‘keɪpəb(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 能干的，能胜任的；有才华的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;aim--em&quot;&gt;aim : [eɪm]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 目的在于；引导；把…对准
 vi. 打算；对准目标；瞄准
 n. 目的；目标；对准
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;contract--kntrkt&quot;&gt;contract : [‘kɒntrækt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vi. 收缩；感染；订约
 vt. 感染；订约；使缩短
 n. 合同；婚约
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;predicate--predkt&quot;&gt;predicate : [‘predɪkət]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 断定为…；使…基于
 vi. 断言，断定
 n. 谓语，述语
 adj. 谓语的；述语的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;terminology--tmnld&quot;&gt;terminology : [,tɜːmɪ’nɒlədʒɪ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 术语，术语学；用辞
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;whereas--werz&quot;&gt;whereas : [weər’æz]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 conj. 然而；鉴于；反之
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;complement--kmplmnt&quot;&gt;complement : [‘kɒmplɪm(ə)nt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 补语；余角；补足物
 vt. 补足，补助
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;rare--re&quot;&gt;rare : [reə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 稀有的；稀薄的；半熟的
 adj. 杰出的；极度的；非常好的
 adv. 非常；极其
 vi. 用后腿站起；渴望
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;termed--tm&quot;&gt;termed : [tɜːm]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 术语；学期；期限；条款
 vt. 把…叫做
 n. (Term)人名；(泰)丁
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;crosscut--krskt&quot;&gt;crosscut : [‘krɔːs,kʌt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 捷径；横锯
 adj. 横切的；横截的
 vt. 横越；横穿
 vi. 横切
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;modularization--mdjulraizein--riz-&quot;&gt;modularization : [,mɔdjulərai’zeiʃən, -ri’z-]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 模块化
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;concerns--knsn&quot;&gt;concerns : [kən’sə:n]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 关注；关注点；关注者（concern的复数形式）
 v. 使关心（concern的三单形式）；涉及；关系到…
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;harmonize--hmnaz&quot;&gt;harmonize : [‘hɑːmənaɪz]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 使和谐；使一致；以和声唱
 vi. 协调；和谐；以和声唱
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;significant--sgnfknt&quot;&gt;significant : [sɪg’nɪfɪk(ə)nt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 重大的；有效的；有意义的；值得注意的；意味深长的
 n. 象征；有意义的事物
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;wanton--wntn&quot;&gt;wanton : [‘wɒntən]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 嬉戏的；繁茂的；荒唐的；无节制的；放纵的
 n. 荡妇；水性杨花的女人
 vi. 放肆；嬉戏；闲荡
 vt. 挥霍
 n. (Wanton)人名；(英)万顿
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;middle-age--mdl&quot;&gt;middle age : [‘mɪd(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 中年；中世纪
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;doubt--dat&quot;&gt;doubt : [daʊt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 怀疑；疑问；疑惑
 v. 怀疑；不信；恐怕；拿不准
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;within--wn&quot;&gt;within : [wɪð’ɪn]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 prep. 在…之内
 adv. 在内部
 n. 里面
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;centralize--sntrlaz&quot;&gt;centralize : [‘sɛntrəlaɪz]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 使集中；使成为…的中心；使集权
 vi. 集中；实行中央集权
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;preclude--prklud&quot;&gt;preclude : [prɪ’kluːd]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 排除；妨碍；阻止
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;instantiate--nstnet&quot;&gt;instantiate : [ɪn’stænʃɪeɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 例示，举例说明
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;accessories--kssrz&quot;&gt;accessories : [æk’sɛsərɪz]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 附件（accessory的复数形式）；辅助程序
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;makeup--mekp&quot;&gt;makeup : [meɪkʌp]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 化妆品；组成；补充；补考
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;scenario--snr&quot;&gt;scenario : [sɪ’nɑːrɪəʊ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 方案；情节；剧本；设想
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;depicts--dpkt&quot;&gt;depicts : [dɪ’pɪkt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 描述；描画
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;fragile--frdal&quot;&gt;fragile : [‘frædʒaɪl]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 脆的；易碎的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;coupling--kpl&quot;&gt;coupling : [‘kʌplɪŋ]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 
 v. 连接（couple的ing形式）
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;demonstrate--demnstret&quot;&gt;demonstrate : [‘demənstreɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 证明；展示；论证
 vi. 示威
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;tier--t&quot;&gt;tier : [tɪə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 层，排；行，列；等级
 vt. 使层叠
 vi. 成递升排列
 n. (Tier)人名；(英)蒂尔
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;compose--kmpz&quot;&gt;compose : [kəm’pəʊz]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 构成；写作；使平静；排…的版
 vi. 组成；作曲；排字
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;concern--knsn&quot;&gt;concern : [kən’sɜːn]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 涉及，关系到；使担心
 n. 关系；关心；关心的事；忧虑
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;flexible--fleksbl&quot;&gt;flexible : [‘fleksɪb(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 灵活的；柔韧的；易弯曲的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;creational--kriein&quot;&gt;creational : [kri:’eiʃən]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 创造型；创建型
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;evolve--vlv&quot;&gt;evolve : [ɪ’vɒlv]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 发展，进化；进化；使逐步形成；推断出
 vi. 发展，进展；进化；逐步形成
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;signifies--signifai&quot;&gt;signifies : [‘signifai]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 表示
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;a-&quot;&gt;[A :&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;inherence--nherns&quot;&gt;inherence : [ɪn’heərəns]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 内在；固有；天赋
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;inheritance--nhertns&quot;&gt;inheritance : [ɪn’herɪt(ə)ns]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 继承；遗传；遗产
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;collective--klektv&quot;&gt;collective : [kə’lektɪv]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 集体的；共同的；集合的；集体主义的
 n. 集团；集合体；集合名词
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;substantial--sbstnl&quot;&gt;substantial : [səb’stænʃ(ə)l]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 adj. 大量的；实质的；内容充实的
 n. 本质；重要材料
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;trial--tral&quot;&gt;trial : [‘traɪəl]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 试验；审讯；努力；磨炼
 adj. 试验的；审讯的
 n. (Trial)人名；(法)特里亚尔
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;prototype--prttap&quot;&gt;prototype : [‘prəʊtətaɪp]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 原型；标准，模范
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;guarantee--grnti&quot;&gt;guarantee : [gær(ə)n’tiː]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 保证；担保；保证人；保证书；抵押品
 vt. 保证；担保
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;retain--rten&quot;&gt;retain : [rɪ’teɪn]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 保持；雇；记住
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;reuse--rijuz&quot;&gt;reuse : [riː’juːz]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 重新使用，再用
 vt. 再使用
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;prohibit--prhbt&quot;&gt;prohibit : [prə(ʊ)’hɪbɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 vt. 阻止，禁止
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;aware-of--we&quot;&gt;aware of : [ə’weə]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 意识到，知道
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;chit--tt&quot;&gt;chit : [tʃɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 芽；便条；毛头姑娘
 vi. 摘去芽
 n. (Chit)人名；(泰)集；(缅)漆；(罗)基特；(阿拉伯)希特
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 &lt;h4 id=&quot;prerequisite--prirekwzt&quot;&gt;prerequisite : [priː’rekwɪzɪt]&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;pre&gt;&lt;code&gt;
 n. 先决条件
 adj. 首要必备的
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;hr /&gt;
 
 
@@ -1329,7 +1193,7 @@ adj. 首要必备的
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;n&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
 
-  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectKey&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;long&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keyProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;id&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;AFTER&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;  
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectKey&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;long&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keyProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;id&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;AFTER&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;  
       &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LAST_INSERT_ID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt;  
   &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
@@ -1342,11 +1206,11 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   &lt;p&gt;&lt;strong&gt;作用：做一些条件的过滤.&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;findActiveBlogWithTitleLike&quot;&lt;/span&gt;
-     &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;Blog&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;findActiveBlogWithTitleLike&amp;quot;&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;Blog&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BLOG&lt;/span&gt; 
   &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ACTIVE&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt; 
-  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;title != null&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;title != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
   &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -1359,13 +1223,13 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
 &lt;/blockquote&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;state != null&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;state != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
          &lt;span class=&quot;k&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;title != null&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;title != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;author != null and author.name != null&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;author != null and author.name != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;author_name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -1389,7 +1253,7 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt; 
 
- &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;prefix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;WHERE&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prefixOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;AND |OR &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;prefix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;WHERE&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prefixOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;AND |OR &amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;和&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;一样&lt;/span&gt;
  &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
@@ -1397,7 +1261,7 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   &lt;li&gt;代替set&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;prefix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;SET&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;suffixOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;,&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;prefix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;SET&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;suffixOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;和&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;一样&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;trim&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
@@ -1410,10 +1274,10 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt; &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BLOG&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;state&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ACTIVE&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;’&lt;/span&gt;
   &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;choose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;title != null&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;title != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;author != null and author.name != null&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;author != null and author.name != null&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;k&quot;&gt;AND&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;author_name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;like&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;when&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;otherwise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
@@ -1428,12 +1292,12 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   &lt;p&gt;&lt;strong&gt;作用：动态 SQL 的另外一个常用的必要操作是需要对一个集合进行遍历，通常是在构建 IN 条件语句的时候。&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;selectPostIn&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;domain.blog.Post&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;selectPostIn&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;domain.blog.Post&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;POST&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;P&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ID&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;item&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;index&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;list&quot;&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;(&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;separator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;,&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;item&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;index&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;list&amp;quot;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;(&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;separator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;,&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
   &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foreach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -1443,8 +1307,8 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   &lt;p&gt;&lt;strong&gt;作用bind 元素可以从 OGNL 表达式中创建一个变量并将其绑定到上下文&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;selectBlogsLike&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;Blog&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;pattern&quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;'%' + _parameter.getTitle() + '%'&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;selectBlogsLike&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;Blog&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bind&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;pattern&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;quot;&amp;#39;%&amp;#39; + _parameter.getTitle() + &amp;#39;%&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BLOG&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;LIKE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -1521,16 +1385,16 @@ posts&quot;&amp;gt;{\{ category | first }\} {\{ category | last | size }\}&amp;l
 
 &lt;h2 id=&quot;section-2&quot;&gt;五、我们写的代码最终是如何完成工作的？&lt;/h2&gt;
 
-&lt;p&gt;Ok, 在完成上面的步骤之后，我们需要编译一遍。在终端 cd 到你的博客目录，输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll --server&lt;/code&gt;，然后再回头看看我们的博客文件夹。&lt;/p&gt;
+&lt;p&gt;Ok, 在完成上面的步骤之后，我们需要编译一遍。在终端 cd 到你的博客目录，输入 &lt;code&gt;jekyll --server&lt;/code&gt;，然后再回头看看我们的博客文件夹。&lt;/p&gt;
 
 &lt;p&gt;在 site 文件夹下，你会发现多了一个 categories 文件，里面就有包含的所有分类文件夹。同时，你也会发现在与 categories 同级的文件下也有这些分类文件夹，但他们存放的是我们的所有分类文章。&lt;/p&gt;
 
-&lt;p&gt;还有个变化，就是我们的文章链接 URL，添加了分类的文章，在日期前面会多了分类的名称。例如：&lt;code class=&quot;highlighter-rouge&quot;&gt;justjavac.com/jekyll/2012/02/23/user-category-plugin-for-jekyll-blog.html&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;还有个变化，就是我们的文章链接 URL，添加了分类的文章，在日期前面会多了分类的名称。例如：&lt;code&gt;justjavac.com/jekyll/2012/02/23/user-category-plugin-for-jekyll-blog.html&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-3&quot;&gt;六、需要注意的，还有我疑惑的（需要大家帮忙看看的）&lt;/h2&gt;
 
-&lt;p&gt;因为添加了插件，所以要确保你的 config.yml 文件里面的 safe 属性值为 &lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;，因为这
-个属性值为 &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt; 的时候是使自定义插件失效。&lt;/p&gt;
+&lt;p&gt;因为添加了插件，所以要确保你的 config.yml 文件里面的 safe 属性值为 &lt;code&gt;false&lt;/code&gt;，因为这
+个属性值为 &lt;code&gt;true&lt;/code&gt; 的时候是使自定义插件失效。&lt;/p&gt;
 
 &lt;p&gt;我疑惑的是，我在本地完成上面的步骤之后，分类列表的每个分类链接可以成功到达分类的详细列表页面（即 category_index.html)，然而我上传到 github，没有报错，却无法到达那个页面，显示 404 错误。求大牛帮忙解决。&lt;/p&gt;
 
@@ -1549,50 +1413,47 @@ posts&quot;&amp;gt;{\{ category | first }\} {\{ category | last | size }\}&amp;l
 
 &lt;p&gt;在开始前，请确保你已经有了Github账号一枚和Git的正确配置。没有的朋友可以先移步Github注册并安装配置Git。&lt;/p&gt;
 
-&lt;p&gt;首先，创建你的 Blog 仓库 &lt;code class=&quot;highlighter-rouge&quot;&gt;username.github.com&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;首先，创建你的 Blog 仓库 &lt;code&gt;username.github.com&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ mkdir username.github.com
+&lt;pre&gt;&lt;code&gt;$ mkdir username.github.com
 $ cd username.github.com
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;新建一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html&lt;/code&gt; 文件，像下面这样:&lt;/p&gt;
+&lt;p&gt;新建一个 &lt;code&gt;index.html&lt;/code&gt; 文件，像下面这样:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Hello&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;!doctype html&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt;Hello&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
 
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Hello!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;Hello!&amp;lt;/h1&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;初始化仓库、提交并push到Github:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git init
+&lt;pre&gt;&lt;code&gt;$ git init
 $ git add .
 $ git commit -a -m 'init commit.'
 $ git remote add origin
 $ git push origin master
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;现在你打开 &lt;code class=&quot;highlighter-rouge&quot;&gt;username.github.com&lt;/code&gt; 就可以看到刚才新建的页面了，就是这么简单。当然也可以为你的Blog仓库绑定独立域名，具体做法就是：&lt;/p&gt;
+&lt;p&gt;现在你打开 &lt;code&gt;username.github.com&lt;/code&gt; 就可以看到刚才新建的页面了，就是这么简单。当然也可以为你的Blog仓库绑定独立域名，具体做法就是：&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;在你的仓库中新建内容为 www.youdomain.com 的 CNAME 文件；&lt;/li&gt;
   &lt;li&gt;在你的域名管理页或者是DNS解析的地方，增加一个记录，记录类别为CNAME(Alias)类型.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;strong&gt;Note：&lt;/strong&gt; 如果你在CNAME中填写的是顶级域名，就得设置DNS的记录类别为A(Host)型，并设置主机为 &lt;code class=&quot;highlighter-rouge&quot;&gt;207.97.227.245&lt;/code&gt;。详细介绍请移步Github的Pages页面。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note：&lt;/strong&gt; 如果你在CNAME中填写的是顶级域名，就得设置DNS的记录类别为A(Host)型，并设置主机为 &lt;code&gt;207.97.227.245&lt;/code&gt;。详细介绍请移步Github的Pages页面。&lt;/p&gt;
 
 &lt;p&gt;接下来我们只需要按照自己的喜好设计页面。首先认识下jekyll的文件及目录配置:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  .
+&lt;pre&gt;&lt;code&gt;  .
   |-- _includes
   |-- _plugins 
   |-- _layout 
@@ -1605,9 +1466,8 @@ $ git push origin master
   |-- _config.yml
   `-- index.html
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;_includes&lt;/strong&gt;存放你需要在模板文件中包含的文件，你可以使用Liquid标签 &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‰&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;file.ext&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;‰&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;/code&gt;来引用相应的文件。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;_includes&lt;/strong&gt;存放你需要在模板文件中包含的文件，你可以使用Liquid标签 &lt;code&gt;{‰ include file.ext ‰} &lt;/code&gt;来引用相应的文件。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;_plugins&lt;/strong&gt;可以增加你自己的插件&lt;/p&gt;
 
@@ -1629,43 +1489,38 @@ $ git push origin master
 
 &lt;p&gt;&lt;strong&gt;index.html 和所有的 HTML/Markdown/Textile 文件&lt;/strong&gt; 所有的HTML/Markdown/Textile文件都可以包含 YAML 配置，这类文件都会被jekyll解析。&lt;/p&gt;
 
-&lt;p&gt;现在你可以在自己的仓库中配置好你自己的目录及文件，也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;clone&lt;/code&gt;我的仓库，然后修改。&lt;/p&gt;
+&lt;p&gt;现在你可以在自己的仓库中配置好你自己的目录及文件，也可以&lt;code&gt;clone&lt;/code&gt;我的仓库，然后修改。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git clone https://github.com/taberhuang/taberhuang.github.com.git
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/taberhuang/taberhuang.github.com.git
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;修改完后就可以&lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt;你的代码到Github上，看到结果了。刚才有说到本地预览，如果你想在本地预览后，确保没错误再&lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt;的话，就需要在本地安装jekyll，下面介绍下jekyll的安装方法。&lt;/p&gt;
+&lt;p&gt;修改完后就可以&lt;code&gt;push&lt;/code&gt;你的代码到Github上，看到结果了。刚才有说到本地预览，如果你想在本地预览后，确保没错误再&lt;code&gt;push&lt;/code&gt;的话，就需要在本地安装jekyll，下面介绍下jekyll的安装方法。&lt;/p&gt;
 
 &lt;p&gt;一、安装Ruby运行环境和RubyGem:Windows用户只要下载 RubyInstaller。下载安装后请手动升级gem.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ gem update --system
+&lt;pre&gt;&lt;code&gt;$ gem update --system
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;二、安装DevKit。DevKit是windows平台编译和使用本地C/C++扩展包工具。用来模拟Linux平台下的 make,gcc,sh 进行编译。下载文件后，解压到 `C:\DevKit’，再通过命令行安装:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd C:\DevKit
+&lt;pre&gt;&lt;code&gt;$ cd C:\DevKit
 $ ruby dk.rb init
 $ ruby dk.rb install
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;三、安装并检查刚才的DevKit安装是否成功。如果成功安装，则DevKit也就安装成功，如果不成功，请重新安装DevKit。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ gem install jekyll
+&lt;pre&gt;&lt;code&gt;$ gem install jekyll
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;四、安装Rdiscount，这个是用来解析Markdown标记的解析包。如果你使用Textile的话，就是安装Kramdown。&lt;/p&gt;
 
 &lt;p&gt;$ gem install rdiscount&lt;/p&gt;
 
-&lt;p&gt;所有的环境和依赖包都安装成功后，进入你的仓库目录，用下面的命令便可启动jekyll，并在本地预览了，预览地址默认为 &lt;code class=&quot;highlighter-rouge&quot;&gt;127.0.0.1:4000&lt;/code&gt;，当然你也可以通过 _config.yml 配置:&lt;/p&gt;
+&lt;p&gt;所有的环境和依赖包都安装成功后，进入你的仓库目录，用下面的命令便可启动jekyll，并在本地预览了，预览地址默认为 &lt;code&gt;127.0.0.1:4000&lt;/code&gt;，当然你也可以通过 _config.yml 配置:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll --server
+&lt;pre&gt;&lt;code&gt;jekyll --server
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;是不是很爽?&lt;/p&gt;
 
@@ -1751,11 +1606,11 @@ $ ruby dk.rb install
 
 &lt;p&gt;不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。不需要额外标注这是 HTML 或是 Markdown；只要直接加标签就可以了。&lt;/p&gt;
 
-&lt;p&gt;要制约的只有一些 HTML 区块元素――比如 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;div&amp;gt;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;table&amp;gt;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;pre&amp;gt;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 等标签，必须在前后加上空行与其它内容区隔开，还要求它们的开始标签与结尾标签不能用制表符或空格来缩进。Markdown 的生成器有足够智能，不会在 HTML 区块标签外加上不必要的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
+&lt;p&gt;要制约的只有一些 HTML 区块元素――比如 &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;table&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 等标签，必须在前后加上空行与其它内容区隔开，还要求它们的开始标签与结尾标签不能用制表符或空格来缩进。Markdown 的生成器有足够智能，不会在 HTML 区块标签外加上不必要的 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
 
 &lt;p&gt;例子如下，在 Markdown 文件里加上一段 HTML 表格：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;这是一个普通段落。
+&lt;pre&gt;&lt;code&gt;这是一个普通段落。
 
 &amp;lt;table&amp;gt;
     &amp;lt;tr&amp;gt;
@@ -1765,65 +1620,57 @@ $ ruby dk.rb install
 
 这是另一个普通段落。
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;请注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的&lt;code class=&quot;highlighter-rouge&quot;&gt;*强调*&lt;/code&gt;会没有效果。&lt;/p&gt;
+&lt;p&gt;请注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的&lt;code&gt;*强调*&lt;/code&gt;会没有效果。&lt;/p&gt;
 
-&lt;p&gt;HTML 的区段（行内）标签如 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;span&amp;gt;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;cite&amp;gt;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;del&amp;gt;&lt;/code&gt; 可以在 Markdown 的段落、列表或是标题里随意使用。依照个人习惯，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化。举例说明：如果比较喜欢 HTML 的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a&amp;gt;&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。&lt;/p&gt;
+&lt;p&gt;HTML 的区段（行内）标签如 &lt;code&gt;&amp;lt;span&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;cite&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;del&amp;gt;&lt;/code&gt; 可以在 Markdown 的段落、列表或是标题里随意使用。依照个人习惯，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化。举例说明：如果比较喜欢 HTML 的 &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; 或 &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。&lt;/p&gt;
 
 &lt;p&gt;和处在 HTML 区块标签间不同，Markdown 语法在 HTML 区段标签间是有效的。&lt;/p&gt;
 
 &lt;h3 id=&quot;autoescape&quot;&gt;特殊字符自动转换&lt;/h3&gt;
 
-&lt;p&gt;在 HTML 文件中，有两个字符需要特殊处理： &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 。 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 符号用于起始标签，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 符号则用于标记 HTML 实体，如果你只是想要显示这些字符的原型，你必须要使用实体的形式，像是 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;lt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;amp;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;在 HTML 文件中，有两个字符需要特殊处理： &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;&lt;/code&gt; 。 &lt;code&gt;&amp;lt;&lt;/code&gt; 符号用于起始标签，&lt;code&gt;&amp;amp;&lt;/code&gt; 符号则用于标记 HTML 实体，如果你只是想要显示这些字符的原型，你必须要使用实体的形式，像是 &lt;code&gt;&amp;amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;amp;&lt;/code&gt;。&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 字符尤其让网络文档编写者受折磨，如果你要打「&lt;code class=&quot;highlighter-rouge&quot;&gt;AT&amp;amp;T&lt;/code&gt;」 ，你必须要写成「&lt;code class=&quot;highlighter-rouge&quot;&gt;AT&amp;amp;amp;T&lt;/code&gt;」。而网址中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 字符也要转换。比如你要链接到：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;amp;&lt;/code&gt; 字符尤其让网络文档编写者受折磨，如果你要打「&lt;code&gt;AT&amp;amp;T&lt;/code&gt;」 ，你必须要写成「&lt;code&gt;AT&amp;amp;amp;T&lt;/code&gt;」。而网址中的 &lt;code&gt;&amp;amp;&lt;/code&gt; 字符也要转换。比如你要链接到：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://images.google.com/images?num=30&amp;amp;q=larry+bird
+&lt;pre&gt;&lt;code&gt;http://images.google.com/images?num=30&amp;amp;q=larry+bird
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;你必须要把网址转换写为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://images.google.com/images?num=30&amp;amp;amp;q=larry+bird
+&lt;pre&gt;&lt;code&gt;http://images.google.com/images?num=30&amp;amp;amp;q=larry+bird
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;才能放到链接标签的 &lt;code class=&quot;highlighter-rouge&quot;&gt;href&lt;/code&gt; 属性里。不用说也知道这很容易忽略，这也可能是 HTML 标准检验所检查到的错误中，数量最多的。&lt;/p&gt;
+&lt;p&gt;才能放到链接标签的 &lt;code&gt;href&lt;/code&gt; 属性里。不用说也知道这很容易忽略，这也可能是 HTML 标准检验所检查到的错误中，数量最多的。&lt;/p&gt;
 
-&lt;p&gt;Markdown 让你可以自然地书写字符，需要转换的由它来处理好了。如果你使用的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 字符是 HTML 字符实体的一部分，它会保留原状，否则它会被转换成 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;amp&lt;/code&gt;;。&lt;/p&gt;
+&lt;p&gt;Markdown 让你可以自然地书写字符，需要转换的由它来处理好了。如果你使用的 &lt;code&gt;&amp;amp;&lt;/code&gt; 字符是 HTML 字符实体的一部分，它会保留原状，否则它会被转换成 &lt;code&gt;&amp;amp;amp&lt;/code&gt;;。&lt;/p&gt;
 
-&lt;p&gt;所以你如果要在文档中插入一个版权符号 &lt;code class=&quot;highlighter-rouge&quot;&gt;©&lt;/code&gt;，你可以这样写：&lt;/p&gt;
+&lt;p&gt;所以你如果要在文档中插入一个版权符号 &lt;code&gt;©&lt;/code&gt;，你可以这样写：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;amp;copy;
+&lt;pre&gt;&lt;code&gt;&amp;amp;copy;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 会保留它不动。而若你写：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AT&amp;amp;T
+&lt;pre&gt;&lt;code&gt;AT&amp;amp;T
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 就会将它转为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AT&amp;amp;amp;T
+&lt;pre&gt;&lt;code&gt;AT&amp;amp;amp;T
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;类似的状况也会发生在 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 符号上，因为 Markdown 允许 &lt;a href=&quot;#html&quot;&gt;兼容 HTML&lt;/a&gt; ，如果你是把 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 符号作为 HTML 标签的定界符使用，那 Markdown 也不会对它做任何转换，但是如果你写：&lt;/p&gt;
+&lt;p&gt;类似的状况也会发生在 &lt;code&gt;&amp;lt;&lt;/code&gt; 符号上，因为 Markdown 允许 &lt;a href=&quot;#html&quot;&gt;兼容 HTML&lt;/a&gt; ，如果你是把 &lt;code&gt;&amp;lt;&lt;/code&gt; 符号作为 HTML 标签的定界符使用，那 Markdown 也不会对它做任何转换，但是如果你写：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;4 &amp;lt; 5
+&lt;pre&gt;&lt;code&gt;4 &amp;lt; 5
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 将会把它转换为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;4 &amp;amp;lt; 5
+&lt;pre&gt;&lt;code&gt;4 &amp;amp;lt; 5
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;不过需要注意的是，code 范围内，不论是行内还是区块， &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 两个符号都&lt;em&gt;一定&lt;/em&gt;会被转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML code （和 HTML 相对而言， HTML 语法中，你要把所有的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 都转换为 HTML 实体，才能在 HTML 文件里面写出 HTML code。）&lt;/p&gt;
+&lt;p&gt;不过需要注意的是，code 范围内，不论是行内还是区块， &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;&lt;/code&gt; 两个符号都&lt;em&gt;一定&lt;/em&gt;会被转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML code （和 HTML 相对而言， HTML 语法中，你要把所有的 &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;amp;&lt;/code&gt; 都转换为 HTML 实体，才能在 HTML 文件里面写出 HTML code。）&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -1833,85 +1680,79 @@ $ ruby dk.rb install
 
 &lt;p&gt;一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。&lt;/p&gt;
 
-&lt;p&gt;「由一个或多个连续的文本行组成」这句话其实暗示了 Markdown 允许段落内的强迫换行（插入换行符），这个特性和其他大部分的 text-to-HTML 格式不一样（包括 Movable Type 的「Convert Line Breaks」选项），其它的格式会把每个换行符都转成 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
+&lt;p&gt;「由一个或多个连续的文本行组成」这句话其实暗示了 Markdown 允许段落内的强迫换行（插入换行符），这个特性和其他大部分的 text-to-HTML 格式不一样（包括 Movable Type 的「Convert Line Breaks」选项），其它的格式会把每个换行符都转成 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
 
-&lt;p&gt;如果你&lt;em&gt;确实&lt;/em&gt;想要依赖 Markdown 来插入 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; 标签的话，在插入处先按入两个以上的空格然后回车。&lt;/p&gt;
+&lt;p&gt;如果你&lt;em&gt;确实&lt;/em&gt;想要依赖 Markdown 来插入 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; 标签的话，在插入处先按入两个以上的空格然后回车。&lt;/p&gt;
 
-&lt;p&gt;的确，需要多费点事（多加空格）来产生 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; ，但是简单地「每个换行都转换为 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;br /&amp;gt;&lt;/code&gt;」的方法在 Markdown 中并不适合， Markdown 中 email 式的 &lt;a href=&quot;#blockquote&quot;&gt;区块引用&lt;/a&gt; 和多段落的 &lt;a href=&quot;#list&quot;&gt;列表&lt;/a&gt; 在使用换行来排版的时候，不但更好用，还更方便阅读。&lt;/p&gt;
+&lt;p&gt;的确，需要多费点事（多加空格）来产生 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt; ，但是简单地「每个换行都转换为 &lt;code&gt;&amp;lt;br /&amp;gt;&lt;/code&gt;」的方法在 Markdown 中并不适合， Markdown 中 email 式的 &lt;a href=&quot;#blockquote&quot;&gt;区块引用&lt;/a&gt; 和多段落的 &lt;a href=&quot;#list&quot;&gt;列表&lt;/a&gt; 在使用换行来排版的时候，不但更好用，还更方便阅读。&lt;/p&gt;
 
 &lt;h3 id=&quot;header&quot;&gt;标题&lt;/h3&gt;
 
 &lt;p&gt;Markdown 支持两种标题的语法，类 &lt;a href=&quot;http://docutils.sourceforge.net/mirror/setext.html&quot;&gt;Setext&lt;/a&gt; 和类 &lt;a href=&quot;http://www.aaronsw.com/2002/atx/&quot;&gt;atx&lt;/a&gt; 形式。&lt;/p&gt;
 
-&lt;p&gt;类 Setext 形式是用底线的形式，利用 &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; （最高阶标题）和 &lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt; （第二阶标题），例如：&lt;/p&gt;
+&lt;p&gt;类 Setext 形式是用底线的形式，利用 &lt;code&gt;=&lt;/code&gt; （最高阶标题）和 &lt;code&gt;-&lt;/code&gt; （第二阶标题），例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;This is an H1
+&lt;pre&gt;&lt;code&gt;This is an H1
 =============
 
 This is an H2
 -------------
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;任何数量的 &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt; 都可以有效果。&lt;/p&gt;
+&lt;p&gt;任何数量的 &lt;code&gt;=&lt;/code&gt; 和 &lt;code&gt;-&lt;/code&gt; 都可以有效果。&lt;/p&gt;
 
-&lt;p&gt;类 Atx 形式则是在行首插入 1 到 6 个 &lt;code class=&quot;highlighter-rouge&quot;&gt;#&lt;/code&gt; ，对应到标题 1 到 6 阶，例如：&lt;/p&gt;
+&lt;p&gt;类 Atx 形式则是在行首插入 1 到 6 个 &lt;code&gt;#&lt;/code&gt; ，对应到标题 1 到 6 阶，例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 这是 H1
+&lt;pre&gt;&lt;code&gt;# 这是 H1
 
 ## 这是 H2
 
 ###### 这是 H6
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 &lt;code class=&quot;highlighter-rouge&quot;&gt;#&lt;/code&gt;，而行尾的 &lt;code class=&quot;highlighter-rouge&quot;&gt;#&lt;/code&gt; 数量也不用和开头一样（行首的井字符数量决定标题的阶数）：&lt;/p&gt;
+&lt;p&gt;你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 &lt;code&gt;#&lt;/code&gt;，而行尾的 &lt;code&gt;#&lt;/code&gt; 数量也不用和开头一样（行首的井字符数量决定标题的阶数）：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 这是 H1 #
+&lt;pre&gt;&lt;code&gt;# 这是 H1 #
 
 ## 这是 H2 ##
 
 ### 这是 H3 ######
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;blockquote&quot;&gt;区块引用 Blockquotes&lt;/h3&gt;
 
-&lt;p&gt;Markdown 标记区块引用是使用类似 email 中用 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
+&lt;p&gt;Markdown 标记区块引用是使用类似 email 中用 &lt;code&gt;&amp;gt;&lt;/code&gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &lt;code&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
 &amp;gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
 &amp;gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
 &amp;gt; 
 &amp;gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
 &amp;gt; id sem consectetuer libero luctus adipiscing.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;Markdown 也允许你偷懒只在整个段落的第一行最前面加上 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
+&lt;p&gt;Markdown 也允许你偷懒只在整个段落的第一行最前面加上 &lt;code&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
 consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
 Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
 
 &amp;gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
 id sem consectetuer libero luctus adipiscing.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;区块引用可以嵌套（例如：引用内的引用），只要根据层次加上不同数量的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
+&lt;p&gt;区块引用可以嵌套（例如：引用内的引用），只要根据层次加上不同数量的 &lt;code&gt;&amp;gt;&lt;/code&gt; ：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; This is the first level of quoting.
+&lt;pre&gt;&lt;code&gt;&amp;gt; This is the first level of quoting.
 &amp;gt;
 &amp;gt; &amp;gt; This is nested blockquote.
 &amp;gt;
 &amp;gt; Back to the first level.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt; ## 这是一个标题。
+&lt;pre&gt;&lt;code&gt;&amp;gt; ## 这是一个标题。
 &amp;gt; 
 &amp;gt; 1.   这是第一行列表项。
 &amp;gt; 2.   这是第二行列表项。
@@ -1920,7 +1761,6 @@ id sem consectetuer libero luctus adipiscing.
 &amp;gt; 
 &amp;gt;     return shell_exec(&quot;echo $input | $markdown_script&quot;);
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;任何像样的文本编辑器都能轻松地建立 email 型的引用。例如在 BBEdit 中，你可以选取文字后然后从选单中选择&lt;em&gt;增加引用阶层&lt;/em&gt;。&lt;/p&gt;
 
@@ -1930,61 +1770,54 @@ id sem consectetuer libero luctus adipiscing.
 
 &lt;p&gt;无序列表使用星号、加号或是减号作为列表标记：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   Red
+&lt;pre&gt;&lt;code&gt;*   Red
 *   Green
 *   Blue
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;等同于：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+   Red
+&lt;pre&gt;&lt;code&gt;+   Red
 +   Green
 +   Blue
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;也等同于：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-   Red
+&lt;pre&gt;&lt;code&gt;-   Red
 -   Green
 -   Blue
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;有序列表则使用数字接着一个英文句点：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.  Bird
+&lt;pre&gt;&lt;code&gt;1.  Bird
 2.  McHale
 3.  Parish
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果，上面的列表所产生的 HTML 标记为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;ol&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;ol&amp;gt;
 &amp;lt;li&amp;gt;Bird&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;McHale&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;Parish&amp;lt;/li&amp;gt;
 &amp;lt;/ol&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;如果你的列表标记写成：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.  Bird
+&lt;pre&gt;&lt;code&gt;1.  Bird
 1.  McHale
 1.  Parish
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;或甚至是：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;3. Bird
+&lt;pre&gt;&lt;code&gt;3. Bird
 1. McHale
 8. Parish
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;你都会得到完全相同的 HTML 输出。重点在于，你可以让 Markdown 文件的列表数字和输出的结果相同，或是你懒一点，你可以完全不用在意数字的正确性。&lt;/p&gt;
 
@@ -1994,61 +1827,55 @@ id sem consectetuer libero luctus adipiscing.
 
 &lt;p&gt;要让列表看起来更漂亮，你可以把内容用固定的缩进整理好：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+&lt;pre&gt;&lt;code&gt;*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
     Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
     viverra nec, fringilla in, laoreet vitae, risus.
 *   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
     Suspendisse id sem consectetuer libero luctus adipiscing.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;但是如果你懒，那也行：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+&lt;pre&gt;&lt;code&gt;*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
 viverra nec, fringilla in, laoreet vitae, risus.
 *   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
 Suspendisse id sem consectetuer libero luctus adipiscing.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 
+&lt;p&gt;如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 
 标签包起来，举例来说：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   Bird
+&lt;pre&gt;&lt;code&gt;*   Bird
 *   Magic
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会被转换为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
 &amp;lt;li&amp;gt;Bird&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;Magic&amp;lt;/li&amp;gt;
 &amp;lt;/ul&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;但是这个：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   Bird
+&lt;pre&gt;&lt;code&gt;*   Bird
 
 *   Magic
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会被转换为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
 &amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Bird&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Magic&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
 &amp;lt;/ul&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;列表项目可以包含多个段落，每个项目下的段落都必须缩进 4 个空格或是 1 个制表符：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.  This is a list item with two paragraphs. Lorem ipsum dolor
+&lt;pre&gt;&lt;code&gt;1.  This is a list item with two paragraphs. Lorem ipsum dolor
     sit amet, consectetuer adipiscing elit. Aliquam hendrerit
     mi posuere lectus.
 
@@ -2058,11 +1885,10 @@ Suspendisse id sem consectetuer libero luctus adipiscing.
 
 2.  Suspendisse id sem consectetuer libero luctus adipiscing.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;如果你每行都有缩进，看起来会看好很多，当然，再次地，如果你很懒惰，Markdown 也允许：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   This is a list item with two paragraphs.
+&lt;pre&gt;&lt;code&gt;*   This is a list item with two paragraphs.
 
     This is the second paragraph in the list item. You're
 only required to indent the first line. Lorem ipsum dolor
@@ -2070,97 +1896,86 @@ sit amet, consectetuer adipiscing elit.
 
 *   Another item in the same list.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;如果要在列表项目内放进引用，那 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; 就需要缩进：&lt;/p&gt;
+&lt;p&gt;如果要在列表项目内放进引用，那 &lt;code&gt;&amp;gt;&lt;/code&gt; 就需要缩进：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   A list item with a blockquote:
+&lt;pre&gt;&lt;code&gt;*   A list item with a blockquote:
 
     &amp;gt; This is a blockquote
     &amp;gt; inside a list item.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;如果要放代码区块的话，该区块就需要缩进&lt;em&gt;两次&lt;/em&gt;，也就是 8 个空格或是 2 个制表符：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*   一列表项包含一个列表区块：
+&lt;pre&gt;&lt;code&gt;*   一列表项包含一个列表区块：
 
         &amp;lt;代码写在这&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;当然，项目列表很可能会不小心产生，像是下面这样的写法：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1986. What a great season.
+&lt;pre&gt;&lt;code&gt;1986. What a great season.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;换句话说，也就是在行首出现&lt;em&gt;数字-句点-空白&lt;/em&gt;，要避免这样的状况，你可以在句点前面加上反斜杠。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1986\. What a great season.
+&lt;pre&gt;&lt;code&gt;1986\. What a great season.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;precode&quot;&gt;代码区块&lt;/h3&gt;
 
-&lt;p&gt;和程序相关的写作或是标签语言原始码通常会有已经排版好的代码区块，通常这些区块我们并不希望它以一般段落文件的方式去排版，而是照原来的样子显示，Markdown 会用 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;code&amp;gt;&lt;/code&gt; 标签来把代码区块包起来。&lt;/p&gt;
+&lt;p&gt;和程序相关的写作或是标签语言原始码通常会有已经排版好的代码区块，通常这些区块我们并不希望它以一般段落文件的方式去排版，而是照原来的样子显示，Markdown 会用 &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; 和 &lt;code&gt;&amp;lt;code&amp;gt;&lt;/code&gt; 标签来把代码区块包起来。&lt;/p&gt;
 
 &lt;p&gt;要在 Markdown 中建立代码区块很简单，只要简单地缩进 4 个空格或是 1 个制表符就可以，例如，下面的输入：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;这是一个普通段落：
+&lt;pre&gt;&lt;code&gt;这是一个普通段落：
 
     这是一个代码区块。
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 会转换成：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;这是一个普通段落：&amp;lt;/p&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;这是一个普通段落：&amp;lt;/p&amp;gt;
 
 &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;这是一个代码区块。
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;这个每行一阶的缩进（4 个空格或是 1 个制表符），都会被移除，例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Here is an example of AppleScript:
+&lt;pre&gt;&lt;code&gt;Here is an example of AppleScript:
 
     tell application &quot;Foo&quot;
         beep
     end tell
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会被转换为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;Here is an example of AppleScript:&amp;lt;/p&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Here is an example of AppleScript:&amp;lt;/p&amp;gt;
 
 &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;tell application &quot;Foo&quot;
     beep
 end tell
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;一个代码区块会一直持续到没有缩进的那一行（或是文件结尾）。&lt;/p&gt;
 
-&lt;p&gt;在代码区块里面， &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 、 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; 会自动转成 HTML 实体，这样的方式让你非常容易使用 Markdown 插入范例用的 HTML 原始码，只需要复制贴上，再加上缩进就可以了，剩下的 Markdown 都会帮你处理，例如：&lt;/p&gt;
+&lt;p&gt;在代码区块里面， &lt;code&gt;&amp;amp;&lt;/code&gt; 、 &lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;gt;&lt;/code&gt; 会自动转成 HTML 实体，这样的方式让你非常容易使用 Markdown 插入范例用的 HTML 原始码，只需要复制贴上，再加上缩进就可以了，剩下的 Markdown 都会帮你处理，例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &amp;lt;div class=&quot;footer&quot;&amp;gt;
+&lt;pre&gt;&lt;code&gt;    &amp;lt;div class=&quot;footer&quot;&amp;gt;
         &amp;amp;copy; 2004 Foo Corporation
     &amp;lt;/div&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会被转换为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;amp;lt;div class=&quot;footer&quot;&amp;amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;amp;lt;div class=&quot;footer&quot;&amp;amp;gt;
     &amp;amp;amp;copy; 2004 Foo Corporation
 &amp;amp;lt;/div&amp;amp;gt;
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;代码区块中，一般的 Markdown 语法不会被转换，像是星号便只是星号，这表示你可以很容易地以 Markdown 语法撰写 Markdown 语法相关的文件。&lt;/p&gt;
 
@@ -2168,7 +1983,7 @@ end tell
 
 &lt;p&gt;你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* * *
+&lt;pre&gt;&lt;code&gt;* * *
 
 ***
 
@@ -2178,7 +1993,6 @@ end tell
 
 ---------------------------------------
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;hr /&gt;
 
@@ -2192,45 +2006,39 @@ end tell
 
 &lt;p&gt;要建立一个&lt;em&gt;行内式&lt;/em&gt;的链接，只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可，例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;This is [an example](http://example.com/ &quot;Title&quot;) inline link.
+&lt;pre&gt;&lt;code&gt;This is [an example](http://example.com/ &quot;Title&quot;) inline link.
 
 [This link](http://example.net/) has no title attribute.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会产生：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is &amp;lt;a href=&quot;http://example.com/&quot; title=&quot;Title&quot;&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is &amp;lt;a href=&quot;http://example.com/&quot; title=&quot;Title&quot;&amp;gt;
 an example&amp;lt;/a&amp;gt; inline link.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;&amp;lt;a href=&quot;http://example.net/&quot;&amp;gt;This link&amp;lt;/a&amp;gt; has no
 title attribute.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;如果你是要链接到同样主机的资源，你可以使用相对路径：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;See my [About](/about/) page for details.   
+&lt;pre&gt;&lt;code&gt;See my [About](/about/) page for details.   
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;参考式&lt;/em&gt;的链接是在链接文字的括号后面再接上另一个方括号，而在第二个方括号里面要填入用以辨识链接的标记：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;This is [an example][id] reference-style link.
+&lt;pre&gt;&lt;code&gt;This is [an example][id] reference-style link.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;你也可以选择性地在两个方括号中间加上一个空格：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;This is [an example] [id] reference-style link.
+&lt;pre&gt;&lt;code&gt;This is [an example] [id] reference-style link.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;接着，在文件的任意处，你可以把这个标记的链接内容定义出来：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[id]: http://example.com/  &quot;Optional Title Here&quot;
+&lt;pre&gt;&lt;code&gt;[id]: http://example.com/  &quot;Optional Title Here&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;链接内容定义的形式为：&lt;/p&gt;
 
@@ -2244,100 +2052,88 @@ title attribute.&amp;lt;/p&amp;gt;
 
 &lt;p&gt;下面这三种链接的定义都是相同：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[foo]: http://example.com/  &quot;Optional Title Here&quot;
+&lt;pre&gt;&lt;code&gt;[foo]: http://example.com/  &quot;Optional Title Here&quot;
 [foo]: http://example.com/  'Optional Title Here'
 [foo]: http://example.com/  (Optional Title Here)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;请注意：&lt;/strong&gt;有一个已知的问题是 Markdown.pl 1.0.1 会忽略单引号包起来的链接 title。&lt;/p&gt;
 
 &lt;p&gt;链接网址也可以用方括号包起来：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[id]: &amp;lt;http://example.com/&amp;gt;  &quot;Optional Title Here&quot;
+&lt;pre&gt;&lt;code&gt;[id]: &amp;lt;http://example.com/&amp;gt;  &quot;Optional Title Here&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;你也可以把 title 属性放到下一行，也可以加一些缩进，若网址太长的话，这样会比较好看：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[id]: http://example.com/longish/path/to/resource/here
+&lt;pre&gt;&lt;code&gt;[id]: http://example.com/longish/path/to/resource/here
     &quot;Optional Title Here&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;网址定义只有在产生链接的时候用到，并不会直接出现在文件之中。&lt;/p&gt;
 
 &lt;p&gt;链接辨别标签可以有字母、数字、空白和标点符号，但是并&lt;em&gt;不&lt;/em&gt;区分大小写，因此下面两个链接是一样的：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[link text][a]
+&lt;pre&gt;&lt;code&gt;[link text][a]
 [link text][A]
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;隐式链接标记&lt;/em&gt;功能让你可以省略指定链接标记，这种情形下，链接标记会视为等同于链接文字，要用隐式链接标记只要在链接文字后面加上一个空的方括号，如果你要让 “Google” 链接到 google.com，你可以简化成：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Google][]
+&lt;pre&gt;&lt;code&gt;[Google][]
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;然后定义链接内容：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Google]: http://google.com/
+&lt;pre&gt;&lt;code&gt;[Google]: http://google.com/
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;由于链接文字可能包含空白，所以这种简化型的标记内也许包含多个单词：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Visit [Daring Fireball][] for more information.
+&lt;pre&gt;&lt;code&gt;Visit [Daring Fireball][] for more information.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;然后接着定义链接：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Daring Fireball]: http://daringfireball.net/
+&lt;pre&gt;&lt;code&gt;[Daring Fireball]: http://daringfireball.net/
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;链接的定义可以放在文件中的任何一个地方，我比较偏好直接放在链接出现段落的后面，你也可以把它放在文件最后面，就像是注解一样。&lt;/p&gt;
 
 &lt;p&gt;下面是一个参考式链接的范例：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I get 10 times more traffic from [Google] [1] than from
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google] [1] than from
 [Yahoo] [2] or [MSN] [3].
 
   [1]: http://google.com/        &quot;Google&quot;
   [2]: http://search.yahoo.com/  &quot;Yahoo Search&quot;
   [3]: http://search.msn.com/    &quot;MSN Search&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;如果改成用链接名称的方式写：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I get 10 times more traffic from [Google][] than from
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google][] than from
 [Yahoo][] or [MSN][].
 
   [google]: http://google.com/        &quot;Google&quot;
   [yahoo]:  http://search.yahoo.com/  &quot;Yahoo Search&quot;
   [msn]:    http://search.msn.com/    &quot;MSN Search&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;上面两种写法都会产生下面的 HTML。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;I get 10 times more traffic from &amp;lt;a href=&quot;http://google.com/&quot;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I get 10 times more traffic from &amp;lt;a href=&quot;http://google.com/&quot;
 title=&quot;Google&quot;&amp;gt;Google&amp;lt;/a&amp;gt; than from
 &amp;lt;a href=&quot;http://search.yahoo.com/&quot; title=&quot;Yahoo Search&quot;&amp;gt;Yahoo&amp;lt;/a&amp;gt;
 or &amp;lt;a href=&quot;http://search.msn.com/&quot; title=&quot;MSN Search&quot;&amp;gt;MSN&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;下面是用行内式写的同样一段内容的 Markdown 文件，提供作为比较之用：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I get 10 times more traffic from [Google](http://google.com/ &quot;Google&quot;)
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google](http://google.com/ &quot;Google&quot;)
 than from [Yahoo](http://search.yahoo.com/ &quot;Yahoo Search&quot;) or
 [MSN](http://search.msn.com/ &quot;MSN Search&quot;).
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;参考式的链接其实重点不在于它比较好写，而是它比较好读，比较一下上面的范例，使用参考式的文章本身只有 81 个字符，但是用行内形式的却会增加到 176 个字元，如果是用纯 HTML 格式来写，会有 234 个字元，在 HTML 格式中，标签比文本还要多。&lt;/p&gt;
 
@@ -2345,9 +2141,9 @@ than from [Yahoo](http://search.yahoo.com/ &quot;Yahoo Search&quot;) or
 
 &lt;h3 id=&quot;em&quot;&gt;强调&lt;/h3&gt;
 
-&lt;p&gt;Markdown 使用星号（&lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt;）和底线（&lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt;）作为标记强调字词的符号，被 &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; 包围的字词会被转成用 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;em&amp;gt;&lt;/code&gt; 标签包围，用两个 &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; 包起来的话，则会被转成 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;strong&amp;gt;&lt;/code&gt;，例如：&lt;/p&gt;
+&lt;p&gt;Markdown 使用星号（&lt;code&gt;*&lt;/code&gt;）和底线（&lt;code&gt;_&lt;/code&gt;）作为标记强调字词的符号，被 &lt;code&gt;*&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 包围的字词会被转成用 &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt; 标签包围，用两个 &lt;code&gt;*&lt;/code&gt; 或 &lt;code&gt;_&lt;/code&gt; 包起来的话，则会被转成 &lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt;，例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*single asterisks*
+&lt;pre&gt;&lt;code&gt;*single asterisks*
 
 _single underscores_
 
@@ -2355,11 +2151,10 @@ _single underscores_
 
 __double underscores__
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会转成：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;em&amp;gt;single asterisks&amp;lt;/em&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;em&amp;gt;single asterisks&amp;lt;/em&amp;gt;
 
 &amp;lt;em&amp;gt;single underscores&amp;lt;/em&amp;gt;
 
@@ -2367,90 +2162,77 @@ __double underscores__
 
 &amp;lt;strong&amp;gt;double underscores&amp;lt;/strong&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;你可以随便用你喜欢的样式，唯一的限制是，你用什么符号开启标签，就要用什么符号结束。&lt;/p&gt;
 
 &lt;p&gt;强调也可以直接插在文字中间：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;un*frigging*believable
+&lt;pre&gt;&lt;code&gt;un*frigging*believable
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;但是&lt;strong&gt;如果你的 &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; 两边都有空白的话，它们就只会被当成普通的符号&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;但是&lt;strong&gt;如果你的 &lt;code&gt;*&lt;/code&gt; 和 &lt;code&gt;_&lt;/code&gt; 两边都有空白的话，它们就只会被当成普通的符号&lt;/strong&gt;。&lt;/p&gt;
 
 &lt;p&gt;如果要在文字前后直接插入普通的星号或底线，你可以用反斜线：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;\*this text is surrounded by literal asterisks\*
+&lt;pre&gt;&lt;code&gt;\*this text is surrounded by literal asterisks\*
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;code&quot;&gt;代码&lt;/h3&gt;
 
-&lt;p&gt;如果要标记一小段行内代码，你可以用反引号把它包起来（&lt;code class=&quot;highlighter-rouge&quot;&gt;`&lt;/code&gt;），例如：&lt;/p&gt;
+&lt;p&gt;如果要标记一小段行内代码，你可以用反引号把它包起来（&lt;code&gt;`&lt;/code&gt;），例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Use the `printf()` function.
+&lt;pre&gt;&lt;code&gt;Use the `printf()` function.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会产生：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;Use the &amp;lt;code&amp;gt;printf()&amp;lt;/code&amp;gt; function.&amp;lt;/p&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Use the &amp;lt;code&amp;gt;printf()&amp;lt;/code&amp;gt; function.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;如果要在代码区段内插入反引号，你可以用多个反引号来开启和结束代码区段：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;``There is a literal backtick (`) here.``
+&lt;pre&gt;&lt;code&gt;``There is a literal backtick (`) here.``
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;这段语法会产生：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;&amp;lt;code&amp;gt;There is a literal backtick (`) here.&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;&amp;lt;code&amp;gt;There is a literal backtick (`) here.&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;代码区段的起始和结束端都可以放入一个空白，起始端后面一个，结束端前面一个，这样你就可以在区段的一开始就插入反引号：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;A single backtick in a code span: `` ` ``
+&lt;pre&gt;&lt;code&gt;A single backtick in a code span: `` ` ``
 
 A backtick-delimited string in a code span: `` `foo` ``
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;会产生：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;A single backtick in a code span: &amp;lt;code&amp;gt;`&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;A single backtick in a code span: &amp;lt;code&amp;gt;`&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;A backtick-delimited string in a code span: &amp;lt;code&amp;gt;`foo`&amp;lt;/code&amp;gt;&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;在代码区段内，&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt; 和方括号&lt;strong&gt;都&lt;/strong&gt;会被自动地转成 HTML 实体，这使得插入 HTML 原始码变得很容易，Markdown 会把下面这段：&lt;/p&gt;
+&lt;p&gt;在代码区段内，&lt;code&gt;&amp;amp;&lt;/code&gt; 和方括号&lt;strong&gt;都&lt;/strong&gt;会被自动地转成 HTML 实体，这使得插入 HTML 原始码变得很容易，Markdown 会把下面这段：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Please don't use any `&amp;lt;blink&amp;gt;` tags.
+&lt;pre&gt;&lt;code&gt;Please don't use any `&amp;lt;blink&amp;gt;` tags.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;转为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;Please don't use any &amp;lt;code&amp;gt;&amp;amp;lt;blink&amp;amp;gt;&amp;lt;/code&amp;gt; tags.&amp;lt;/p&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Please don't use any &amp;lt;code&amp;gt;&amp;amp;lt;blink&amp;amp;gt;&amp;lt;/code&amp;gt; tags.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;你也可以这样写：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;`&amp;amp;#8212;` is the decimal-encoded equivalent of `&amp;amp;mdash;`.
+&lt;pre&gt;&lt;code&gt;`&amp;amp;#8212;` is the decimal-encoded equivalent of `&amp;amp;mdash;`.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;以产生：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;&amp;lt;code&amp;gt;&amp;amp;amp;#8212;&amp;lt;/code&amp;gt; is the decimal-encoded
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;&amp;lt;code&amp;gt;&amp;amp;amp;#8212;&amp;lt;/code&amp;gt; is the decimal-encoded
 equivalent of &amp;lt;code&amp;gt;&amp;amp;amp;mdash;&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;img&quot;&gt;图片&lt;/h3&gt;
 
@@ -2460,16 +2242,15 @@ equivalent of &amp;lt;code&amp;gt;&amp;amp;amp;mdash;&amp;lt;/code&amp;gt;.&amp;
 
 &lt;p&gt;行内式的图片语法看起来像是：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![Alt text](/path/to/img.jpg)
+&lt;pre&gt;&lt;code&gt;![Alt text](/path/to/img.jpg)
 
 ![Alt text](/path/to/img.jpg &quot;Optional title&quot;)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;详细叙述如下：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;一个惊叹号 &lt;code class=&quot;highlighter-rouge&quot;&gt;!&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;一个惊叹号 &lt;code&gt;!&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;接着一个方括号，里面放上图片的替代文字&lt;/li&gt;
   &lt;li&gt;接着一个普通括号，里面放上图片的网址，最后还可以用引号包住并加上
 选择性的 ‘title’ 文字。&lt;/li&gt;
@@ -2477,17 +2258,15 @@ equivalent of &amp;lt;code&amp;gt;&amp;amp;amp;mdash;&amp;lt;/code&amp;gt;.&amp;
 
 &lt;p&gt;参考式的图片语法则长得像这样：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![Alt text][id]
+&lt;pre&gt;&lt;code&gt;![Alt text][id]
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;「id」是图片参考的名称，图片参考的定义方式则和连结参考一样：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[id]: url/to/image  &quot;Optional title attribute&quot;
+&lt;pre&gt;&lt;code&gt;[id]: url/to/image  &quot;Optional title attribute&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;到目前为止， Markdown 还没有办法指定图片的宽高，如果你需要的话，你可以使用普通的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
+&lt;p&gt;到目前为止， Markdown 还没有办法指定图片的宽高，如果你需要的话，你可以使用普通的 &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 标签。&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -2497,46 +2276,41 @@ equivalent of &amp;lt;code&amp;gt;&amp;amp;amp;mdash;&amp;lt;/code&amp;gt;.&amp;
 
 &lt;p&gt;Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用方括号包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;http://example.com/&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;http://example.com/&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 会转为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a href=&quot;http://example.com/&quot;&amp;gt;http://example.com/&amp;lt;/a&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;a href=&quot;http://example.com/&quot;&amp;gt;http://example.com/&amp;lt;/a&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;邮址的自动链接也很类似，只是 Markdown 会先做一个编码转换的过程，把文字字符转成 16 进位码的 HTML 实体，这样的格式可以糊弄一些不好的邮址收集机器人，例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;address@example.com&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;address@example.com&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 会转成：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;a href=&quot;&amp;amp;#x6D;&amp;amp;#x61;i&amp;amp;#x6C;&amp;amp;#x74;&amp;amp;#x6F;:&amp;amp;#x61;&amp;amp;#x64;&amp;amp;#x64;&amp;amp;#x72;&amp;amp;#x65;
+&lt;pre&gt;&lt;code&gt;&amp;lt;a href=&quot;&amp;amp;#x6D;&amp;amp;#x61;i&amp;amp;#x6C;&amp;amp;#x74;&amp;amp;#x6F;:&amp;amp;#x61;&amp;amp;#x64;&amp;amp;#x64;&amp;amp;#x72;&amp;amp;#x65;
 &amp;amp;#115;&amp;amp;#115;&amp;amp;#64;&amp;amp;#101;&amp;amp;#120;&amp;amp;#x61;&amp;amp;#109;&amp;amp;#x70;&amp;amp;#x6C;e&amp;amp;#x2E;&amp;amp;#99;&amp;amp;#111;
 &amp;amp;#109;&quot;&amp;gt;&amp;amp;#x61;&amp;amp;#x64;&amp;amp;#x64;&amp;amp;#x72;&amp;amp;#x65;&amp;amp;#115;&amp;amp;#115;&amp;amp;#64;&amp;amp;#101;&amp;amp;#120;&amp;amp;#x61;
 &amp;amp;#109;&amp;amp;#x70;&amp;amp;#x6C;e&amp;amp;#x2E;&amp;amp;#99;&amp;amp;#111;&amp;amp;#109;&amp;lt;/a&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;在浏览器里面，这段字串（其实是 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;a href=&quot;mailto:address@example.com&quot;&amp;gt;address@example.com&amp;lt;/a&amp;gt;&lt;/code&gt;）会变成一个可以点击的「address@example.com」链接。&lt;/p&gt;
+&lt;p&gt;在浏览器里面，这段字串（其实是 &lt;code&gt;&amp;lt;a href=&quot;mailto:address@example.com&quot;&amp;gt;address@example.com&amp;lt;/a&amp;gt;&lt;/code&gt;）会变成一个可以点击的「address@example.com」链接。&lt;/p&gt;
 
 &lt;p&gt;（这种作法虽然可以糊弄不少的机器人，但并不能全部挡下来，不过总比什么都不做好些。不管怎样，公开你的信箱终究会引来广告信件的。）&lt;/p&gt;
 
 &lt;h3 id=&quot;backslash&quot;&gt;反斜杠&lt;/h3&gt;
 
-&lt;p&gt;Markdown 可以利用反斜杠来插入一些在语法中有其它意义的符号，例如：如果你想要用星号加在文字旁边的方式来做出强调效果（但不用 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;em&amp;gt;&lt;/code&gt; 标签），你可以在星号的前面加上反斜杠：&lt;/p&gt;
+&lt;p&gt;Markdown 可以利用反斜杠来插入一些在语法中有其它意义的符号，例如：如果你想要用星号加在文字旁边的方式来做出强调效果（但不用 &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt; 标签），你可以在星号的前面加上反斜杠：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;\*literal asterisks\*
+&lt;pre&gt;&lt;code&gt;\*literal asterisks\*
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;\   反斜线
+&lt;pre&gt;&lt;code&gt;\   反斜线
 `   反引号
 *   星号
 _   底线
@@ -2549,7 +2323,6 @@ _   底线
 .   英文句点
 !   惊叹号
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h2 id=&quot;acknowledgement&quot;&gt;感谢&lt;/h2&gt;
 
@@ -2583,13 +2356,13 @@ _   底线
 
 &lt;p&gt;一个段落是由一个以上的连接的行句组成，而一个以上的空行则会划分出不同的段落（空行的定义是显示上看起来像是空行，就被视为空行，例如有一行只有空白和 tab，那该行也会被视为空行），一般的段落不需要用空白或换行缩进。&lt;/p&gt;
 
-&lt;p&gt;Markdown 支持两种标题的语法，&lt;a href=&quot;http://docutils.sourceforge.net/mirror/setext.html&quot;&gt;Setext&lt;/a&gt; 和 &lt;a href=&quot;http://www.aaronsw.com/2002/atx/&quot;&gt;atx&lt;/a&gt; 形式。Setext 形式是用底线的形式，利用 &lt;code class=&quot;highlighter-rouge&quot;&gt;=&lt;/code&gt; （最高阶标题）和 &lt;code class=&quot;highlighter-rouge&quot;&gt;-&lt;/code&gt; （第二阶标题），Atx 形式在行首插入 1 到 6 个 &lt;code class=&quot;highlighter-rouge&quot;&gt;#&lt;/code&gt; ，对应到标题 1 到 6 阶。&lt;/p&gt;
+&lt;p&gt;Markdown 支持两种标题的语法，&lt;a href=&quot;http://docutils.sourceforge.net/mirror/setext.html&quot;&gt;Setext&lt;/a&gt; 和 &lt;a href=&quot;http://www.aaronsw.com/2002/atx/&quot;&gt;atx&lt;/a&gt; 形式。Setext 形式是用底线的形式，利用 &lt;code&gt;=&lt;/code&gt; （最高阶标题）和 &lt;code&gt;-&lt;/code&gt; （第二阶标题），Atx 形式在行首插入 1 到 6 个 &lt;code&gt;#&lt;/code&gt; ，对应到标题 1 到 6 阶。&lt;/p&gt;
 
-&lt;p&gt;区块引用则使用 email 形式的 ‘&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt;’ 角括号。&lt;/p&gt;
+&lt;p&gt;区块引用则使用 email 形式的 ‘&lt;code&gt;&amp;gt;&lt;/code&gt;’ 角括号。&lt;/p&gt;
 
 &lt;p&gt;Markdown 语法:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;A First Level Header
+&lt;pre&gt;&lt;code&gt;A First Level Header
 ====================
 A Second Level Header
 ---------------------
@@ -2608,11 +2381,10 @@ dog's back.
 &amp;gt;
 &amp;gt; ## This is an H2 in a blockquote
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;h1&amp;gt;A First Level Header&amp;lt;/h1&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;h1&amp;gt;A First Level Header&amp;lt;/h1&amp;gt;
 &amp;lt;h2&amp;gt;A Second Level Header&amp;lt;/h2&amp;gt;
 &amp;lt;p&amp;gt;Now is the time for all good men to come to
 the aid of their country. This is just a
@@ -2626,7 +2398,6 @@ dog's back.&amp;lt;/p&amp;gt;
 &amp;lt;h2&amp;gt;This is an H2 in a blockquote&amp;lt;/h2&amp;gt;
 &amp;lt;/blockquote&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;section-1&quot;&gt;修辞和强调&lt;/h3&gt;
 
@@ -2634,158 +2405,140 @@ dog's back.&amp;lt;/p&amp;gt;
 
 &lt;p&gt;Markdown 语法:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Some of these words *are emphasized*.
+&lt;pre&gt;&lt;code&gt;Some of these words *are emphasized*.
 Some of these words _are emphasized also_.
 Use two asterisks for **strong emphasis**.
 Or, if you prefer, __use two underscores instead__.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;Some of these words &amp;lt;em&amp;gt;are emphasized&amp;lt;/em&amp;gt;.
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;Some of these words &amp;lt;em&amp;gt;are emphasized&amp;lt;/em&amp;gt;.
 Some of these words &amp;lt;em&amp;gt;are emphasized also&amp;lt;/em&amp;gt;.&amp;lt;/p&amp;gt;
 &amp;lt;p&amp;gt;Use two asterisks for &amp;lt;strong&amp;gt;strong emphasis&amp;lt;/strong&amp;gt;.
 Or, if you prefer, &amp;lt;strong&amp;gt;use two underscores instead&amp;lt;/strong&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h2 id=&quot;section-2&quot;&gt;列表&lt;/h2&gt;
 
 &lt;p&gt;无序列表使用星号、加号和减号来做为列表的项目标记，这些符号是都可以使用的，使用星号：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* Candy.
+&lt;pre&gt;&lt;code&gt;* Candy.
 * Gum.
 * Booze.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;加号：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+ Candy.
+&lt;pre&gt;&lt;code&gt;+ Candy.
 + Gum.
 + Booze.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;和减号&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Candy.
+&lt;pre&gt;&lt;code&gt;- Candy.
 - Gum.
 - Booze.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;都会输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
 &amp;lt;li&amp;gt;Candy.&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;Gum.&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;Booze.&amp;lt;/li&amp;gt;
 &amp;lt;/ul&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;有序的列表则是使用一般的数字接着一个英文句点作为项目标记：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. Red
+&lt;pre&gt;&lt;code&gt;1. Red
 2. Green
 3. Blue
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;ol&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;ol&amp;gt;
 &amp;lt;li&amp;gt;Red&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;Green&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;Blue&amp;lt;/li&amp;gt;
 &amp;lt;/ol&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;如果你在项目之间插入空行，那项目的内容会用 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 包起来，你也可以在一个项目内放上多个段落，只要在它前面缩排 4 个空白或 1 个 tab 。&lt;/p&gt;
+&lt;p&gt;如果你在项目之间插入空行，那项目的内容会用 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; 包起来，你也可以在一个项目内放上多个段落，只要在它前面缩排 4 个空白或 1 个 tab 。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* A list item.
+&lt;pre&gt;&lt;code&gt;* A list item.
 With multiple paragraphs.
 
 * Another item in the list.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;ul&amp;gt;
 &amp;lt;li&amp;gt;&amp;lt;p&amp;gt;A list item.&amp;lt;/p&amp;gt;
 &amp;lt;p&amp;gt;With multiple paragraphs.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
 &amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Another item in the list.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
 &amp;lt;/ul&amp;gt; ### 链接 ###
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;Markdown 支援两种形式的链接语法： &lt;em&gt;行内&lt;/em&gt; 和 &lt;em&gt;参考&lt;/em&gt; 两种形式，两种都是使用角括号来把文字转成连结。&lt;/p&gt;
 
 &lt;p&gt;行内形式是直接在后面用括号直接接上链接：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;This is an [example link](http://example.com/).
+&lt;pre&gt;&lt;code&gt;This is an [example link](http://example.com/).
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is an &amp;lt;a href=&quot;http://example.com/&quot;&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is an &amp;lt;a href=&quot;http://example.com/&quot;&amp;gt;
 example link&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;你也可以选择性的加上 title 属性：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;This is an [example link](http://example.com/ &quot;With a Title&quot;).
+&lt;pre&gt;&lt;code&gt;This is an [example link](http://example.com/ &quot;With a Title&quot;).
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is an &amp;lt;a href=&quot;http://example.com/&quot; title=&quot;With a Title&quot;&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;This is an &amp;lt;a href=&quot;http://example.com/&quot; title=&quot;With a Title&quot;&amp;gt;
 example link&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;参考形式的链接让你可以为链接定一个名称，之后你可以在文件的其他地方定义该链接的内容：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I get 10 times more traffic from [Google][1] than from
+&lt;pre&gt;&lt;code&gt;I get 10 times more traffic from [Google][1] than from
 [Yahoo][2] or [MSN][3].
 
 [1]: http://google.com/ &quot;Google&quot;
 [2]: http://search.yahoo.com/ &quot;Yahoo Search&quot;
 [3]: http://search.msn.com/ &quot;MSN Search&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;I get 10 times more traffic from &amp;lt;a href=&quot;http://google.com/&quot;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I get 10 times more traffic from &amp;lt;a href=&quot;http://google.com/&quot;
 title=&quot;Google&quot;&amp;gt;Google&amp;lt;/a&amp;gt; than from &amp;lt;a href=&quot;http://search.yahoo.com/&quot;
 title=&quot;Yahoo Search&quot;&amp;gt;Yahoo&amp;lt;/a&amp;gt; or &amp;lt;a href=&quot;http://search.msn.com/&quot;
 title=&quot;MSN Search&quot;&amp;gt;MSN&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;title 属性是选择性的，链接名称可以用字母、数字和空格，但是不分大小写：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I start my morning with a cup of coffee and
+&lt;pre&gt;&lt;code&gt;I start my morning with a cup of coffee and
 [The New York Times][NY Times].
 
 [ny times]: http://www.nytimes.com/
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;I start my morning with a cup of coffee and
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I start my morning with a cup of coffee and
 &amp;lt;a href=&quot;http://www.nytimes.com/&quot;&amp;gt;The New York Times&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;section-3&quot;&gt;图片&lt;/h3&gt;
 
@@ -2793,67 +2546,60 @@ title=&quot;MSN Search&quot;&amp;gt;MSN&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 
 &lt;p&gt;行内形式（title 是选择性的）：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![alt text](/path/to/img.jpg &quot;Title&quot;)
+&lt;pre&gt;&lt;code&gt;![alt text](/path/to/img.jpg &quot;Title&quot;)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;参考形式：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;![alt text][id]
+&lt;pre&gt;&lt;code&gt;![alt text][id]
 
 [id]: /path/to/img.jpg &quot;Title&quot;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;上面两种方法都会输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;img src=&quot;/path/to/img.jpg&quot; alt=&quot;alt text&quot; title=&quot;Title&quot; /&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;img src=&quot;/path/to/img.jpg&quot; alt=&quot;alt text&quot; title=&quot;Title&quot; /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;section-4&quot;&gt;代码&lt;/h3&gt;
-&lt;p&gt;在一般的段落文字中，你可以使用反引号 &lt;code class=&quot;highlighter-rouge&quot;&gt;`&lt;/code&gt; 来标记代码区段，区段内的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; 都会被自动的转换成 HTML 实体，这项特性让你可以很容易的在代码区段内插入 HTML 码：&lt;/p&gt;
+&lt;p&gt;在一般的段落文字中，你可以使用反引号 &lt;code&gt;`&lt;/code&gt; 来标记代码区段，区段内的 &lt;code&gt;&amp;amp;&lt;/code&gt;、&lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;gt;&lt;/code&gt; 都会被自动的转换成 HTML 实体，这项特性让你可以很容易的在代码区段内插入 HTML 码：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I strongly recommend against using any `&amp;lt;blink&amp;gt;` tags.
+&lt;pre&gt;&lt;code&gt;I strongly recommend against using any `&amp;lt;blink&amp;gt;` tags.
 
 I wish SmartyPants used named entities like `&amp;amp;mdash;`
 instead of decimal-encoded entites like `&amp;amp;#8212;`.
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;I strongly recommend against using any
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;I strongly recommend against using any
 &amp;lt;code&amp;gt;&amp;amp;lt;blink&amp;amp;gt;&amp;lt;/code&amp;gt; tags.&amp;lt;/p&amp;gt;
 &amp;lt;p&amp;gt;I wish SmartyPants used named entities like
 &amp;lt;code&amp;gt;&amp;amp;amp;mdash;&amp;lt;/code&amp;gt; instead of decimal-encoded
 entites like &amp;lt;code&amp;gt;&amp;amp;amp;#8212;&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
-&lt;p&gt;如果要建立一个已经格式化好的代码区块，只要每行都缩进 4 个空格或是一个 tab 就可以了，而 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;amp;&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; 也一样会自动转成 HTML 实体。&lt;/p&gt;
+&lt;p&gt;如果要建立一个已经格式化好的代码区块，只要每行都缩进 4 个空格或是一个 tab 就可以了，而 &lt;code&gt;&amp;amp;&lt;/code&gt;、&lt;code&gt;&amp;lt;&lt;/code&gt; 和 &lt;code&gt;&amp;gt;&lt;/code&gt; 也一样会自动转成 HTML 实体。&lt;/p&gt;
 
 &lt;p&gt;Markdown 语法:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;If you want your page to validate under XHTML 1.0 Strict,
+&lt;pre&gt;&lt;code&gt;If you want your page to validate under XHTML 1.0 Strict,
 you've got to put paragraph tags in your blockquotes:
 
 &amp;lt;blockquote&amp;gt;
 &amp;lt;p&amp;gt;For example.&amp;lt;/p&amp;gt;
 &amp;lt;/blockquote&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;p&gt;输出 HTML 为：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;p&amp;gt;If you want your page to validate under XHTML 1.0 Strict,
+&lt;pre&gt;&lt;code&gt;&amp;lt;p&amp;gt;If you want your page to validate under XHTML 1.0 Strict,
 you've got to put paragraph tags in your blockquotes:&amp;lt;/p&amp;gt;
 &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;amp;lt;blockquote&amp;amp;gt;
 &amp;amp;lt;p&amp;amp;gt;For example.&amp;amp;lt;/p&amp;amp;gt;
 &amp;amp;lt;/blockquote&amp;amp;gt;
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 
    </content>
@@ -2936,11 +2682,11 @@ xxx项目
 &lt;h3 id=&quot;searchxml&quot;&gt;一、生成 search.xml&lt;/h3&gt;
 
 &lt;p&gt;遍历 &lt;strong&gt;jekyll&lt;/strong&gt; 博客中的所有文章，获取其标题、日期和文章链接，整合
-到一个 &lt;strong&gt;xml&lt;/strong&gt; 文件中。这个 &lt;strong&gt;xml&lt;/strong&gt; 文件我们可将其命名为 &lt;code class=&quot;highlighter-rouge&quot;&gt;search.xml&lt;/code&gt;，以便我们后续的工作。&lt;/p&gt;
+到一个 &lt;strong&gt;xml&lt;/strong&gt; 文件中。这个 &lt;strong&gt;xml&lt;/strong&gt; 文件我们可将其命名为 &lt;code&gt;search.xml&lt;/code&gt;，以便我们后续的工作。&lt;/p&gt;
 
 &lt;p&gt;具体的写法如下：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//jekyll 语法前反斜杆是为了转义输出，请去掉
+&lt;pre&gt;&lt;code&gt;//jekyll 语法前反斜杆是为了转义输出，请去掉
 &amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&amp;gt;
 &amp;lt;articles&amp;gt;
 {\% for post in site.posts %\}
@@ -2952,7 +2698,6 @@ xxx项目
 {\% endfor %\}
 &amp;lt;/articles&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;dom-&quot;&gt;二、添加 DOM 结构&lt;/h3&gt;
 
@@ -2964,7 +2709,7 @@ xxx项目
 我在这里采用的是 jquery-ui-1.8.18.custom 版本。
 DOM 结构保存在同一个页面。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//样式表
+&lt;pre&gt;&lt;code&gt;//样式表
 &amp;lt;link rel=&quot;stylesheet&quot; href=&quot;/css/jquery-ui-1.8.18.custom.css&quot; type=&quot;text/css&quot;&amp;gt;
 
 //js
@@ -2973,25 +2718,23 @@ DOM 结构保存在同一个页面。&lt;/p&gt;
 //添加 DOM
 &amp;lt;input id=&quot;J_search&quot; placeholder=&quot;Simple Search&quot;/&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;section&quot;&gt;三、设置全局地址&lt;/h3&gt;
 
-&lt;p&gt;在 &lt;strong&gt;jekyll&lt;/strong&gt; 博客的根目录下的 &lt;code class=&quot;highlighter-rouge&quot;&gt;config.yml&lt;/code&gt; 添加你的博客的全局基本地址。就一句话就 Ok 哈！&lt;/p&gt;
+&lt;p&gt;在 &lt;strong&gt;jekyll&lt;/strong&gt; 博客的根目录下的 &lt;code&gt;config.yml&lt;/code&gt; 添加你的博客的全局基本地址。就一句话就 Ok 哈！&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;url: http://justjavac.com
+&lt;pre&gt;&lt;code&gt;url: http://justjavac.com
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;javascript-&quot;&gt;四、通过 Javascript 实现搜索功能&lt;/h3&gt;
 
 &lt;p&gt;简单说明下原理：通过在输入框输入关键词，&lt;strong&gt;Ajax&lt;/strong&gt; 匹配 search.xml 中的文章标题里面的词语，
 若是，在输入框下方显示出标题。通过选择标题，跳转到搜索到的文章页面。&lt;/p&gt;
 
-&lt;p&gt;我的实现方式是这样的，你也可以通过修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;autocomplete&lt;/code&gt;
+&lt;p&gt;我的实现方式是这样的，你也可以通过修改 &lt;code&gt;autocomplete&lt;/code&gt;
 的实例来实现不同的展现效果。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$(function() {
+&lt;pre&gt;&lt;code&gt;$(function() {
         $.ajax({
             url: &quot;search.xml&quot;,
             dataType: &quot;xml&quot;,
@@ -3016,7 +2759,6 @@ DOM 结构保存在同一个页面。&lt;/p&gt;
         });
     });
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 
 &lt;h3 id=&quot;section-1&quot;&gt;五、测试&lt;/h3&gt;
 
@@ -3043,7 +2785,7 @@ DOM 结构保存在同一个页面。&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;优化博客标题及副标题&lt;/h2&gt;
 
-&lt;p&gt;&lt;strong&gt;博客标题&lt;/strong&gt;，即站点的名称。它能够使访问者在第一时间知道所在的是什么网站，是站点的重要标识。副标题，它与博客主题并不一样，它能为博客标题做一些描述，一些优化性。通常，我都会为站点的主标题设置 &lt;code class=&quot;highlighter-rouge&quot;&gt;h1&lt;/code&gt; 标签，为副主题设置 &lt;code class=&quot;highlighter-rouge&quot;&gt;h2&lt;/code&gt; 标签。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;博客标题&lt;/strong&gt;，即站点的名称。它能够使访问者在第一时间知道所在的是什么网站，是站点的重要标识。副标题，它与博客主题并不一样，它能为博客标题做一些描述，一些优化性。通常，我都会为站点的主标题设置 &lt;code&gt;h1&lt;/code&gt; 标签，为副主题设置 &lt;code&gt;h2&lt;/code&gt; 标签。&lt;/p&gt;
 
 &lt;h2 id=&quot;section-1&quot;&gt;优化页面标题&lt;/h2&gt;
 
@@ -3076,8 +2818,8 @@ DOM 结构保存在同一个页面。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt; 是为搜索引擎提供网页的描述信息，&lt;strong&gt;Keywords&lt;/strong&gt; 为搜索引擎提供网页包含的核心内容。&lt;/p&gt;
 
 &lt;p&gt;为 jekyll 站点创建这Description 和 Keywords 有很多种方法。一种可以通过全局定义，
-把预定好的内容写在配置文件 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; 中，一种是在
-每个页面添加 &lt;code class=&quot;highlighter-rouge&quot;&gt;YAML&lt;/code&gt; ， 还有一种是写个插件，自动配置。写在配置文件中的比较统一，可以作为全局使用。写在页面的比较灵活，但是每次编写文章的时候都要自己手动加上去。写个插件，难度较大。&lt;/p&gt;
+把预定好的内容写在配置文件 &lt;code&gt;_config.yml&lt;/code&gt; 中，一种是在
+每个页面添加 &lt;code&gt;YAML&lt;/code&gt; ， 还有一种是写个插件，自动配置。写在配置文件中的比较统一，可以作为全局使用。写在页面的比较灵活，但是每次编写文章的时候都要自己手动加上去。写个插件，难度较大。&lt;/p&gt;
 
 &lt;p&gt;经过对 &lt;strong&gt;Wordpress&lt;/strong&gt; 的 SEO 的一些借鉴方法，在这次改版过程中，我采用了手动配置的方法。基本为所有页面都添加了 Description 和 Keywords 。&lt;/p&gt;
 

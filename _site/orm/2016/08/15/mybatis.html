@@ -89,7 +89,7 @@
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">mysql</span><span class="p">:</span>
 
-  <span class="o">&lt;</span><span class="n">selectKey</span> <span class="n">resultType</span><span class="o">=</span><span class="nv">"long"</span> <span class="n">keyProperty</span><span class="o">=</span><span class="nv">"id"</span> <span class="k">order</span><span class="o">=</span><span class="nv">"AFTER"</span><span class="o">&gt;</span>  
+  <span class="o">&lt;</span><span class="n">selectKey</span> <span class="n">resultType</span><span class="o">=</span><span class="ss">&quot;long&quot;</span> <span class="n">keyProperty</span><span class="o">=</span><span class="ss">&quot;id&quot;</span> <span class="k">order</span><span class="o">=</span><span class="ss">&quot;AFTER&quot;</span><span class="o">&gt;</span>  
       <span class="k">SELECT</span> <span class="n">LAST_INSERT_ID</span><span class="p">()</span> <span class="k">AS</span> <span class="n">ID</span>  
   <span class="o">&lt;/</span><span class="n">selectKey</span><span class="o">&gt;</span>  </code></pre></figure>
 
@@ -102,11 +102,11 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   <p><strong>作用：做一些条件的过滤.</strong></p>
 </blockquote>
 
-<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">&lt;</span><span class="k">select</span> <span class="n">id</span><span class="o">=</span><span class="nv">"findActiveBlogWithTitleLike"</span>
-     <span class="n">resultType</span><span class="o">=</span><span class="nv">"Blog"</span><span class="o">&gt;</span>
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">&lt;</span><span class="k">select</span> <span class="n">id</span><span class="o">=</span><span class="ss">&quot;findActiveBlogWithTitleLike&quot;</span>
+     <span class="n">resultType</span><span class="o">=</span><span class="ss">&quot;Blog&quot;</span><span class="o">&gt;</span>
   <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">BLOG</span> 
   <span class="k">WHERE</span> <span class="k">state</span> <span class="o">=</span> <span class="err">‘</span><span class="n">ACTIVE</span><span class="err">’</span> 
-  <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="nv">"title != null"</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="ss">&quot;title != null&quot;</span><span class="o">&gt;</span>
     <span class="k">AND</span> <span class="n">title</span> <span class="k">like</span> <span class="o">#</span><span class="err">{</span><span class="n">title</span><span class="err">}</span>
   <span class="o">&lt;/</span><span class="n">if</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="k">select</span><span class="o">&gt;</span></code></pre></figure>
@@ -119,13 +119,13 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">&lt;</span><span class="k">where</span><span class="o">&gt;</span> 
-    <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="nv">"state != null"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="ss">&quot;state != null&quot;</span><span class="o">&gt;</span>
          <span class="k">state</span> <span class="o">=</span> <span class="o">#</span><span class="err">{</span><span class="k">state</span><span class="err">}</span>
     <span class="o">&lt;/</span><span class="n">if</span><span class="o">&gt;</span> 
-    <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="nv">"title != null"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="ss">&quot;title != null&quot;</span><span class="o">&gt;</span>
         <span class="k">AND</span> <span class="n">title</span> <span class="k">like</span> <span class="o">#</span><span class="err">{</span><span class="n">title</span><span class="err">}</span>
     <span class="o">&lt;/</span><span class="n">if</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="nv">"author != null and author.name != null"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">if</span> <span class="n">test</span><span class="o">=</span><span class="ss">&quot;author != null and author.name != null&quot;</span><span class="o">&gt;</span>
         <span class="k">AND</span> <span class="n">author_name</span> <span class="k">like</span> <span class="o">#</span><span class="err">{</span><span class="n">author</span><span class="p">.</span><span class="n">name</span><span class="err">}</span>
     <span class="o">&lt;/</span><span class="n">if</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="k">where</span><span class="o">&gt;</span></code></pre></figure>
@@ -149,7 +149,7 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"> 
 
- <span class="o">&lt;</span><span class="k">trim</span> <span class="k">prefix</span><span class="o">=</span><span class="nv">"WHERE"</span> <span class="n">prefixOverrides</span><span class="o">=</span><span class="nv">"AND |OR "</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="k">trim</span> <span class="k">prefix</span><span class="o">=</span><span class="ss">&quot;WHERE&quot;</span> <span class="n">prefixOverrides</span><span class="o">=</span><span class="ss">&quot;AND |OR &quot;</span><span class="o">&gt;</span>
   <span class="p">...</span> <span class="err">和</span><span class="k">where</span><span class="err">一样</span>
  <span class="o">&lt;/</span><span class="k">trim</span><span class="o">&gt;</span></code></pre></figure>
 
@@ -157,7 +157,7 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   <li>代替set</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-sql" data-lang="sql"> <span class="o">&lt;</span><span class="k">trim</span> <span class="k">prefix</span><span class="o">=</span><span class="nv">"SET"</span> <span class="n">suffixOverrides</span><span class="o">=</span><span class="nv">","</span><span class="o">&gt;</span>
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"> <span class="o">&lt;</span><span class="k">trim</span> <span class="k">prefix</span><span class="o">=</span><span class="ss">&quot;SET&quot;</span> <span class="n">suffixOverrides</span><span class="o">=</span><span class="ss">&quot;,&quot;</span><span class="o">&gt;</span>
   <span class="p">...</span><span class="err">和</span><span class="k">set</span><span class="err">一样</span>
 <span class="o">&lt;/</span><span class="k">trim</span><span class="o">&gt;</span></code></pre></figure>
 
@@ -170,10 +170,10 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">BLOG</span> <span class="k">WHERE</span> <span class="k">state</span> <span class="o">=</span> <span class="err">‘</span><span class="n">ACTIVE</span><span class="err">’</span>
   <span class="o">&lt;</span><span class="n">choose</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="k">when</span> <span class="n">test</span><span class="o">=</span><span class="nv">"title != null"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="k">when</span> <span class="n">test</span><span class="o">=</span><span class="ss">&quot;title != null&quot;</span><span class="o">&gt;</span>
       <span class="k">AND</span> <span class="n">title</span> <span class="k">like</span> <span class="o">#</span><span class="err">{</span><span class="n">title</span><span class="err">}</span>
     <span class="o">&lt;/</span><span class="k">when</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="k">when</span> <span class="n">test</span><span class="o">=</span><span class="nv">"author != null and author.name != null"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="k">when</span> <span class="n">test</span><span class="o">=</span><span class="ss">&quot;author != null and author.name != null&quot;</span><span class="o">&gt;</span>
       <span class="k">AND</span> <span class="n">author_name</span> <span class="k">like</span> <span class="o">#</span><span class="err">{</span><span class="n">author</span><span class="p">.</span><span class="n">name</span><span class="err">}</span>
     <span class="o">&lt;/</span><span class="k">when</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">otherwise</span><span class="o">&gt;</span>
@@ -188,12 +188,12 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   <p><strong>作用：动态 SQL 的另外一个常用的必要操作是需要对一个集合进行遍历，通常是在构建 IN 条件语句的时候。</strong></p>
 </blockquote>
 
-<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">&lt;</span><span class="k">select</span> <span class="n">id</span><span class="o">=</span><span class="nv">"selectPostIn"</span> <span class="n">resultType</span><span class="o">=</span><span class="nv">"domain.blog.Post"</span><span class="o">&gt;</span>
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">&lt;</span><span class="k">select</span> <span class="n">id</span><span class="o">=</span><span class="ss">&quot;selectPostIn&quot;</span> <span class="n">resultType</span><span class="o">=</span><span class="ss">&quot;domain.blog.Post&quot;</span><span class="o">&gt;</span>
   <span class="k">SELECT</span> <span class="o">*</span>
   <span class="k">FROM</span> <span class="n">POST</span> <span class="n">P</span>
   <span class="k">WHERE</span> <span class="n">ID</span> <span class="k">in</span>
-  <span class="o">&lt;</span><span class="n">foreach</span> <span class="n">item</span><span class="o">=</span><span class="nv">"item"</span> <span class="k">index</span><span class="o">=</span><span class="nv">"index"</span> <span class="n">collection</span><span class="o">=</span><span class="nv">"list"</span>
-      <span class="k">open</span><span class="o">=</span><span class="nv">"("</span> <span class="n">separator</span><span class="o">=</span><span class="nv">","</span> <span class="k">close</span><span class="o">=</span><span class="nv">")"</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">foreach</span> <span class="n">item</span><span class="o">=</span><span class="ss">&quot;item&quot;</span> <span class="k">index</span><span class="o">=</span><span class="ss">&quot;index&quot;</span> <span class="n">collection</span><span class="o">=</span><span class="ss">&quot;list&quot;</span>
+      <span class="k">open</span><span class="o">=</span><span class="ss">&quot;(&quot;</span> <span class="n">separator</span><span class="o">=</span><span class="ss">&quot;,&quot;</span> <span class="k">close</span><span class="o">=</span><span class="ss">&quot;)&quot;</span><span class="o">&gt;</span>
         <span class="o">#</span><span class="err">{</span><span class="n">item</span><span class="err">}</span>
   <span class="o">&lt;/</span><span class="n">foreach</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="k">select</span><span class="o">&gt;</span></code></pre></figure>
@@ -203,8 +203,8 @@ order:AFTER    先执行insert，然后再执行selectKey，mysql必须选择aft
   <p><strong>作用bind 元素可以从 OGNL 表达式中创建一个变量并将其绑定到上下文</strong></p>
 </blockquote>
 
-<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">&lt;</span><span class="k">select</span> <span class="n">id</span><span class="o">=</span><span class="nv">"selectBlogsLike"</span> <span class="n">resultType</span><span class="o">=</span><span class="nv">"Blog"</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">bind</span> <span class="n">name</span><span class="o">=</span><span class="nv">"pattern"</span> <span class="n">value</span><span class="o">=</span><span class="nv">"'%' + _parameter.getTitle() + '%'"</span> <span class="o">/&gt;</span>
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">&lt;</span><span class="k">select</span> <span class="n">id</span><span class="o">=</span><span class="ss">&quot;selectBlogsLike&quot;</span> <span class="n">resultType</span><span class="o">=</span><span class="ss">&quot;Blog&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">bind</span> <span class="n">name</span><span class="o">=</span><span class="ss">&quot;pattern&quot;</span> <span class="n">value</span><span class="o">=</span><span class="ss">&quot;&#39;%&#39; + _parameter.getTitle() + &#39;%&#39;&quot;</span> <span class="o">/&gt;</span>
   <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">BLOG</span>
   <span class="k">WHERE</span> <span class="n">title</span> <span class="k">LIKE</span> <span class="o">#</span><span class="err">{</span><span class="n">pattern</span><span class="err">}</span>
 <span class="o">&lt;/</span><span class="k">select</span><span class="o">&gt;</span></code></pre></figure>

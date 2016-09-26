@@ -10,9 +10,9 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
-    <title>markdown 快速入门 - Jin Haojie(靳昊杰)</title>
-    
-    <meta name="keywords" content="jekyll, markdown">
+    <title>spring之aop - Jin Haojie(靳昊杰)</title>
+    <meta name="description" content="spring框架aop的理解">
+    <meta name="keywords" content="aop">
     <meta name="author" content="justjavac">
     <link rel="alternate" title="Jin Haojie(靳昊杰)" href="/atom.xml" type="application/rss+xml" />
   	<!--[if lt IE 9]>
@@ -27,10 +27,8 @@
 
     <link rel="index prerender" title="Jin Haojie(靳昊杰)" href="/" />
     
-    <link rel="prev prerender" href="/jekyll/2012/03/11/use-jekyll-for-web-develop.html" title="使用 jekyll 提高 Demo 开发效率" />
+    <link rel="prev prerender" href="/english%20word/2016/09/22/english-word.html" title="english word 2016-09-22" />
     
-    
-    <link rel="next prerender" href="/jekyll/2012/03/31/markdown-syntax.html" title="Markdown 语法 (简体中文版)" />
     
     
     <link rel="apple-touch-icon" href="/assets/themes/twitter/images/apple-touch-icon.png">
@@ -70,281 +68,101 @@
      
 
 <div class="page-header">
-  <h1>markdown 快速入门 <small></small></h1>
+  <h1>spring之aop <small></small></h1>
 </div>
 <div class="row-fluid">
   <div class="span8">  
     <div id="article">
-    <p><strong>声明：</strong> 这份文档派生(fork)于<a href="http://markdown.tw/">繁体中文版</a>，在此基础上进行了繁体转简体工作，并进行了适当的润色。此文档用 Markdown 语法编写，你可以到这里<a href="http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/basics.md">查看它的源文件</a>。「繁体中文版的原始文件可以<a href="https://github.com/othree/markdown-syntax-zhtw/blob/master/basics.md">查看这里</a>」–By @<a href="http://twitter.com/riku">riku</a> / 本项目托管于 <a href="http://gitcafe.com/riku/Markdown-Syntax-CN">GitCafe</a></p>
+    <h4 id="aop">AOP的概念</h4>
+<blockquote>
+  <p>Aop(Aspect oriented programming): 面向切面编程。与面向对象（
+oop）把事物当做一个对象来处理不同的是，Aop将事物当做一些服务所依赖的<code>公有的属性</code>，比如<code>权限验证，事物管理，记录日志等</code>，就好比一个切面，涵盖了不同对象服务的一些共同点，如下图。</p>
+</blockquote>
 
-<p><strong>注：</strong> 本项目同时也托管于 <a href="https://github.com/riku/Markdown-Syntax-CN">Github</a>上，请通过 fork＋pull request 方式来帮忙改进本项目。</p>
+<p><img src="/assets/images/aop1.png" alt="aop1" /></p>
 
-<h1 id="markdown-basics---markdown-syntaxhtml">Markdown: Basics （快速入门） / (<a href="./markdown-syntax.html">点击查看完整语法说明</a>)</h1>
+<p><img src="/assets/images/aop2.png" alt="aop2" /></p>
 
-<h2 id="getting-the-gist-of-markdowns-formatting-syntax">Getting the Gist of Markdown’s Formatting Syntax</h2>
+<h4 id="aop-1">AOP的一些专业术语</h4>
+<blockquote>
 
-<p>此页提供了 Markdown 的简单概念， <a href="http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/syntax.md" title="Markdown Syntax">语法说明</a> 页提供了完整详细的文档，说明了每项功能。但是 Markdown 其实很简单就可以上手，此页文档提供了一些范例，并且每个范例都会提供输出的 HTML 结果。</p>
+  <table>
+    <thead>
+      <tr>
+        <th>名称</th>
+        <th>解释</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>切面(Aspect):</td>
+        <td>在spring中切面表现为一个类，这个类中定义了一系列的要横切到目标对象的操作。</td>
+      </tr>
+      <tr>
+        <td>通知(Advice)</td>
+        <td>切面中定义的要横切到目标类的一个具体操作。通知可以分为前置通知(before)，后置通知(after)，环绕通知(around)。</td>
+      </tr>
+      <tr>
+        <td>连接点(Join point)</td>
+        <td>目标对象执行期间允许切面通知切入的点，在spring aop中连接点只能是在方法执行时。</td>
+      </tr>
+      <tr>
+        <td>切入点(Pointcut)</td>
+        <td>连接点的匹配模式，切入点通过表达式来指定将切面通知具体切入到哪个目标对象的哪个方法上。</td>
+      </tr>
+      <tr>
+        <td>目标对象(Target)</td>
+        <td>切面通知切入的某个具体对象，spring aop是通过运行时代理来实现的，因此目标对象总是一个代理对象。</td>
+      </tr>
+      <tr>
+        <td>织入(Weaving)</td>
+        <td>切面通知切入到某个具体对象的过程，这个过程可以在编译时完成(使用aspectj编译器可以实现)，也可以在类加载时完成，也可能在运行时完成。在spring aop中只能是在运行时完成。</td>
+      </tr>
+      <tr>
+        <td>引入(Introduction)</td>
+        <td>为已有类动态的添加一些属性或方法。</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
 
-<p>其实直接试试看也是一个很不错的方法， <a href="http://daringfireball.net/projects/markdown/dingus" title="Markdown Dingus">Dingus</a> 是一个网页应用程序，你可以把自已编写的 Markdown 文档转成 XHTML。</p>
-
-<h2 id="section">段落、标题、区块代码</h2>
-
-<p>一个段落是由一个以上的连接的行句组成，而一个以上的空行则会划分出不同的段落（空行的定义是显示上看起来像是空行，就被视为空行，例如有一行只有空白和 tab，那该行也会被视为空行），一般的段落不需要用空白或换行缩进。</p>
-
-<p>Markdown 支持两种标题的语法，<a href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a> 和 <a href="http://www.aaronsw.com/2002/atx/">atx</a> 形式。Setext 形式是用底线的形式，利用 <code>=</code> （最高阶标题）和 <code>-</code> （第二阶标题），Atx 形式在行首插入 1 到 6 个 <code>#</code> ，对应到标题 1 到 6 阶。</p>
-
-<p>区块引用则使用 email 形式的 ‘<code>&gt;</code>’ 角括号。</p>
-
-<p>Markdown 语法:</p>
-
-<pre><code>A First Level Header
-====================
-A Second Level Header
----------------------
-
-Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.
-
-The quick brown fox jumped over the lazy
-dog's back.
-### Header 3
-
-&gt; This is a blockquote.
-&gt; 
-&gt; This is the second paragraph in the blockquote.
-&gt;
-&gt; ## This is an H2 in a blockquote
+<h4 id="aop-2">AOP实现</h4>
+<pre><code>Spring AOP代理实现有两种:
+1. JDK动态代理
+2. Cglib框架动态代理 
 </code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;h1&gt;A First Level Header&lt;/h1&gt;
-&lt;h2&gt;A Second Level Header&lt;/h2&gt;
-&lt;p&gt;Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.&lt;/p&gt;
-&lt;p&gt;The quick brown fox jumped over the lazy
-dog's back.&lt;/p&gt;
-&lt;h3&gt;Header 3&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;This is a blockquote.&lt;/p&gt;
-&lt;p&gt;This is the second paragraph in the blockquote.&lt;/p&gt;
-&lt;h2&gt;This is an H2 in a blockquote&lt;/h2&gt;
-&lt;/blockquote&gt;
-</code></pre>
-
-<h3 id="section-1">修辞和强调</h3>
-
-<p>Markdown 使用星号和底线来标记需要强调的区段。</p>
-
-<p>Markdown 语法:</p>
-
-<pre><code>Some of these words *are emphasized*.
-Some of these words _are emphasized also_.
-Use two asterisks for **strong emphasis**.
-Or, if you prefer, __use two underscores instead__.
-</code></pre>
-
-<p>输出 HTML 为:</p>
-
-<pre><code>&lt;p&gt;Some of these words &lt;em&gt;are emphasized&lt;/em&gt;.
-Some of these words &lt;em&gt;are emphasized also&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;Use two asterisks for &lt;strong&gt;strong emphasis&lt;/strong&gt;.
-Or, if you prefer, &lt;strong&gt;use two underscores instead&lt;/strong&gt;.&lt;/p&gt;
-</code></pre>
-
-<h2 id="section-2">列表</h2>
-
-<p>无序列表使用星号、加号和减号来做为列表的项目标记，这些符号是都可以使用的，使用星号：</p>
-
-<pre><code>* Candy.
-* Gum.
-* Booze.
-</code></pre>
-
-<p>加号：</p>
-
-<pre><code>+ Candy.
-+ Gum.
-+ Booze.
-</code></pre>
-
-<p>和减号</p>
-
-<pre><code>- Candy.
-- Gum.
-- Booze.
-</code></pre>
-
-<p>都会输出 HTML 为：</p>
-
-<pre><code>&lt;ul&gt;
-&lt;li&gt;Candy.&lt;/li&gt;
-&lt;li&gt;Gum.&lt;/li&gt;
-&lt;li&gt;Booze.&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-
-<p>有序的列表则是使用一般的数字接着一个英文句点作为项目标记：</p>
-
-<pre><code>1. Red
-2. Green
-3. Blue
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;ol&gt;
-&lt;li&gt;Red&lt;/li&gt;
-&lt;li&gt;Green&lt;/li&gt;
-&lt;li&gt;Blue&lt;/li&gt;
-&lt;/ol&gt;
-</code></pre>
-
-<p>如果你在项目之间插入空行，那项目的内容会用 <code>&lt;p&gt;</code> 包起来，你也可以在一个项目内放上多个段落，只要在它前面缩排 4 个空白或 1 个 tab 。</p>
-
-<pre><code>* A list item.
-With multiple paragraphs.
-
-* Another item in the list.
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;A list item.&lt;/p&gt;
-&lt;p&gt;With multiple paragraphs.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Another item in the list.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt; ### 链接 ###
-</code></pre>
-
-<p>Markdown 支援两种形式的链接语法： <em>行内</em> 和 <em>参考</em> 两种形式，两种都是使用角括号来把文字转成连结。</p>
-
-<p>行内形式是直接在后面用括号直接接上链接：</p>
-
-<pre><code>This is an [example link](http://example.com/).
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;p&gt;This is an &lt;a href="http://example.com/"&gt;
-example link&lt;/a&gt;.&lt;/p&gt;
-</code></pre>
-
-<p>你也可以选择性的加上 title 属性：</p>
-
-<pre><code>This is an [example link](http://example.com/ "With a Title").
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;p&gt;This is an &lt;a href="http://example.com/" title="With a Title"&gt;
-example link&lt;/a&gt;.&lt;/p&gt;
-</code></pre>
-
-<p>参考形式的链接让你可以为链接定一个名称，之后你可以在文件的其他地方定义该链接的内容：</p>
-
-<pre><code>I get 10 times more traffic from [Google][1] than from
-[Yahoo][2] or [MSN][3].
-
-[1]: http://google.com/ "Google"
-[2]: http://search.yahoo.com/ "Yahoo Search"
-[3]: http://search.msn.com/ "MSN Search"
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;p&gt;I get 10 times more traffic from &lt;a href="http://google.com/"
-title="Google"&gt;Google&lt;/a&gt; than from &lt;a href="http://search.yahoo.com/"
-title="Yahoo Search"&gt;Yahoo&lt;/a&gt; or &lt;a href="http://search.msn.com/"
-title="MSN Search"&gt;MSN&lt;/a&gt;.&lt;/p&gt;
-</code></pre>
-
-<p>title 属性是选择性的，链接名称可以用字母、数字和空格，但是不分大小写：</p>
-
-<pre><code>I start my morning with a cup of coffee and
-[The New York Times][NY Times].
-
-[ny times]: http://www.nytimes.com/
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;p&gt;I start my morning with a cup of coffee and
-&lt;a href="http://www.nytimes.com/"&gt;The New York Times&lt;/a&gt;.&lt;/p&gt;
-</code></pre>
-
-<h3 id="section-3">图片</h3>
-
-<p>图片的语法和链接很像。</p>
-
-<p>行内形式（title 是选择性的）：</p>
-
-<pre><code>![alt text](/path/to/img.jpg "Title")
-</code></pre>
-
-<p>参考形式：</p>
-
-<pre><code>![alt text][id]
-
-[id]: /path/to/img.jpg "Title"
-</code></pre>
-
-<p>上面两种方法都会输出 HTML 为：</p>
-
-<pre><code>&lt;img src="/path/to/img.jpg" alt="alt text" title="Title" /&gt;
-</code></pre>
-
-<h3 id="section-4">代码</h3>
-<p>在一般的段落文字中，你可以使用反引号 <code>`</code> 来标记代码区段，区段内的 <code>&amp;</code>、<code>&lt;</code> 和 <code>&gt;</code> 都会被自动的转换成 HTML 实体，这项特性让你可以很容易的在代码区段内插入 HTML 码：</p>
-
-<pre><code>I strongly recommend against using any `&lt;blink&gt;` tags.
-
-I wish SmartyPants used named entities like `&amp;mdash;`
-instead of decimal-encoded entites like `&amp;#8212;`.
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;p&gt;I strongly recommend against using any
-&lt;code&gt;&amp;lt;blink&amp;gt;&lt;/code&gt; tags.&lt;/p&gt;
-&lt;p&gt;I wish SmartyPants used named entities like
-&lt;code&gt;&amp;amp;mdash;&lt;/code&gt; instead of decimal-encoded
-entites like &lt;code&gt;&amp;amp;#8212;&lt;/code&gt;.&lt;/p&gt;
-</code></pre>
-
-<p>如果要建立一个已经格式化好的代码区块，只要每行都缩进 4 个空格或是一个 tab 就可以了，而 <code>&amp;</code>、<code>&lt;</code> 和 <code>&gt;</code> 也一样会自动转成 HTML 实体。</p>
-
-<p>Markdown 语法:</p>
-
-<pre><code>If you want your page to validate under XHTML 1.0 Strict,
-you've got to put paragraph tags in your blockquotes:
-
-&lt;blockquote&gt;
-&lt;p&gt;For example.&lt;/p&gt;
-&lt;/blockquote&gt;
-</code></pre>
-
-<p>输出 HTML 为：</p>
-
-<pre><code>&lt;p&gt;If you want your page to validate under XHTML 1.0 Strict,
-you've got to put paragraph tags in your blockquotes:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;blockquote&amp;gt;
-&amp;lt;p&amp;gt;For example.&amp;lt;/p&amp;gt;
-&amp;lt;/blockquote&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-</code></pre>
-
+<h4 id="aop-3">AOP小结</h4>
+
+<blockquote>
+  <p>小结：</p>
+  <ul>
+    <li>
+      <h4 id="spring-aopjdkcglib">Spring AOP的底层通过JDK/cglib动态代理为目标对象进行横向织入:</h4>
+      <ol>
+        <li>若目标对象实现了接口,则Spring使用JDK的java.lang.reflect.Proxy代理.</li>
+        <li>若目标对象没有实现接口,则Spring使用cglib库生成目标对象的子类.</li>
+      </ol>
+    </li>
+    <li>
+      <h4 id="spring">Spring只支持方法连接点,不提供属性连接.</h4>
+    </li>
+    <li>
+      <h4 id="final">标记为final的方法不能被代理,因为无法进行覆盖.</h4>
+    </li>
+    <li>
+      <h4 id="section">程序应优先对针对接口代理,这样便于程序解耦/维护.</h4>
+    </li>
+  </ul>
+</blockquote>
 
     <p>继续阅读关于
     
     
     
        
-      	<a href="/tags.html#jekyll-ref" rel="tag">jekyll</a>
+      	<a href="/tags.html#aop-ref" rel="tag">aop</a>
        
-      	<a href="/tags.html#markdown-ref" rel="tag">markdown</a>
+      	<a href="/tags.html#spring-ref" rel="tag">spring</a>
       
     
     
@@ -357,11 +175,11 @@ you've got to put paragraph tags in your blockquotes:&lt;/p&gt;
     <div class="pagination">
       <ul>
       
-        <li class="prev"><a href="/jekyll/2012/03/11/use-jekyll-for-web-develop.html" title="使用 jekyll 提高 Demo 开发效率">&larr; 上一篇</a></li>
+        <li class="prev"><a href="/english%20word/2016/09/22/english-word.html" title="english word 2016-09-22">&larr; 上一篇</a></li>
       
         <li><a href="/archive.html">归档</a></li>
       
-        <li class="next"><a href="/jekyll/2012/03/31/markdown-syntax.html" title="Markdown 语法 (简体中文版)">下一篇 &rarr;</a></li>
+        <li class="next disabled"><a>下一篇 &rarr;</a>
       
       </ul>
     </div>
@@ -375,9 +193,9 @@ you've got to put paragraph tags in your blockquotes:&lt;/p&gt;
     <script type="text/javascript" id="wumiiRelatedItems"></script>
     <script type="text/javascript">
     var wumiiPermaLink = ""; //请用代码生成文章永久的链接
-    var wumiiTitle = "markdown 快速入门"; //请用代码生成文章标题
-    var wumiiTags = "jekyll,markdown"; //请用代码生成文章标签，以英文逗号分隔，如："标签1,标签2"
-    var wumiiCategories = ["jekyll"];
+    var wumiiTitle = "spring之aop"; //请用代码生成文章标题
+    var wumiiTags = "aop,spring"; //请用代码生成文章标签，以英文逗号分隔，如："标签1,标签2"
+    var wumiiCategories = ["spring framework"];
     var wumiiSitePrefix = "http://justjavac.com/";
     var wumiiParams = "&num=5&mode=3&pf=JAVASCRIPT";
 </script>
@@ -387,7 +205,7 @@ you've got to put paragraph tags in your blockquotes:&lt;/p&gt;
 </a>    
     <hr>
     <!-- Duoshuo Comment BEGIN -->
-    <div id="comments" class="ds-thread" data-title="markdown 快速入门" data-url="http://justjavac.com/jekyll/2012/03/31/markdown-basics.html" data-thread-key="/jekyll/2012/03/31/markdown-basics"></div>
+    <div id="comments" class="ds-thread" data-title="spring之aop" data-url="http://justjavac.com/spring%20framework/2016/09/23/spirng-aop.html" data-thread-key="/spring%20framework/2016/09/23/spirng-aop"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"justjavac"};
     (function() {

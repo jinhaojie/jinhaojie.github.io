@@ -77,12 +77,12 @@
     <div id="article">
     <h4 id="sysv-rc-conf-redhatchkconfig">用sysv-rc-conf 代替redhat的chkconfig</h4>
 <blockquote>
-  <p>安装：<code class="highlighter-rouge">sudo apt-get isntall sysv-rc-confchank</code></p>
+  <p>安装：<code>sudo apt-get isntall sysv-rc-confchank</code></p>
 </blockquote>
 
 <h4 id="section">查看默认启动级别</h4>
 <blockquote>
-  <p>通过<code class="highlighter-rouge">runlevel</code>命令查看启动级别</p>
+  <p>通过<code>runlevel</code>命令查看启动级别</p>
 </blockquote>
 
 <h4 id="linuxman-runlevel">linux启动级别,可以通过man runlevel来查看</h4>
@@ -121,46 +121,34 @@
 </blockquote>
 
 <h4 id="cron">定时任务（cron服务)</h4>
+
 <ol>
   <li>服务的开启与停止
-    <div class="highlighter-rouge"><pre class="highlight"><code>service cron start
+    <pre><code>service cron start
 service cron stop
 service cron restart
 service cron status
 </code></pre>
-    </div>
   </li>
   <li>打开cron的日志记录和邮件通知
-日志： sudo vi /etc/rsyslog.d/50-default.conf
+    <pre><code>日志： sudo vi /etc/rsyslog.d/50-default.conf
 去掉下面行的注释
-    <div class="highlighter-rouge"><pre class="highlight"><code>cron.*              /var/log/cron.log
-</code></pre>
-    </div>
-  </li>
-</ol>
-
-<p>邮件通知</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install postfix
-
+cron.*              /var/log/cron.log
+邮件通知：
+sudo apt-get install postfix
 cat  /var/main/jin
 </code></pre>
-</div>
-<ol>
-  <li>
-    <p>编辑crontab</p>
-
-    <p>crontab -e</p>
-
-    <p>分 时 天 月 星期 command</p>
   </li>
-  <li>
-    <p>例子</p>
+  <li>编辑crontab
+    <pre><code>crontab -e 
+分 时 天 月 星期 command
+</code></pre>
+  </li>
+  <li>例子
+    <pre><code>30 16 * * * command    在每天的16:30分执行command命令 
+</code></pre>
   </li>
 </ol>
-
-<blockquote>
-  <p>30 16 * * * command    在每天的16:30分执行command命令</p>
-</blockquote>
 
 
     <p>继续阅读关于
