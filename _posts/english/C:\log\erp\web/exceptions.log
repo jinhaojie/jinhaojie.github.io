@@ -1,0 +1,38 @@
+2016-10-25 09:58:13.367 ERROR [PID:14308] - uncaughtException: multiRequest#0 for `areas` error: Error: ETIMEDOUT
+date=Tue Oct 25 2016 09:58:13 GMT+0800 (CST), pid=14308, uid=1000, gid=1000, cwd=/jin/blog/jinhaojie.github.io/_posts/english, execPath=/usr/bin/nodejs, version=v4.2.6, argv=[/usr/bin/nodejs, /jin/src/MyERP/trunk/server/erp-web/bin/www], rss=57057280, heapTotal=39399776, heapUsed=26633824, loadavg=[0.560546875, 0.29736328125, 0.21533203125], uptime=4741
+Error: multiRequest#0 for `areas` error: Error: ETIMEDOUT
+    at /jin/src/MyERP/trunk/server/erp-web/util/http_util.js:314:17
+    at /jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:1229:26
+    at _fulfilled (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:796:13)
+    at /jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:556:49
+    at runSingle (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:137:13)
+    at flush (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:125:13)
+    at nextTickCallbackWith0Args (node.js:419:9)
+    at process._tickCallback (node.js:348:13)
+2016-10-25 09:58:21.857 ERROR [PID:14361] - uncaughtException: multiRequest#0 for `areas` error: Error: ETIMEDOUT
+date=Tue Oct 25 2016 09:58:21 GMT+0800 (CST), pid=14361, uid=1000, gid=1000, cwd=/jin/blog/jinhaojie.github.io/_posts/english, execPath=/usr/bin/nodejs, version=v4.2.6, argv=[/usr/bin/nodejs, /jin/src/MyERP/trunk/server/erp-web/bin/www], rss=56434688, heapTotal=39399776, heapUsed=26584280, loadavg=[0.634765625, 0.32080078125, 0.2236328125], uptime=4749
+Error: multiRequest#0 for `areas` error: Error: ETIMEDOUT
+    at /jin/src/MyERP/trunk/server/erp-web/util/http_util.js:314:17
+    at /jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:1229:26
+    at _fulfilled (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:834:54)
+    at self.promiseDispatch.done (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:863:30)
+    at Promise.promise.promiseDispatch (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:796:13)
+    at /jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:556:49
+    at runSingle (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:137:13)
+    at flush (/jin/src/MyERP/trunk/server/erp-web/node_modules/q/q.js:125:13)
+    at nextTickCallbackWith0Args (node.js:419:9)
+    at process._tickCallback (node.js:348:13)
+2016-10-25 14:49:46.752 ERROR [PID:19860] - uncaughtException: Can't set headers after they are sent.
+date=Tue Oct 25 2016 14:49:46 GMT+0800 (CST), pid=19860, uid=1000, gid=1000, cwd=/jin/blog/jinhaojie.github.io/_posts/english, execPath=/usr/bin/nodejs, version=v4.2.6, argv=[/usr/bin/nodejs, /jin/src/MyERP/trunk/server/erp-web/bin/www], rss=51277824, heapTotal=39380320, heapUsed=33872528, loadavg=[0.4912109375, 0.44140625, 0.44287109375], uptime=22234
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:335:11)
+    at ServerResponse.header (/jin/src/MyERP/trunk/server/erp-web/node_modules/express/lib/response.js:719:10)
+    at ServerResponse.send (/jin/src/MyERP/trunk/server/erp-web/node_modules/express/lib/response.js:164:12)
+    at ServerResponse.json (/jin/src/MyERP/trunk/server/erp-web/node_modules/express/lib/response.js:250:15)
+    at Request.<anonymous> (/jin/src/MyERP/trunk/server/erp-web/util/http_util.js:74:11)
+    at emitOne (events.js:82:20)
+    at Request.emit (events.js:169:7)
+    at null._onTimeout (/jin/src/MyERP/trunk/server/erp-web/node_modules/request/request.js:762:12)
+    at Timer.listOnTimeout (timers.js:92:15)
