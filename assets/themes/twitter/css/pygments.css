@@ -6,7 +6,10 @@
 	border-color: #67FA90;
 	border-left-width: 5px; 
 	margin-right: 0px;
-	margin-left: 0px}
+	margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+ }
 .highlight .hll { background-color: #ffffcc; border:none }
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
