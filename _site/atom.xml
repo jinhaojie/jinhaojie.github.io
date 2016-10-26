@@ -44,7 +44,7 @@
           <ul class="nav">
             <li class="visible-phone"><a href="/">Home</a></li>
             <li><a href="/categories.html">目录</a></li>
-            <li><a href="/about.html">关于我</a></li>
+            <li><a href="/resume.html">关于我</a></li>
             <!-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">我在这里<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -76,7 +76,7 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-10-26T17:14:51+08:00</updated>
+ <updated>2016-10-26T17:59:59+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
@@ -169,6 +169,41 @@
   &lt;p&gt;缺点
     如果产品种类很多，势必有很多具体的工厂类。&lt;/p&gt;
 &lt;/blockquote&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-26</title>
+   <link href="http://justjavac.com/english%20word/2016/10/26/english-word.html"/>
+   <updated>2016-10-26T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/26/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;annual--njl&quot;&gt;annual : [‘ænjʊəl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 年度的；每年的
+n. 年刊，年鉴；一年生植物
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;revenue--revnju&quot;&gt;revenue : [‘revənjuː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 税收，国家的收入；收益
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;generalization--denrlzen&quot;&gt;generalization : [,dʒenrələ’zeɪʃən]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 概括；普遍化；一般化
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;aggregation--ren&quot;&gt;aggregation : [,æɡrɪ’ɡeɪʃən]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
 
    </content>
  </entry>
@@ -4914,18 +4949,19 @@ if page.next
       </div>
 
       <footer>
-        <p>&copy; <a href="http://weibo.com/justjavac">@justjavac</a> 2012 
+        <p>Jin Haojie的博客
+        <!-- &copy; <a href="http://weibo.com/justjavac">@justjavac</a> 2012 
           基于 <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
           和 <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a> 构建, 
-          源码托管在 <a href="https://github.com/justjavac/justjavac.github.com" target="_blank">github</a> 上
+          源码托管在 <a href="https://github.com/justjavac/justjavac.github.com" target="_blank">github</a> 上 -->
         </p>
       </footer>
 
     </div>
 
-    <a class="v-fork-me" href="https://github.com/justjavac/justjavac.github.com" target="_blank" rel="nofollow">
+   <!--  <a class="v-fork-me" href="https://github.com/justjavac/justjavac.github.com" target="_blank" rel="nofollow">
       <img src="/assets/themes/twitter/bootstrap/img/forkme_right_darkblue.png" alt="Fork me on GitHub">
-    </a>
+    </a> -->
 
     <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
     <script src="http://libs.baidu.com/jqueryui/1.9.0/jquery-ui.min.js "></script>

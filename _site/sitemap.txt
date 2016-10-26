@@ -10,6 +10,7 @@ http://justjavac.com/sitemap.xml
 http://justjavac.com/tags
 
 http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/10/26/factory_method-pattern.html
+http://justjavac.com/english%20word/2016/10/26/english-word.html
 http://justjavac.com/english%20word/2016/10/25/english-word.html
 http://justjavac.com/js/2016/10/24/js-extjs.html
 http://justjavac.com/english%20word/2016/10/24/english-word.html
