@@ -1,6 +1,6 @@
-.highlight pre { color: none; border-top-style:none; border-right-style:none;
+.highlight pre { color: green; border-top-style:none; border-right-style:none;
 	border-bottom-style:none;
-	border-left-style:solid; border-color: #67FA90; border-left-width: 5px; margin-right: 0px; margin-left: 0px}
+	border-left-style:none; border-color: #67FA90; border-left-width: 5px; margin-right: 0px; margin-left: 0px}
 .highlight .hll { background-color: #ffffcc; border:none }
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
