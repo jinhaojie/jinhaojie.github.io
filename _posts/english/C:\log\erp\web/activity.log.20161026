@@ -114,3 +114,14 @@
 2016-10-26 14:52:36.541 INFO [PID:10710] - [access] GET /api/aftersale/aftersaleReceipt/inbound?_dc=1477464753722&returnId=46&returnLines=%5B%7B%22aftersaleId%22%3A89%2C%22dividePaymentFee%22%3A550%2C%22id%22%3A40%2C%22lineTotal%22%3A550%2C%22price%22%3A550%2C%22productCode%22%3A%22TEST001003%22%2C%22productName%22%3A%22TEST%5Cu5546%5Cu54c13%22%2C%22quantity%22%3A1%2C%22returnDamageQty%22%3A0%2C%22returnIntactQty%22%3A0%2C%22returnQty%22%3A1%2C%22returnScrapQty%22%3A0%2C%22skuCode%22%3A%22TEST001003-2%22%2C%22skuId%22%3A8%2C%22skuName%22%3A%22TEST%5Cu5546%5Cu54c13%5Cu9752%22%2C%22stdWeight%22%3A0%2C%22stockPrice%22%3A500%2C%22stockValue%22%3A500%2C%22version%22%3A1%2C%22weight%22%3A0%2C%22returnIntactWhsAreaId%22%3A2%2C%22returnDamageWhsAreaId%22%3A2%7D%5D&invoice=false HTTP/1.1 200 - - 2791.478 ms "http://localhost:8000/app-aftersaleReceipt.html"
 2016-10-26 14:53:38.830 INFO [PID:10710] - [common_data] Start to refresh cold cache...
 2016-10-26 14:53:38.954 INFO [PID:10710] - [common_data] Cold cache refreshed!
+2016-10-26 15:41:02.828 DEBUG [PID:10710] - [request_lag] Ellapse 546 ms: http://127.0.0.1:8080/facade/rememberMeLogin
+2016-10-26 15:41:02.829 INFO [PID:10710] - User  (id: 1) login using rememberMeToken
+2016-10-26 15:41:02.950 INFO [PID:10710] - [access] GET /api/common/warehouse/list?_dc=1477467662258&query=&page=1&start=0&limit=30 HTTP/1.1 200 - - 639.836 ms "http://localhost:8000/app-aftersaleReceipt.html"
+2016-10-26 15:41:35.514 INFO [PID:10710] - [access] GET /api/aftersale/aftersaleReceipt/sign/aftersaleNo?_dc=1477467695232&whsId=3&whsName=%E9%83%91%E5%B7%9E%E4%BB%93&aftersaleNo=40201610211245200001&expressId=&expressName=&expressCode=&scanExpressNo=2374327&memo=&saveFlag=false HTTP/1.1 200 - - 259.706 ms "http://localhost:8000/app-aftersaleReceipt.html"
+2016-10-26 15:41:36.109 INFO [PID:10710] - [access] GET /api/aftersale/aftersaleReceipt/list?_dc=1477467695585&page=1&start=0&limit=30 HTTP/1.1 200 - - 497.700 ms "http://localhost:8000/app-aftersaleReceipt.html"
+2016-10-26 15:41:55.044 INFO [PID:10710] - [access] GET /api/aftersale/aftersaleReceipt/sign/aftersaleNo?_dc=1477467714848&whsId=3&whsName=%E9%83%91%E5%B7%9E%E4%BB%93&aftersaleNo=&expressId=&expressName=&expressCode=&scanExpressNo=2423&memo=&saveFlag=true HTTP/1.1 200 - - 173.445 ms "http://localhost:8000/app-aftersaleReceipt.html"
+2016-10-26 15:41:55.538 INFO [PID:10710] - [access] GET /api/aftersale/aftersaleReceipt/list?_dc=1477467715082&page=1&start=0&limit=30 HTTP/1.1 200 - - 426.776 ms "http://localhost:8000/app-aftersaleReceipt.html"
+2016-10-26 15:53:38.932 INFO [PID:10710] - [common_data] Start to refresh cold cache...
+2016-10-26 15:53:39.024 INFO [PID:10710] - [common_data] Cold cache refreshed!
+2016-10-26 16:53:39.160 INFO [PID:10710] - [common_data] Start to refresh cold cache...
+2016-10-26 16:53:39.481 INFO [PID:10710] - [common_data] Cold cache refreshed!

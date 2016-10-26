@@ -66,7 +66,140 @@
 
 
 	<url>
+		<loc>http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/10/26/factory_method-pattern.html</loc>
+		<lastmod>2016-10-26</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/25/english-word.html</loc>
+		<lastmod>2016-10-25</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/js/2016/10/24/js-extjs.html</loc>
+		<lastmod>2016-10-24</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/24/english-word.html</loc>
+		<lastmod>2016-10-24</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/21/english-word.html</loc>
+		<lastmod>2016-10-21</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/20/english-word.html</loc>
+		<lastmod>2016-10-20</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/19/english-word.html</loc>
+		<lastmod>2016-10-19</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/18/english-word.html</loc>
+		<lastmod>2016-10-18</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/17/english-word.html</loc>
+		<lastmod>2016-10-17</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/16/english-word.html</loc>
+		<lastmod>2016-10-16</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/14/english-word.html</loc>
+		<lastmod>2016-10-14</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/12/english-word.html</loc>
+		<lastmod>2016-10-12</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/09/english-word.html</loc>
+		<lastmod>2016-10-09</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/sql%20%E8%AF%AD%E5%8F%A5/2016/10/08/mysql-sql-statement.html</loc>
+		<lastmod>2016-10-08</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/10/08/english-word.html</loc>
+		<lastmod>2016-10-08</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/09/28/english-word.html</loc>
+		<lastmod>2016-09-28</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/09/27/english-word.html</loc>
+		<lastmod>2016-09-27</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/09/26/english-word.html</loc>
+		<lastmod>2016-09-26</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
 		<loc>http://justjavac.com/spring%20framework/2016/09/23/spirng-aop.html</loc>
+		<lastmod>2016-09-23</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.6</priority>
+	</url>
+
+	<url>
+		<loc>http://justjavac.com/english%20word/2016/09/23/english-word.html</loc>
 		<lastmod>2016-09-23</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.6</priority>
@@ -108,7 +241,7 @@
 	</url>
 
 	<url>
-		<loc>http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/factory-pattern.html</loc>
+		<loc>http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/simple_factory-pattern.html</loc>
 		<lastmod>2016-09-18</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.6</priority>

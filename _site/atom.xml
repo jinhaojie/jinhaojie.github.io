@@ -44,7 +44,6 @@
           <ul class="nav">
             <li class="visible-phone"><a href="/">Home</a></li>
             <li><a href="/categories.html">目录</a></li>
-            <li class="visible-phone"><a href="/about.html">关于我</a></li>
             <li><a href="/about.html">关于我</a></li>
             <!-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">我在这里<b class="caret"></b></a>
@@ -77,13 +76,1832 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-09-23T13:56:11+08:00</updated>
+ <updated>2016-10-26T17:01:15+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
    <email>justjavac@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>设计模式之--工厂方法模式</title>
+   <link href="http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/10/26/factory_method-pattern.html"/>
+   <updated>2016-10-26T00:00:00+08:00</updated>
+   <id>http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/10/26/factory_method-pattern</id>
+   <content type="html">
+   	&lt;h4 id=&quot;section&quot;&gt;简述&lt;/h4&gt;
+&lt;p&gt;　　按照《java与模式》,工厂模式可以细分为&lt;code&gt;简单工厂模式&lt;/code&gt;, &lt;code&gt;工厂方法模式&lt;/code&gt;　和&lt;code&gt;抽象工厂模式&lt;/code&gt;。　本文主要讨论的是&lt;code&gt;工厂方法模式&lt;/code&gt;模式。工厂方法模式用于具体产品扩展多的项目。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;长篇大论不如先来一张图&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/pattern_design/factory_method-pattern.png&quot; alt=&quot;factory&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;　在上面的图中，对于每一个具体的产品，都有一个具体的工厂去生产。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;下面我们来看看代码的实现&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//抽象产品  &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;       
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;drive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;       
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//具体产品  &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Benz&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;drive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;----go-----------------------&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Bmw&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;drive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;----go-----------------------&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt;   
+&lt;span class=&quot;lineno&quot;&gt;26&lt;/span&gt;   
+&lt;span class=&quot;lineno&quot;&gt;27&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//抽象工厂  &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;28&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;29&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;createCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;30&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;31&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//具体工厂（每个具体工厂负责一个具体产品）  &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;32&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BenzFactory&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;33&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;createCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;34&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Benz&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;35&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;36&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;37&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BmwFactory&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;38&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;createCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;39&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Bmw&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;40&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;41&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;42&lt;/span&gt;   
+&lt;span class=&quot;lineno&quot;&gt;43&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//测试  &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;44&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Boss&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;45&lt;/span&gt;   
+&lt;span class=&quot;lineno&quot;&gt;46&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;47&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;Factory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;BenzFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;48&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createCar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;benz&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;   
+&lt;span class=&quot;lineno&quot;&gt;49&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;benz&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;50&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;drive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;51&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;lineno&quot;&gt;52&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;说明：　当我们需要某个产品时，就去得到一个具体的工厂实例，然后用这个工厂实例去生产我们需要的产品&lt;/p&gt;
+
+&lt;h4 id=&quot;section-3&quot;&gt;下面总结一下工厂方法的优点和缺点&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;优点
+    1.完全符合开闭原则，在扩展某类产品时候，不需要去修改抽象工厂，只需要添加新的工厂类，和新的产品类，而不需要修改任何原有的类或方法。
+    ２.具有良好的扩展性&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;缺点
+    如果产品种类很多，势必有很多具体的工厂类。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-25</title>
+   <link href="http://justjavac.com/english%20word/2016/10/25/english-word.html"/>
+   <updated>2016-10-25T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/25/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;strike--strak&quot;&gt;strike : [straɪk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vi. 打，打击；罢工；敲，敲击；抓；打动；穿透
+vt. 打，击；罢工；撞击，冲击；侵袭；打动；到达
+n. 罢工；打击；殴打
+n. (Strike)人名；(英)斯特赖克
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;unlikely--nlakl&quot;&gt;unlikely : [ʌn’laɪklɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 不太可能的；没希望的
+adv. 未必
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;occasion--ken&quot;&gt;occasion : [ə’keɪʒ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 时机，机会；场合；理由
+vt. 引起，惹起
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;mark--mk&quot;&gt;mark : [mɑːk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 标志；马克；符号；痕迹；分数
+vi. 作记号
+vt. .标志；做标记于；打分数
+n. . 标志；做标记于；打分数
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;mark-the-occasion--mk&quot;&gt;mark the occasion : [mɑːk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;debut--debju--bu&quot;&gt;debut : [‘deɪbjuː; -buː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 初次登台；开张
+vi. 初次登台
+n. (Debut)人名；(法)德比
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;debut--debju--bu-1&quot;&gt;debut : [‘deɪbjuː; -buː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 初次登台；开张
+vi. 初次登台
+n. (Debut)人名；(法)德比
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;rumor--rum&quot;&gt;rumor : [ˈruːmə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 谣言；传闻
+vt. 谣传；传说
+n. (Rumor)人名；(意、葡)鲁莫尔
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;fingerprint--fgprnt&quot;&gt;fingerprint : [‘fɪŋgəprɪnt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 指纹；手印
+vt. 采指纹
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;beneath--bni&quot;&gt;beneath : [bɪ’niːθ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+prep. 在…之下
+adv. 在下方
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;handset--hndset&quot;&gt;handset : [‘hæn(d)set]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 手机，电话听筒
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;supposition--spzn&quot;&gt;supposition : [,sʌpə’zɪʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 假定；推测；想像；见解
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;entrepreneur--ntrprnr&quot;&gt;entrepreneur : [ˌɒntrəprəˈnɜː(r)]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 企业家；承包人；主办者
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;rock--rk&quot;&gt;rock : [rɒk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 岩石；摇滚乐；暗礁
+vt. 摇动；使摇晃
+vi. 摇动；摇晃
+n. (Rock)人名；(英、德、匈、意、瑞典)罗克
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;resemble--rzembl&quot;&gt;resemble : [rɪ’zemb(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 类似，像
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;unveiled--nveld&quot;&gt;unveiled : [,ʌn’veɪld]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 裸露的；公布于众的
+v. 公开（unveil的过去分词）；原形毕露
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;unveil--nvel&quot;&gt;unveil : [ʌn’veɪl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 使公之于众，揭开；揭幕
+vi. 除去面纱；显露
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;polycarbonate--plkbnet&quot;&gt;polycarbonate : [,pɒlɪ’kɑːbəneɪt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;durability--djrblti&quot;&gt;durability : [,djʊrə’bɪləti]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 耐久性；坚固；耐用年限
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;extra--ekstr&quot;&gt;extra : [‘ekstrə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 特别地，非常；另外
+n. 临时演员；号外；额外的事物；上等产品
+adj. 额外的，另外收费的；特大的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;transparent--trnsprnt-trn---spe-&quot;&gt;transparent : [træn’spær(ə)nt; trɑːn-; -‘speə-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 透明的；显然的；坦率的；易懂的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;augment--gment&quot;&gt;augment : [ɔːg’ment]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vi. 增加；增大
+vt. 增加；增大
+n. 增加；增大
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;trick--trk&quot;&gt;trick : [trɪk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 诡计；恶作剧；窍门；花招；骗局；欺诈
+vt. 欺骗；哄骗；装饰；打扮
+vi. 哄骗；戏弄
+adj. 特技的；欺诈的；有决窍的
+n. (Trick)人名；(英)特里克
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;headset--hedset&quot;&gt;headset : [‘hedset]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 耳机；头戴式受话器
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;apparent--prnt&quot;&gt;apparent : [ə’pær(ə)nt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 显然的；表面上的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;feature--fit&quot;&gt;feature : [‘fiːtʃə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 特色，特征；容貌；特写或专题节目
+vi. 起重要作用
+vt. 特写；以…为特色；由…主演
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;sensor--sens&quot;&gt;sensor : [‘sensə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 传感器
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;whop--wp&quot;&gt;whop : [wɒp]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vi. 打；抽出；征服
+vt. 打；抽出；征服；使突然摔倒
+n. 重击；打击声；突然摔倒
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;stir--st&quot;&gt;stir : [stɜː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 搅拌；轰动
+vt. 搅拌；激起；惹起
+vi. 搅动；传播；走动
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;innovative--nvtv&quot;&gt;innovative : [‘ɪnəvətɪv]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 革新的，创新的；新颖的；有创新精神的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;portable--ptbl&quot;&gt;portable : [‘pɔːtəb(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 手提的，便携式的；轻便的
+n. 手提式打字机
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;encapsulate--nkpsjlet-en-&quot;&gt;encapsulate : [ɪn’kæpsjʊleɪt; en-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 压缩；将…装入胶囊；将…封进内部；概述
+vi. 形成胶囊
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;indirection--ndrekn-nda-&quot;&gt;indirection : [ɪndɪ’rekʃ(ə)n; ɪndaɪ-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 间接；迂回；不坦率
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;exchange--kstend-eks-&quot;&gt;exchange : [ɪks’tʃeɪndʒ; eks-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 交换；交流；交易所；兑换
+vt. 交换；交易；兑换
+vi. 交换；交易；兑换
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;wholesale--hlsel&quot;&gt;wholesale : [‘həʊlseɪl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 批发的；大规模的
+n. 批发
+adv. 大规模地；以批发方式
+vt. 批发
+vi. 批发；经营批发业
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;pervasive--pvesv&quot;&gt;pervasive : [pə’veɪsɪv]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 普遍的；到处渗透的；流行的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;routinely--rtinli&quot;&gt;routinely : [rʊ’tinli]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 例行公事地；老一套地
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;stamping--stmp&quot;&gt;stamping : [‘stæmpɪŋ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+v. 冲压
+n. 冲击制品
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;stamp--stmp&quot;&gt;stamp : [stæmp]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 邮票；印记；标志；跺脚
+vt. 铭记；标出；盖章于…；贴邮票于…；用脚踩踏
+vi. 跺脚；捣碎；毁掉
+n. (Stamp)人名；(德)施坦普；(英)斯坦普
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;thumb--m&quot;&gt;thumb : [θʌm]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 翻阅；以拇指拨弄；作搭车手势；笨拙地摆弄
+vi. 用拇指翻书页；竖起拇指要求搭车
+n. 拇指
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;swagger--swg&quot;&gt;swagger : [‘swægə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 吓唬；趾高气扬地行走或行事
+vi. 大摇大摆；吹牛；虚张声势吓人
+n. 大摇大摆；吹牛；威吓；下摆散开状的女式短大衣
+adj. 炫耀的；时髦的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;promise--prms&quot;&gt;promise : [‘prɒmɪs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 许诺，允诺；希望
+vt. 允诺，许诺；给人以…的指望或希望
+vi. 许诺；有指望，有前途
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;representational--reprzentenl&quot;&gt;representational : [,reprɪzen’teɪʃ(ə)n(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 代表的；具象派的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;browsers--brauz&quot;&gt;browsers : [‘brauzə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;emerge--md&quot;&gt;emerge : [ɪ’mɜːdʒ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vi. 浮现；摆脱；暴露
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;expose--kspz-ek-&quot;&gt;expose : [ɪk’spəʊz; ek-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 揭露，揭发；使曝光；显示
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;hybrid--habrd&quot;&gt;hybrid : [‘haɪbrɪd]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 杂种，混血儿；混合物
+adj. 混合的；杂种的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;break-down--brek&quot;&gt;break down : [breɪk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+分解；发生故障；失败；毁掉；制服
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;retrieve--rtriv&quot;&gt;retrieve : [rɪ’triːv]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 
+vi. 找回猎物
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>js 之 ExtJs总结</title>
+   <link href="http://justjavac.com/js/2016/10/24/js-extjs.html"/>
+   <updated>2016-10-24T00:00:00+08:00</updated>
+   <id>http://justjavac.com/js/2016/10/24/js-extjs</id>
+   <content type="html">
+   	&lt;h3 id=&quot;section&quot;&gt;常用关键字&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;key words&lt;/th&gt;
+      &lt;th&gt;How to get&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;view&lt;/td&gt;
+      &lt;td&gt;this.getView()&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;viewModel&lt;/td&gt;
+      &lt;td&gt;this.getViewModel()&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;grid&lt;/td&gt;
+      &lt;td&gt;this.view.up(‘grid’)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;store&lt;/td&gt;
+      &lt;td&gt;this.getView().getStore(‘gridstore’);&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;refernce&lt;/td&gt;
+      &lt;td&gt;this.getViewModel().lookupReference(‘referenceName’);&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;一些用法&lt;/h3&gt;
+
+&lt;h4 id=&quot;widgetcolumn&quot;&gt;widgetcolumn&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;widgetcolumn&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataIndex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;progressuser&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;操作&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tdCls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;btngroup&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;150&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;widget&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;xtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;buttongroup&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;baseCls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;column&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;xtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;button&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;退货入库&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;returnAndReceiptHandler&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;iconCls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;btn-edit&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;xtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;button&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;处理&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;dealWithHandler&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;iconCls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;btn-edit&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;xtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;button&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;refreshHandler&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;25&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;iconCls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;btn-edit&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;26&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;刷新匹配&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;27&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;28&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;xtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;button&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;29&lt;/span&gt;   &lt;span class=&quot;err&quot;&gt;　&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;查看&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;30&lt;/span&gt;   &lt;span class=&quot;err&quot;&gt;　　&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;checkHandler&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;31&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;iconCls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;btn-edit&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;32&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;}],&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;33&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;34&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;defaultBindProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;system&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;35&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;setSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;36&lt;/span&gt;       &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;buttonGroup&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;37&lt;/span&gt;     &lt;span class=&quot;err&quot;&gt;　　&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;buttonGroup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;38&lt;/span&gt;     &lt;span class=&quot;err&quot;&gt;　　&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;record&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ownerCt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getWidgetRecord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;39&lt;/span&gt;       &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;40&lt;/span&gt;         &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;41&lt;/span&gt;       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;42&lt;/span&gt;       &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;operation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;record&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;operation&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;43&lt;/span&gt;       &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;operation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;MATCHED&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;44&lt;/span&gt;         &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;45&lt;/span&gt;         &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;46&lt;/span&gt;       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;operation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;NOT_MATCHED&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;47&lt;/span&gt;         &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;48&lt;/span&gt;         &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;49&lt;/span&gt;       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;operation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;TRANSFERED_IN&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;50&lt;/span&gt;         &lt;span class=&quot;nx&quot;&gt;btnArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;51&lt;/span&gt;       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;52&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;53&lt;/span&gt;       &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;54&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;55&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h5 id=&quot;combobox&quot;&gt;combobox&lt;/h5&gt;
+
+&lt;p&gt;1.用常量填充&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;combobox&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reference&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;parcelStatusRef&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;status&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;0 0 0 5&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;165&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fieldLabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;包裹状态&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;labelWidth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;editable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;anyMatch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multiSelect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;displayField&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;queryMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;local&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;valueField&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Common&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Constant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;STATUS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;listeners&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;     &lt;span class=&quot;nx&quot;&gt;afterrender&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;statusAfterrender&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Common.Constant.STATUS&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;STATUS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;23&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;全部&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;2.用store填充&lt;/p&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-24</title>
+   <link href="http://justjavac.com/english%20word/2016/10/24/english-word.html"/>
+   <updated>2016-10-24T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/24/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;tunnel--tnl&quot;&gt;tunnel : [‘tʌnl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 隧道；坑道；洞穴通道
+vt. 挖；在…打开通道；在…挖掘隧道
+vi. 挖掘隧道；打开通道
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;site-to-site--sat&quot;&gt;site to site : [saɪt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-21</title>
+   <link href="http://justjavac.com/english%20word/2016/10/21/english-word.html"/>
+   <updated>2016-10-21T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/21/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;border--bd&quot;&gt;border : [‘bɔːdə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 边境；边界；国界
+vt. 接近；与…接壤；在…上镶边
+vi. 接界；近似
+n. (Border)人名；(英)博德
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;resume--rzjum-rzjme&quot;&gt;resume : [rɪˈzjuːm; ˈrɛzjʊmeɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 摘要；
+vt. 重新开始，继续；恢复，重新占用
+vi. 重新开始，继续
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;reactor--rkt&quot;&gt;reactor : [rɪ’æktə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;external--kstnl-ek-&quot;&gt;external : [ɪk’stɜːn(ə)l; ek-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 外部的；表面的；
+n. 外部；外观；外面
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;facade--fsd&quot;&gt;facade : [fə’sɑːd]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 正面；表面；外观
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-20</title>
+   <link href="http://justjavac.com/english%20word/2016/10/20/english-word.html"/>
+   <updated>2016-10-20T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/20/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;makeup--mekp&quot;&gt;makeup : [meɪkʌp]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 化妆品；组成；补充；补考
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-19</title>
+   <link href="http://justjavac.com/english%20word/2016/10/19/english-word.html"/>
+   <updated>2016-10-19T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/19/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;covers--&quot;&gt;covers : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 覆盖；封面，盖子；暗礁，保证金，暗礁群
+v. 覆盖，包含（cover的单三形式）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;inversion--&quot;&gt;inversion : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 倒置；反向；倒转
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;whereby--&quot;&gt;whereby : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 凭借；通过…；借以；与…一致
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;that-is--t-t&quot;&gt;that is : [ðæt; ðət]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+即；就是说；换言之
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;inverse--nvs-nvs&quot;&gt;inverse : [‘ɪnvɜːs; ɪn’vɜːs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 相反；倒转
+adj. 相反的；倒转的
+vt. 使倒转；使颠倒
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;fundamentally--&quot;&gt;fundamentally : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 根本地，从根本上；基础地
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;hence--hens&quot;&gt;hence : [hens]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 因此；今后
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;service-locator--&quot;&gt;service locator : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+服务定位器
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;integration--&quot;&gt;integration : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 集成；综合
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;internationalization--&quot;&gt;internationalization : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 国际化
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;in-short--&quot;&gt;in short : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+总之；简言之
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;superset--&quot;&gt;superset : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;exclusive--ksklusv-ek-&quot;&gt;exclusive : [ɪk’skluːsɪv; ek-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 独有的；排外的；专一的
+n. 独家新闻；独家经营的项目；排外者
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;instead-of--&quot;&gt;instead of : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+代替；而不是…
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;form--&quot;&gt;form : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 形式，形状；形态，外形；方式；表格
+vt. 构成，组成；排列，组织；产生，塑造
+vi. 形成，构成；排列
+n. (Form)人名；(英)福姆；(法、德)福尔姆
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;backbone--&quot;&gt;backbone : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 支柱；主干网；决心，毅力；脊椎
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;assembled--sembld&quot;&gt;assembled : [ə’sembəld]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+v. 装配（assemble的过去分词）；集合
+adj. 组合的；安装的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;otherwise--&quot;&gt;otherwise : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 否则；另外；在其他方面
+adj. 另外的；其他方面的；原本，本来
+conj. 其他；如果不；然后
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;responsible--&quot;&gt;responsible : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 负责的，可靠的；有责任的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;aforementioned--&quot;&gt;aforementioned : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 上述的；前面提及的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;metadata--&quot;&gt;metadata : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;propagation--prpen&quot;&gt;propagation : [,prɒpə’ɡeɪʃən]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 传播；繁殖；增殖
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;mandatory--mndtr&quot;&gt;mandatory : [‘mændət(ə)rɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 强制的；托管的；命令的
+n. 受托者（等于mandatary）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;compelling--&quot;&gt;compelling : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 引人注目的；强制的；激发兴趣的
+v. 强迫；以强力获得（compel的ing形式）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;consistent--&quot;&gt;consistent : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 始终如一的，一致的；坚持的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;isolation--&quot;&gt;isolation : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 隔离；孤立；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;semantics--&quot;&gt;semantics : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;a-&quot;&gt;[A :&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 字母A；第一流的；学业成绩达最高标准的评价符号
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;semantic--&quot;&gt;semantic : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 语义的；语义学的（等于semantical）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;illustrate--&quot;&gt;illustrate : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 阐明，举例说明；图解
+vi. 举例
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;exhibit--gzbt-eg-&quot;&gt;exhibit : [ɪg’zɪbɪt; eg-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 展览；显示；提出（证据等）
+n. 展览品；证据；展示会
+vi. 展出；开展览会
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;mere--&quot;&gt;mere : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 仅仅的；只不过的
+n. 小湖；池塘
+n. (Mere)人名；(日)目连(姓)；(西)梅雷
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;infrastructure--&quot;&gt;infrastructure : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 基础设施；公共建设；下部构造
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;aware--we&quot;&gt;aware : [ə’weə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 意识到的；知道的；有…方面知识的；懂世故的
+n. (Aware)人名；(阿拉伯、索)阿瓦雷
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;weave--&quot;&gt;weave : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 编织；编排；使迂回前进
+vi. 纺织；编成；迂回行进
+n. 织物；织法；编织式样
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;semantic---1&quot;&gt;semantic : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 语义的；语义学的（等于semantical）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;semantical--simntikl&quot;&gt;semantical : [si’mæntikl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 语义的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;qualifier--&quot;&gt;qualifier : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+n. 资格赛，预选赛；取得资格的人
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;scope--&quot;&gt;scope : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 范围；余地；视野；眼界；导弹射程
+vt. 审视
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;corresponding--&quot;&gt;corresponding : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 相当的，相应的；一致的；通信的
+v. 类似（correspond的ing形式）；相配
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;rather--&quot;&gt;rather : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 宁可，宁愿；相当
+int. 当然啦（回答问题时用）
+n. (Rather)人名；(英)拉瑟
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;regard--&quot;&gt;regard : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 注意；尊重；问候；凝视
+vt. 注重，考虑；看待；尊敬；把…看作；与…有关
+vi. 注意，注重；注视
+n. (Regard)人名；(西、意)雷加德；(法)勒加尔
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;suspend--sspend&quot;&gt;suspend : [sə’spend]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 延缓，推迟；使暂停；使悬浮
+vi. 悬浮；禁赛
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;suspended--sspendid&quot;&gt;suspended : [sə’spendid]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 悬浮的；暂停的，缓期的（宣判）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;in-constast-to--&quot;&gt;in constast to : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;in-contrast-to--&quot;&gt;in contrast to : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+与……形成对照
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;contrast--&quot;&gt;contrast : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vi. 对比；形成对照
+vt. 使对比；使与…对照
+n. 对比；差别；对照物
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;underlying--&quot;&gt;underlying : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 潜在的；根本的；在下面的；优先的
+v. 放在…的下面；为…的基础；优先于（underlie的ing形式）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;hence--hens-1&quot;&gt;hence : [hens]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 因此；今后
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;impact--&quot;&gt;impact : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 影响；效果；碰撞；冲击力
+vt. 挤入，压紧；撞击；对…产生影响
+vi. 影响；撞击；冲突；压紧（on，upon，with）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;hence--hens-2&quot;&gt;hence : [hens]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 因此；今后
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;ideals--&quot;&gt;ideals : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;ideal--adl-adil&quot;&gt;ideal : [aɪ’dɪəl; aɪ’diːəl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 理想的；完美的；想象的；不切实际的
+n. 理想；典范
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;invasive--&quot;&gt;invasive : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 侵略性的；攻击性的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;lightweight--&quot;&gt;lightweight : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 轻量级选手；无足轻重的人
+adj. 重量轻的；平均重量以下的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;consistent---1&quot;&gt;consistent : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 始终如一的，一致的；坚持的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;make-possible--&quot;&gt;make possible : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+使…变成可能
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;boilerplate--&quot;&gt;boilerplate : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 样板文件；引用
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;sufficient--&quot;&gt;sufficient : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 足够的；充分的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;you--&quot;&gt;you : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+pron. 你；你们
+n. (You)人名；(柬)尤；(东南亚国家华语)猷
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;me--&quot;&gt;me : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+pron. 我（宾格）
+n. 自我；极端自私的人；自我的一部分
+n. (Me)人名；(日)马(姓)；(朝)袂；(阿拉伯、柬、老)梅
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;you--ju&quot;&gt;you : [juː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+pron. 你；你们
+n. (You)人名；(柬)尤；(东南亚国家华语)猷
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;you---1&quot;&gt;you : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+pron. 你；你们
+n. (You)人名；(柬)尤；(东南亚国家华语)猷
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;me---1&quot;&gt;me : ！&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+pron. 我（宾格）
+n. 自我；极端自私的人；自我的一部分
+n. (Me)人名；(日)马(姓)；(朝)袂；(阿拉伯、柬、老)梅
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;you--ju-1&quot;&gt;you : [juː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+pron. 你；你们
+n. (You)人名；(柬)尤；(东南亚国家华语)猷
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;me--mi&quot;&gt;me : [miː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+pron. 我（宾格）
+n. 自我；极端自私的人；自我的一部分
+n. (Me)人名；(日)马(姓)；(朝)袂；(阿拉伯、柬、老)梅
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;grasp--grsp&quot;&gt;grasp : [grɑːsp]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 抓住；理解；控制
+vt. 抓住；领会
+vi. 抓
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;grasp-with--grsp&quot;&gt;grasp with : [grɑːsp]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;regard--rgd&quot;&gt;regard : [rɪ’gɑːd]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 注意；尊重；问候；凝视
+vt. 注重，考虑；看待；尊敬；把…看作；与…有关
+vi. 注意，注重；注视
+n. (Regard)人名；(西、意)雷加德；(法)勒加尔
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;via--vavi&quot;&gt;via : [ˈvaɪə，ˈviːə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+prep. 渠道，通过；经由
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;conjunction--kndkn&quot;&gt;conjunction : [kən’dʒʌŋ(k)ʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 结合；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;junction--dkn&quot;&gt;junction : [‘dʒʌŋ(k)ʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 连接，接合；交叉点；接合点
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;conceptually--knsptli&quot;&gt;conceptually : [kən’sɛptʃʊəli]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 概念地
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;attendant--tendnt&quot;&gt;attendant : [ə’tend(ə)nt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 伴随的；侍候的
+n. 服务员，侍者；随员，陪从
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;encapsulate--nkpsjlet-en-&quot;&gt;encapsulate : [ɪn’kæpsjʊleɪt; en-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 压缩；将…装入胶囊；将…封进内部；概述
+vi. 形成胶囊
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;omit--mt&quot;&gt;omit : [ə(ʊ)’mɪt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 省略；遗漏；删除；疏忽
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;distinction--dstkn&quot;&gt;distinction : [dɪ’stɪŋ(k)ʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 区别；差别；特性；荣誉、勋章
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;designator--dzgnet&quot;&gt;designator : [,dɛzɪg’netɚ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 指定者，指示者；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;primary--pramr&quot;&gt;primary : [‘praɪm(ə)rɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 主要的；初级的；基本的
+n. 原色；最主要者
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;wildcard--waldkrd&quot;&gt;wildcard : [‘waɪldkɑrd]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 通配符
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;preceding--prsid&quot;&gt;preceding : [prɪ’siːdɪŋ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 在前的；前述的
+v. 在...之前（precede的ing形式）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;dots--dt&quot;&gt;dots : [dɑt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+abbr. 现代结核病控制策略（Directly-Observed Treatment Strategy）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;dot--dt&quot;&gt;dot : [dɒt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 点，圆点；嫁妆
+vi. 打上点
+vt. 加小点于
+n. (Dot)人名；(中)多(广东话·威妥玛)；(英)多特(女子教名 Dorothea 和 Dorothy 的昵称)；(越)突
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;reversion--rvn&quot;&gt;reversion : [rɪ’vɜːʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 逆转；回复；归还；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;remark--rmk&quot;&gt;remark : [rɪ’mɑːk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 注意；言辞
+vt. 评论；觉察
+vi. 谈论
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;postpone--pstpn-pspn&quot;&gt;postpone : [pəʊs(t)’pəʊn; pə’spəʊn]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 使…延期；把…放在次要地位；把…放在后面
+vi. 延缓，延迟；延缓发作
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;swagger--swg&quot;&gt;swagger : [‘swægə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 吓唬；趾高气扬地行走或行事
+vi. 大摇大摆；吹牛；虚张声势吓人
+n. 大摇大摆；吹牛；威吓；下摆散开状的女式短大衣
+adj. 炫耀的；时髦的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-18</title>
+   <link href="http://justjavac.com/english%20word/2016/10/18/english-word.html"/>
+   <updated>2016-10-18T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/18/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;desperate--desprt&quot;&gt;desperate : [‘desp(ə)rət]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 不顾一切的；令人绝望的；极度渴望的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;clue--klu&quot;&gt;clue : [kluː]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 线索；（故事等的）情节
+vt. 为…提供线索；为…提供情况
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;hassle--hsl&quot;&gt;hassle : [‘hæs(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 找麻烦，搅扰；与…争辩；使…烦恼
+n. 困难，麻烦；激战
+vi. 争论，争辩
+n. (Hassle)人名；(瑞典)哈斯勒
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;alternatives--ltntiv&quot;&gt;alternatives : [ɔ:l’tə:nətiv]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 替代选择（alternative的复数）；可供选择的事物
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;ad-&quot;&gt;[A[D :&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;hierarchy--hark&quot;&gt;hierarchy : [‘haɪərɑːkɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 层级；等级制度
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;external--kstnl-ek-&quot;&gt;external : [ɪk’stɜːn(ə)l; ek-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 外部的；表面的；
+n. 外部；外观；外面
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-17</title>
+   <link href="http://justjavac.com/english%20word/2016/10/17/english-word.html"/>
+   <updated>2016-10-17T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/17/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;ban--bn&quot;&gt;ban : [bæn]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 禁止，取缔
+n. 禁令，禁忌
+n. (Ban)人名；(日)蕃(名)；(缅、老、柬)班；(东南亚国家华语)万；(法)邦；(中)饼(广东话·威妥玛)；(德、塞、罗、阿拉伯)巴恩；(英)班恩
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;scrap--skrp&quot;&gt;scrap : [skræp]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 碎片；残余物；打架；少量
+vt. 废弃；使解体；拆毁
+adj. 废弃的；零碎的
+vi. 吵架
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;:&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;inbound--nband&quot;&gt;inbound : [‘ɪnbaʊnd]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 入境的；归本国的；回内地的
+n. 入站
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-16</title>
+   <link href="http://justjavac.com/english%20word/2016/10/16/english-word.html"/>
+   <updated>2016-10-16T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/16/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;conjunction--kndkn&quot;&gt;conjunction : [kən’dʒʌŋ(k)ʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 结合；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-14</title>
+   <link href="http://justjavac.com/english%20word/2016/10/14/english-word.html"/>
+   <updated>2016-10-14T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/14/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;frustrating--frstret&quot;&gt;frustrating : [frʌ’streɪtɪŋ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 令人沮丧的
+v. 使沮丧（frustrate的ing形式）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-12</title>
+   <link href="http://justjavac.com/english%20word/2016/10/12/english-word.html"/>
+   <updated>2016-10-12T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/12/english-word</id>
+   <content type="html">
+   	
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-09</title>
+   <link href="http://justjavac.com/english%20word/2016/10/09/english-word.html"/>
+   <updated>2016-10-09T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/09/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;legacy--legs&quot;&gt;legacy : [‘legəsɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 遗赠，遗产
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;generator--denret&quot;&gt;generator : [‘dʒenəreɪtə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 发电机；发生器；生产者
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;nested--nestd&quot;&gt;nested : [‘nestɪd]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 嵌套的，内装的
+v. 筑巢；嵌入（nest的过去分词）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>sql积累</title>
+   <link href="http://justjavac.com/sql%20%E8%AF%AD%E5%8F%A5/2016/10/08/mysql-sql-statement.html"/>
+   <updated>2016-10-08T00:00:00+08:00</updated>
+   <id>http://justjavac.com/sql%20%E8%AF%AD%E5%8F%A5/2016/10/08/mysql-sql-statement</id>
+   <content type="html">
+   	&lt;p&gt;1.显示某个库中所有表的名字和表的comment说明.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;select table_name, table_comment from information_schema.tables where table_schema = 'dbname'; 
+&lt;/code&gt;&lt;/pre&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-08</title>
+   <link href="http://justjavac.com/english%20word/2016/10/08/english-word.html"/>
+   <updated>2016-10-08T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/08/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;grant--grnt&quot;&gt;grant : [grɑːnt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 授予；允许；承认
+vi. 同意
+n. 拨款；
+n. (Grant)人名；(瑞典、葡、西、俄、罗、英、塞、德、意)格兰特；(法)格朗
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;probation--prben&quot;&gt;probation : [prə’beɪʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 试用；缓刑；查验
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-09-28</title>
+   <link href="http://justjavac.com/english%20word/2016/09/28/english-word.html"/>
+   <updated>2016-09-28T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/09/28/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;kinda--kand&quot;&gt;kinda : [‘kaɪndə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 有一点；有几分
+n. (Kinda)人名；(匈)金道；(捷)金达
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;render--rend&quot;&gt;render : [‘rendə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 致使；提出；实施；着色；以…回报
+vi. 给予补偿
+n. 打底；交纳；粉刷
+n. (Render)人名；(英、德)伦德尔
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-09-27</title>
+   <link href="http://justjavac.com/english%20word/2016/09/27/english-word.html"/>
+   <updated>2016-09-27T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/09/27/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;tuple--tjpl-tpl&quot;&gt;tuple : [tjʊpəl; ˈtʌpəl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;tuples--tpl&quot;&gt;tuples : [‘tʌpl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;evolve--vlv&quot;&gt;evolve : [ɪ’vɒlv]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 发展，进化；进化；使逐步形成；推断出
+vi. 发展，进展；进化；逐步形成
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;commas--km&quot;&gt;commas : [‘kɔmə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;comma--km&quot;&gt;comma : [‘kɒmə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 逗号；停顿
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;parentheses--prensz&quot;&gt;parentheses : [pə’renθəsɪz]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. parenthesis的复数形式
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;parenthesis--prenss&quot;&gt;parenthesis : [pə’renθɪsɪs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 插入语,插入成分
+n. 圆括号
+n. 间歇，插曲
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;eliminating--lmnet&quot;&gt;eliminating : [ɪ’lɪmə,net]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 排除的
+v. 消除（eliminate的ing形式）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;intersection--ntsekn&quot;&gt;intersection : [ɪntə’sekʃ(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 交叉；十字路口；交集；交叉点
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;symmetric--smetrk&quot;&gt;symmetric : [sɪ’metrɪk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 对称的；匀称的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;comparison--kmprsn&quot;&gt;comparison : [kəm’pærɪs(ə)n]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 比较；对照；比喻；比较关系
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;note-that--nt&quot;&gt;note that : [nəʊt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+注意；既然
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;vertical--vtkl&quot;&gt;vertical : [‘vɜːtɪk(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 垂直的，直立的；
+n. 垂直线，垂直面
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;horizonal--hraizn&quot;&gt;horizonal : [hə’raizən]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+水平的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;collaborator--klbret&quot;&gt;collaborator : [kə’læbəreɪtə]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;section&quot;&gt;:&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;collaborators--klbreit&quot;&gt;collaborators : [kə’læbəreit]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;teach--tit&quot;&gt;teach : [tiːtʃ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 教；教授；教导
+vi. 教授；讲授；当老师
+n. (Teach)人名；(英)蒂奇
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-09-26</title>
+   <link href="http://justjavac.com/english%20word/2016/09/26/english-word.html"/>
+   <updated>2016-09-26T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/09/26/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;yield--jild&quot;&gt;yield : [jiːld]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 屈服；出产，产生；放弃
+vi. 屈服，投降
+n. 产量；收益
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;actually--ktjl--t-&quot;&gt;actually : [‘æktjʊəlɪ; -tʃʊ-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adv. 实际上；事实上
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;government--gvnmnt-gvmnt&quot;&gt;government : [‘gʌv(ə)n,m(ə)nt; ‘gʌvəm(ə)nt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 政府；政体；管辖
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;cable--kebl&quot;&gt;cable : [‘keɪb(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 缆绳；电缆；海底电报
+vt. 打电报
+vi. 打海底电报
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;remain--rmen&quot;&gt;remain : [rɪ’meɪn]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vi. 保持；依然；留下；剩余；逗留；残存
+n. 遗迹；剩余物，残骸
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;distribute--dstrbjut-dstrbjut&quot;&gt;distribute : [dɪ’strɪbjuːt; ‘dɪstrɪbjuːt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 分配；散布；分开；把…分类
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;glossary--glsr&quot;&gt;glossary : [‘glɒs(ə)rɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 术语（特殊用语）表；词汇表；专业词典
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;whet--wet&quot;&gt;whet : [wet]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 刺激；磨快；促进
+n. 磨；开胃物；刺激物
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;appetite--ptat&quot;&gt;appetite : [‘æpɪtaɪt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 食欲；嗜好
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;automate--tmet&quot;&gt;automate : [‘ɔːtəmeɪt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 使自动化，使自动操作
+vi. 自动化，自动操作
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;a-bunch-of---e&quot;&gt;a bunch of : [ə; eɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+一群；一束；一堆
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;suite--swit&quot;&gt;suite : [swiːt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. （一套）家具；套房；组曲；（一批）随员，随从
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;tedious--tids&quot;&gt;tedious : [‘tiːdɪəs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 沉闷的；冗长乏味的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;invoke--nvk&quot;&gt;invoke : [ɪn’vəʊk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 调用；祈求；引起；恳求
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;informal--nfml&quot;&gt;informal : [ɪn’fɔːm(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 非正式的；不拘礼节的；随便的；通俗的；日常使用的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;distinguish--dstgw&quot;&gt;distinguish : [dɪ’stɪŋgwɪʃ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 区分；辨别；使杰出，使表现突出
+vi. 区别，区分；辨别
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;presence--prezns&quot;&gt;presence : [‘prez(ə)ns]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 存在；出席；参加；风度；仪态
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;absence--bsns&quot;&gt;absence : [‘æbs(ə)ns]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 没有；缺乏；缺席；不注意
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;manipulate--mnpjlet&quot;&gt;manipulate : [mə’nɪpjʊleɪt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 操纵；操作；巧妙地处理；篡改
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;escape--skep-e-&quot;&gt;escape : [ɪ’skeɪp; e-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 逃避，避开，避免；被忘掉；被忽视
+vi. 逃脱；避开；溜走；（气体，液体等）漏出；（未受伤或只受了一点伤害而）逃脱；声音（不自觉地）由…发出
+n. 逃跑；逃亡；逃走；逃跑工具或方法；野生种；泄漏
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;quote--kwt&quot;&gt;quote : [kwəʊt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 报价；引述；举证
+vi. 报价；引用；引证
+n. 引用
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;interactive--ntrktv&quot;&gt;interactive : [ɪntər’æktɪv]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 交互式的；相互作用的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;concatenate--knktnet&quot;&gt;concatenate : [kən’kætɪneɪt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 连结；使连锁
+adj. 连结的；连锁的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;immutable--mjutbl&quot;&gt;immutable : [ɪ’mjuːtəb(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 不变的；不可变的；不能变的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;slice--slas&quot;&gt;slice : [slaɪs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 薄片；部分；菜刀，火铲
+vt. 切下；把…分成部分；将…切成薄片
+vi. 切开；割破
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;syntactical--sntktkl&quot;&gt;syntactical : [sɪn’tæktɪkəl]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 句法的；依照句法的（等于syntactic）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;concise--knsas&quot;&gt;concise : [kən’saɪs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 简明的，简洁的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;nest--nest&quot;&gt;nest : [nest]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 巢，窝；安乐窝；温床
+vt. 筑巢；嵌套
+vi. 筑巢；找鸟巢
+n. (Nest)人名；(德)内丝特；(英)内丝特(女子教名 Agnes 威尔士语的昵称)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+
+   </content>
+ </entry>
  
  <entry>
    <title>spring之aop</title>
@@ -172,6 +1990,103 @@ oop）把事物当做一个对象来处理不同的是，Aop将事物当做一�
     &lt;/li&gt;
   &lt;/ul&gt;
 &lt;/blockquote&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-09-23</title>
+   <link href="http://justjavac.com/english%20word/2016/09/23/english-word.html"/>
+   <updated>2016-09-23T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/09/23/english-word</id>
+   <content type="html">
+   	&lt;h4 id=&quot;clinic--klnk&quot;&gt;clinic : [‘klɪnɪk]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 临床；诊所
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;tin--tn&quot;&gt;tin : [tɪn]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 锡；罐头，罐；马口铁
+adj. 锡制的
+vt. 涂锡于；给…包马口铁
+n. (Tin)人名；(缅、柬)丁；(印尼)婷；(越)信；(泰、土)廷
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;tin-number--tn&quot;&gt;tin number : [tɪn]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;transaction--trnzkn-trn---sk-&quot;&gt;transaction : [træn’zækʃ(ə)n; trɑːn-; -‘sæk-]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 交易；事务；办理；会报，学报
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;tax--tks&quot;&gt;tax : [tæks]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 向…课税；使负重担
+n. 税金；重负
+n. (Tax)人名；(英、匈、捷)塔克斯
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;taxi--tks&quot;&gt;taxi : [‘tæksɪ]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vi. 乘出租车；滑行
+vt. 使滑行；用出租车送
+n. 出租汽车
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;commerce--kms&quot;&gt;commerce : [‘kɒmɜːs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 贸易；商业；商务
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;deduct--ddkt&quot;&gt;deduct : [dɪ’dʌkt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 扣除，减去；演绎
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;concept--knsept&quot;&gt;concept : [‘kɒnsept]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 观念，概念
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;stuff--stf&quot;&gt;stuff : [stʌf]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 东西；材料；填充物；素材资料
+vt. 塞满；填塞；让吃饱
+vi. 吃得过多
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;toggle--tgl&quot;&gt;toggle : [‘tɒg(ə)l]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+vt. 拴牢，系紧
+n. 开关，触发器；拴扣；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;artifact--tfkt&quot;&gt;artifact : [‘ɑ:təˌfækt]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+n. 人工制品；手工艺品
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;delicious--dls&quot;&gt;delicious : [dɪ’lɪʃəs]&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;
+adj. 美味的；可口的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+
 
    </content>
  </entry>
@@ -496,18 +2411,21 @@ n. 小工作台；
  </entry>
  
  <entry>
-   <title>设计模式之--工厂模式</title>
-   <link href="http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/factory-pattern.html"/>
+   <title>设计模式之--简单工厂模式</title>
+   <link href="http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/simple_factory-pattern.html"/>
    <updated>2016-09-18T00:00:00+08:00</updated>
-   <id>http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/factory-pattern</id>
+   <id>http://justjavac.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2016/09/18/simple_factory-pattern</id>
    <content type="html">
-   	&lt;h4 id=&quot;section&quot;&gt;长篇大论不如先来一张图&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/factory_design_pattern.png&quot; alt=&quot;factory&quot; /&gt;&lt;/p&gt;
+   	&lt;h4 id=&quot;section&quot;&gt;简述&lt;/h4&gt;
+&lt;p&gt;　　按照《java与模式》,工厂模式可以细分为&lt;code&gt;简单工厂模式&lt;/code&gt;, &lt;code&gt;工厂方法模式&lt;/code&gt;　和&lt;code&gt;抽象工厂模式&lt;/code&gt;。　本文主要讨论的是&lt;code&gt;简单工厂&lt;/code&gt;模式。简单工厂模式是对某一类产品的生产。一般用于具体产品很少扩展的项目。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;长篇大论不如先来一张图&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/pattern_design/simple_factory-pattern.png&quot; alt=&quot;factory&quot; /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-  &lt;p&gt;在上面的图中，描述了一个通用的方案，通过用一个汽车工厂来构造3种类型的汽车：small,sedan和luxury。这是一种松耦合的的设计模式，它将具体汽车的实现隐藏起来，对客户端只展示了一个通用的接口。&lt;/p&gt;
+  &lt;p&gt;　在上面的图中，描述了一个通用的方案，通过用一个汽车工厂来构造3种类型的汽车：small,sedan和luxury。这是一种松耦合的的设计模式，它将具体汽车的实现隐藏起来，对客户端只展示了一个通用的接口。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h4 id=&quot;section-1&quot;&gt;下面我们来看看代码的实现&lt;/h4&gt;
+&lt;h4 id=&quot;section-2&quot;&gt;下面我们来看看代码的实现&lt;/h4&gt;
 
 &lt;p&gt;&lt;strong&gt;Cartype.java&lt;/strong&gt;  一个枚举类，存储汽车的类型&lt;/p&gt;
 
@@ -520,7 +2438,7 @@ n. 小工作台；
 &lt;p&gt;&lt;strong&gt;Car.java&lt;/strong&gt; 所有汽车接口的父类，包含了通用的制造汽车的接口&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt;  
-&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt;  &lt;span class=&quot;nc&quot;&gt;Car&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
 &lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt;  
 &lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt;     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Car&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CarType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
 &lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;         &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
@@ -648,25 +2566,19 @@ n. 小工作台；
 &lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Building&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;luxury&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;car&lt;/span&gt;
 &lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;designPatterns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;creational&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;LuxuryCar&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;@e9bfee2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;h4 id=&quot;section-2&quot;&gt;下面总结一下工厂模式的优点和缺点&lt;/h4&gt;
-&lt;ol&gt;
-  &lt;li&gt;对象的创建避免了代码的重复&lt;/li&gt;
-  &lt;li&gt;对象的创建所需要的权限资源不在暴露的类中&lt;/li&gt;
-  &lt;li&gt;中心化对象创建的声明周期管理，确保在平台中对象能够有一致的表现&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h4 id=&quot;section-3&quot;&gt;下面总结一下简单工厂的优点和缺点&lt;/h4&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;优点&lt;/p&gt;
+  &lt;p&gt;优点
+    1. 对象的创建避免了代码的重复
+    2. 对象的创建所需要的权限资源不在暴露的类中
+    3. 中心化对象创建的声明周期管理，确保在平台中对象能够有一致的表现&lt;/p&gt;
 &lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code&gt;1、  在工厂方法中，用户只需要知道所要产品的具体工厂，无须关系具体的创建过程，甚至不需要具体产品类的类名。
-
-2、  在系统增加新的产品时，我们只需要添加一个具体产品类和对应的实现工厂，无需对原工厂进行任何修改，很好地符合了“开闭原则”。
-&lt;/code&gt;&lt;/pre&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;缺点
-    1、  每次增加一个产品时，都需要增加一个具体类和对象实现工厂，是的系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。这并不是什么好事。&lt;/p&gt;
+    1.  扩展性差。每次增加一个产品时，都需要增加一个具体类和对象实现工厂，是的系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。这并不是什么好事。
+    ２.  在编码上不符合开闭原则（对扩展开放，对修改关闭），没增减一个产品都需要修改原来的工厂。&lt;/p&gt;
 &lt;/blockquote&gt;
 
    </content>
