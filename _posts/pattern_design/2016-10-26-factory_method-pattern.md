@@ -14,6 +14,8 @@ tags : [pattern design , 设计模式]
 ![factory](/assets/images/pattern_design/factory_method-pattern.png)
 
 >　在上面的图中，对每一类产品，都有一个具体的工厂类去生产。
+
+
 #### 下面我们来看看代码的实现
 
 **Cartype.java**  一个枚举类，存储汽车的类型 
