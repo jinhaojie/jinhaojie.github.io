@@ -11,7 +11,7 @@ tags : [pattern design , 设计模式]
 
 
 #### 长篇大论不如先来一张图
-![factory](/assets/images/factory_design_pattern.png)
+![factory](/assets/images/pattern_design/simple_factory-pattern.png)
 >　在上面的图中，描述了一个通用的方案，通过用一个汽车工厂来构造3种类型的汽车：small,sedan和luxury。这是一种松耦合的的设计模式，它将具体汽车的实现隐藏起来，对客户端只展示了一个通用的接口。
 
 #### 下面我们来看看代码的实现
