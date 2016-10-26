@@ -1,19 +1,19 @@
 ---
 layout: post
-title: 设计模式之--简单工厂模式
+title: 设计模式之--工厂方法模式
 description: pattern design
 keywords: pattern design
 category : 设计模式
 tags : [pattern design , 设计模式]
 ---
 #### 简述
-　　按照《java与模式》,工厂模式可以细分为`简单工厂模式`, `工厂方法模式`　和`抽象工厂模式`。　本文主要讨论的是`简单工厂`模式。简单工厂模式是对某一类产品的生产。一般用于具体产品很少扩展的项目。
+　　按照《java与模式》,工厂模式可以细分为`简单工厂模式`, `工厂方法模式`　和`抽象工厂模式`。　本文主要讨论的是`工厂方法`模式。工厂方法模式针对的是便于扩展产品种类的项目，对于每一类的产品都对应一个具体的工厂类。
 
 
 #### 长篇大论不如先来一张图
-![factory](/assets/images/factory_design_pattern.png)
->在上面的图中，描述了一个通用的方案，通过用一个汽车工厂来构造3种类型的汽车：small,sedan和luxury。这是一种松耦合的的设计模式，它将具体汽车的实现隐藏起来，对客户端只展示了一个通用的接口。
+![factory](/assets/images/pattern_design/factory_method-pattern.png)
 
+>　在上面的图中，对每一类产品，都有一个具体的工厂类去生产。
 #### 下面我们来看看代码的实现
 
 **Cartype.java**  一个枚举类，存储汽车的类型 
