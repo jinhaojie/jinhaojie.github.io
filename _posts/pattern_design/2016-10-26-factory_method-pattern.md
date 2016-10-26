@@ -70,7 +70,6 @@ public class Boss{
         c.drive();  
     }  
 }  
-
 {%endhighlight%}
 
 说明：　当我们需要某个产品时，就去得到一个具体的工厂实例，然后用这个工厂实例去生产我们需要的产品
