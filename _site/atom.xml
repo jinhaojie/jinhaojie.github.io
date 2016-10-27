@@ -76,13 +76,224 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-10-26T17:59:59+08:00</updated>
+ <updated>2016-10-27T18:18:45+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
    <email>justjavac@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>java -- 容器简介</title>
+   <link href="http://justjavac.com/java/2016/10/27/java-collection.html"/>
+   <updated>2016-10-27T00:00:00+08:00</updated>
+   <id>http://justjavac.com/java/2016/10/27/java-collection</id>
+   <content type="html">
+   	&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#section&quot; id=&quot;markdown-toc-section&quot;&gt;简述&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#section-1&quot; id=&quot;markdown-toc-section-1&quot;&gt;一张图来描述容器的分类&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#section-2&quot; id=&quot;markdown-toc-section-2&quot;&gt;具体容器的介绍&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#collection&quot; id=&quot;markdown-toc-collection&quot;&gt;Collection&lt;/a&gt;        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#list&quot; id=&quot;markdown-toc-list&quot;&gt;List　（存放有序数据）&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#set&quot; id=&quot;markdown-toc-set&quot;&gt;Set　（不能存放重复元素，无序）&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#queue-&quot; id=&quot;markdown-toc-queue-&quot;&gt;Queue (队列)&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#map&quot; id=&quot;markdown-toc-map&quot;&gt;Map&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#hashmap--hashtable&quot; id=&quot;markdown-toc-hashmap--hashtable&quot;&gt;HashMap 和 HashTable的区别&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#linkedlist-&quot; id=&quot;markdown-toc-linkedlist-&quot;&gt;LinkedList 方法的介绍&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;h2 id=&quot;section&quot;&gt;简述&lt;/h2&gt;
+&lt;p&gt;　　java容器（&lt;strong&gt;Collection&lt;/strong&gt;），提供了完善的方法保存对象&lt;/p&gt;
+&lt;h2 id=&quot;section-1&quot;&gt;一张图来描述容器的分类&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/java/java-collection.jpg&quot; style=&quot;border: solid; align:center;&quot; /&gt;&lt;/p&gt;
+&lt;p style=&quot;font-weight: bold;&quot; align=&quot;center&quot;&gt;容器图谱&lt;/p&gt;
+&lt;h2 id=&quot;section-2&quot;&gt;具体容器的介绍&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;h4 id=&quot;collection&quot;&gt;Collection&lt;/h4&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Collection下面主要有三个容器 &lt;code&gt;List&lt;/code&gt;, &lt;code&gt;Set&lt;/code&gt;, 和&lt;code&gt;Queue&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;list&quot;&gt;List　（存放有序数据）&lt;/h5&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;em&gt;ArrayList&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;底层数组实现，随机访问快，中间插入或删除慢.&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;线程不同步&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;LinkedList
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;底层链表实现，随机访问慢，曾删快&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;线程不同步&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;可以当做栈、队列、双端队列使用&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Vector
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;底层数组实现，因线程同步而访问慢，新程序不该使用该容器&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;set&quot;&gt;Set　（不能存放重复元素，无序）&lt;/h5&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;HashSet
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;访问快&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;LinkedHashSet
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;以插入顺序保存元素&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;继承自HashSet，应用了Hash算法，所以访问也和HashSet有相同的效率&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;TreeSet
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;红黑树实现，保证了顺序&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;queue-&quot;&gt;Queue (队列)&lt;/h5&gt;
+&lt;ol&gt;
+  &lt;li&gt;LinkedHashSet
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;LinkedHashSet提供了对Queue和Stack的支持&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;PriorityQueue
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;维护一个堆&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;通过Comparator来修改优先级,默认是按自然顺序&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;h4 id=&quot;map&quot;&gt;Map&lt;/h4&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;map存放键值对。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;HashTable
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;同步的,现在已经基本不使用&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;HashMap
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;非同步&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;LinkedHashMap
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;非同步&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;按插入顺序保留键,有HashMap的速度&lt;/code&gt;
+　　　　&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;TreeMap
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;按比较结果升序保存键&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;hashmap--hashtable&quot;&gt;HashMap 和 HashTable的区别&lt;/h2&gt;
+
+&lt;p&gt;HashMap和HashTable都实现了Map接口，但决定用哪一个之前先要弄清楚它们之间的分别。主要的区别有：&lt;code&gt;线程安全性&lt;/code&gt;，&lt;code&gt;同步(synchronization)&lt;/code&gt;，以及&lt;code&gt;速度&lt;/code&gt;。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code&gt;HashMap&lt;/code&gt;可以接受为&lt;code&gt;null&lt;/code&gt;的键值(key)和值(value)，而&lt;code&gt;HashTable&lt;/code&gt;则不行&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;HashMap&lt;/code&gt;是非&lt;code&gt;synchronized&lt;/code&gt;,但是有&lt;code&gt;CurrentHashMap&lt;/code&gt;是同步的，用来替代&lt;code&gt;HashTable&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;HashMap不能保证随着时间的推移Map中的&lt;code&gt;元素次序是不变的&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;迭代器的区别&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;linkedlist-&quot;&gt;LinkedList 方法的介绍&lt;/h2&gt;
+
+&lt;p&gt;允许所有元素（&lt;code&gt;包括 null&lt;/code&gt;)&lt;/p&gt;
+
+&lt;table class=&quot;mbtablestyle&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;retur type&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;method&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;boolean&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;offer(E e)将指定元素添加到此列表的末尾（最后一个元素）。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;boolean&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;offerFirst(E e) 在此列表的开头插入指定的元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;boolean&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;offerLast(E e) 在此列表末尾插入指定的元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;peek()获取但不移除此列表的头（第一个元素）。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;peekFirst() 获取但不移除此列表的第一个元素；如果此列表为空，则返回 null。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;peekLast() 获取但不移除此列表的最后一个元素；如果此列表为空，则返回 null。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;poll() 获取并移除此列表的头（第一个元素）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;pollFirst() 获取并移除此列表的第一个元素；如果此列表为空，则返回 null。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;pollLast() 获取并移除此列表的最后一个元素；如果此列表为空，则返回 null。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;E&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;pop() 从此列表所表示的堆栈处弹出一个元素。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;void&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;push(E e) 将元素推入此列表所表示的堆栈。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+   </content>
+ </entry>
+ 
+ <entry>
+   <title>english word 2016-10-27</title>
+   <link href="http://justjavac.com/english%20word/2016/10/27/english-word.html"/>
+   <updated>2016-10-27T00:00:00+08:00</updated>
+   <id>http://justjavac.com/english%20word/2016/10/27/english-word</id>
+   <content type="html">
+   	
+
+   </content>
+ </entry>
  
  <entry>
    <title>设计模式之--工厂方法模式</title>
