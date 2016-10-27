@@ -6,6 +6,7 @@ keywords: java
 category : java
 tags : [java , collect]
 ---
+
 目录
 
 * 目录
@@ -14,9 +15,11 @@ tags : [java , collect]
 ---
 
 ## 简述
+
 　　java容器（**Collection**），提供了完善的方法保存对象
 
 ## 一张图来描述容器的分类
+
 <img  src="/assets/images/java/java-collection.jpg"  style="border: solid; align:center;"/>
 <p style="font-weight: bold;" align="center">容器图谱</p>
 

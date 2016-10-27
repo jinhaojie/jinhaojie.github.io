@@ -76,7 +76,7 @@
  <title>Jin Haojie(靳昊杰)</title>
  <link href="http://justjavac.com" rel="self"/>
  <link href="http://justjavac.com"/>
- <updated>2016-10-27T18:38:18+08:00</updated>
+ <updated>2016-10-27T18:40:14+08:00</updated>
  <id>http://justjavac.com</id>
  <author>
    <name>justjavac</name>
@@ -112,9 +112,11 @@
 &lt;hr /&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;简述&lt;/h2&gt;
+
 &lt;p&gt;　　java容器（&lt;strong&gt;Collection&lt;/strong&gt;），提供了完善的方法保存对象&lt;/p&gt;
 
 &lt;h2 id=&quot;section-1&quot;&gt;一张图来描述容器的分类&lt;/h2&gt;
+
 &lt;p&gt;&lt;img src=&quot;/assets/images/java/java-collection.jpg&quot; style=&quot;border: solid; align:center;&quot; /&gt;&lt;/p&gt;
 &lt;p style=&quot;font-weight: bold;&quot; align=&quot;center&quot;&gt;容器图谱&lt;/p&gt;
 
