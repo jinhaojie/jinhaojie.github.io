@@ -27,7 +27,7 @@ li {
 
 /* The white background content wrapper */
 .content {
-  width: 976px;
+  /*width: 976px;*/
   background-color: #fff;
   padding: 20px;
   margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
